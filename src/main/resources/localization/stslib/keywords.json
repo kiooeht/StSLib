@@ -28,5 +28,11 @@
       "snecko"
     ],
     "DESCRIPTION": "When drawn, this card randomizes its cost."
+  },
+  {
+    "NAMES": [
+      "grave"
+    ],
+    "DESCRIPTION": "Start each combat with this card in your discard."
   }
 ]
