@@ -1,0 +1,10 @@
+{
+  "stslib:Stunned": {
+    "NAME": "Stunned",
+    "DESCRIPTIONS": [
+      "Does nothing for #b",
+      " turn.",
+      " turns."
+    ]
+  }
+}
