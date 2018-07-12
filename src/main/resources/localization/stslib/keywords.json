@@ -10,5 +10,11 @@
       "retain"
     ],
     "DESCRIPTION": "Not discarded at the end of your turn."
+  },
+  {
+    "NAMES": [
+      "autoplay"
+    ],
+    "DESCRIPTION": "This card automatically plays itself when drawn."
   }
 ]
