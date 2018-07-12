@@ -16,5 +16,11 @@
       "autoplay"
     ],
     "DESCRIPTION": "This card automatically plays itself when drawn."
+  },
+  {
+    "NAMES": [
+      "soulbound"
+    ],
+    "DESCRIPTION": "Cannot be removed from your deck."
   }
 ]
