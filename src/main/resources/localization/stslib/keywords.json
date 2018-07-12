@@ -1,0 +1,14 @@
+[
+  {
+    "NAMES": [
+      "purge"
+    ],
+    "DESCRIPTION": "Disappears upon use."
+  },
+  {
+    "NAMES": [
+      "retain"
+    ],
+    "DESCRIPTION": "Not discarded at the end of your turn."
+  }
+]
