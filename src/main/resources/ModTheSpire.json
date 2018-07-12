@@ -1,0 +1,11 @@
+{
+  "modid": "stslib",
+  "name": "StSLib",
+  "author_list": ["kiooeht"],
+  "description": null,
+  "credits": null,
+  "version": "${project.version}",
+  "sts_version": "07-05-2018",
+  "mts_version": "2.7.0",
+  "update_json": null
+}
