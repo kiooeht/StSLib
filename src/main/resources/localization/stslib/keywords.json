@@ -22,5 +22,11 @@
       "soulbound"
     ],
     "DESCRIPTION": "Cannot be removed from your deck."
+  },
+  {
+    "NAMES": [
+      "snecko"
+    ],
+    "DESCRIPTION": "When drawn, this card randomizes its cost."
   }
 ]
