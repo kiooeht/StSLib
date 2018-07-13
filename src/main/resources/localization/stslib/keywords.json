@@ -3,7 +3,7 @@
     "NAMES": [
       "purge"
     ],
-    "DESCRIPTION": "Disappears upon use."
+    "DESCRIPTION": "Removed until end of combat. Does #rNOT go to your exhaust pile."
   },
   {
     "NAMES": [
@@ -33,12 +33,12 @@
     "NAMES": [
       "grave"
     ],
-    "DESCRIPTION": "Start each combat with this card in your discard."
+    "DESCRIPTION": "Start each combat with this card in your discard pile."
   },
   {
     "NAMES": [
       "fleeting"
     ],
-    "DESCRIPTION": "This card is removed from your deck on use."
+    "DESCRIPTION": "This card #yPurges and is removed from your deck on use."
   }
 ]
