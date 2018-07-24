@@ -68,14 +68,14 @@ public class RenderHealthBar
     {
         sb.setColor(Settings.GOLD_COLOR);
         sb.draw(StSLib.TEMP_HP_ICON,
-                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", float.class) - 32.0f + creature.hb.width,
-                y + getPrivate(AbstractCreature.class, "BLOCK_ICON_Y", float.class) - 32.0f + getPrivate(AbstractCreature.class, creature, "blockOffset", float.class),
+                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", float.class) - 16.0f * Settings.scale + creature.hb.width,
+                y + getPrivate(AbstractCreature.class, "BLOCK_ICON_Y", float.class) - 48.0f * Settings.scale,
                 32.0f, 32.0f, 64.0f, 64.0f, Settings.scale, Settings.scale,
                 0.0f, 0, 0, 64, 64,
                 false, false);
         FontHelper.renderFontCentered(sb, FontHelper.blockInfoFont,
                 Integer.toString(TempHPField.tempHp.get(creature)),
-                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", float.class) + 1.5f * Settings.scale + creature.hb.width,
+                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", float.class) + 32.0f * Settings.scale + creature.hb.width,
                 y - 16.0f * Settings.scale,
                 Settings.CREAM_COLOR,
                 1.0f);//TheSpirit.getTemporaryHealth(creature) > 0 ? 5.0f : 1.0f);
