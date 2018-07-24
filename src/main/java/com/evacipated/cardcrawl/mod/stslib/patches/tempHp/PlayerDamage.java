@@ -5,7 +5,9 @@ import com.evacipated.cardcrawl.mod.stslib.vfx.combat.TempDamageNumberEffect;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ScreenShake;
 import javassist.CtBehavior;
 
 import java.util.ArrayList;
@@ -17,9 +19,9 @@ import java.util.ArrayList;
 public class PlayerDamage
 {
     @SpireInsertPatch(
-            localvars={"damageAmount"}
+            localvars={"damageAmount", "hadBlock"}
     )
-    public static void Insert(AbstractPlayer __instance, DamageInfo info, @ByRef int[] damageAmount)
+    public static void Insert(AbstractPlayer __instance, DamageInfo info, @ByRef int[] damageAmount, @ByRef boolean[] hadBlock)
     {
         if (damageAmount[0] <= 0) {
             return;
@@ -27,6 +29,8 @@ public class PlayerDamage
 
         int temporaryHealth = TempHPField.tempHp.get(__instance);
         if (temporaryHealth > 0) {
+            hadBlock[0] = true;
+            CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.MED, ScreenShake.ShakeDur.SHORT, false);
             if (temporaryHealth >= damageAmount[0]) {
                 temporaryHealth -= damageAmount[0];
                 AbstractDungeon.effectsQueue.add(new TempDamageNumberEffect(__instance, __instance.hb.cX, __instance.hb.cY, damageAmount[0]));
