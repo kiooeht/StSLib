@@ -1,5 +1,6 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
+import com.evacipated.cardcrawl.mod.stslib.StSLib;
 import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.FleetingField;
 import com.evacipated.cardcrawl.modthespire.lib.ByRef;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
@@ -19,11 +20,9 @@ public class FleetingPatch
     {
         if (FleetingField.fleeting.get(card[0])) {
             card[0].purgeOnUse = true;
-            for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
-                if (c.cardID.equals(card[0].cardID) && c.timesUpgraded == card[0].timesUpgraded && c.misc == card[0].misc && FleetingField.fleeting.get(c)) {
-                    AbstractDungeon.player.masterDeck.removeCard(c);
-                    break;
-                }
+            AbstractCard c = StSLib.getMasterDeckEquivalent(card[0]);
+            if (c != null) {
+                AbstractDungeon.player.masterDeck.removeCard(c);
             }
         }
     }
