@@ -1,14 +1,13 @@
 package com.evacipated.cardcrawl.mod.stslib;
 
 import basemod.BaseMod;
-import basemod.interfaces.EditCardsSubscriber;
-import basemod.interfaces.EditKeywordsSubscriber;
-import basemod.interfaces.EditStringsSubscriber;
-import basemod.interfaces.OnStartBattleSubscriber;
+import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.Keyword;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.rooms.MonsterRoom;
@@ -19,6 +18,7 @@ import java.util.Map;
 
 @SpireInitializer
 public class StSLib implements
+        PostInitializeSubscriber,
         EditKeywordsSubscriber,
         EditStringsSubscriber,
         EditCardsSubscriber,
@@ -26,9 +26,17 @@ public class StSLib implements
 {
     private static Map<AbstractCard, AbstractCard> playingToMasterDeckMap = new HashMap<>();
 
+    public static Texture TEMP_HP_ICON;
+
     public static void initialize()
     {
         BaseMod.subscribe(new StSLib());
+    }
+
+    @Override
+    public void receivePostInitialize()
+    {
+        TEMP_HP_ICON = ImageMaster.loadImage("images/ui/tempHP.png");
     }
 
     @Override
