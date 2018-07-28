@@ -9,5 +9,5 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 )
 public class GraveField
 {
-    public static SpireField<Boolean> grave = new SpireField<>(false);
+    public static SpireField<Boolean> grave = new SpireField<>(() -> false);
 }

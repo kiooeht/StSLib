@@ -9,5 +9,5 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 )
 public class SoulboundField
 {
-    public static SpireField<Boolean> soulbound = new SpireField<>(false);
+    public static SpireField<Boolean> soulbound = new SpireField<>(() -> false);
 }

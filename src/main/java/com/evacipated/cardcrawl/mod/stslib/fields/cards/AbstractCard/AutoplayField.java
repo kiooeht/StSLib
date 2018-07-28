@@ -9,5 +9,5 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 )
 public class AutoplayField
 {
-    public static SpireField<Boolean> autoplay = new SpireField<>(false);
+    public static SpireField<Boolean> autoplay = new SpireField<>(() -> false);
 }

@@ -10,12 +10,12 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 )
 public class AlwaysRetainField
 {
-    public static SpireField<Boolean> alwaysRetain = new RetainField(false);
+    public static SpireField<Boolean> alwaysRetain = new RetainField(() -> false);
 
     // This is done so `retain` can be set automatically when this field is set in a card's constructor
     private static class RetainField extends SpireField<Boolean>
     {
-        RetainField(Boolean defaultValue)
+        RetainField(DefaultValue<Boolean> defaultValue)
         {
             super(defaultValue);
         }

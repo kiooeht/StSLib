@@ -9,5 +9,5 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 )
 public class FleetingField
 {
-    public static SpireField<Boolean> fleeting = new SpireField<>(false);
+    public static SpireField<Boolean> fleeting = new SpireField<>(() -> false);
 }

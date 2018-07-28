@@ -9,5 +9,5 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 )
 public class TempHPField
 {
-    public static SpireField<Integer> tempHp = new SpireField<>(0);
+    public static SpireField<Integer> tempHp = new SpireField<>(() -> 0);
 }

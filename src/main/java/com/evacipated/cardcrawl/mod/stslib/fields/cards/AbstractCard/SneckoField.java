@@ -10,12 +10,12 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 )
 public class SneckoField
 {
-    public static SpireField<Boolean> snecko = new SneckoFieldType(false);
+    public static SpireField<Boolean> snecko = new SneckoFieldType(() -> false);
 
     // This is done so card cost is automatically set to -1
     private static class SneckoFieldType extends SpireField<Boolean>
     {
-        SneckoFieldType(Boolean defaultValue)
+        SneckoFieldType(DefaultValue<Boolean> defaultValue)
         {
             super(defaultValue);
         }
