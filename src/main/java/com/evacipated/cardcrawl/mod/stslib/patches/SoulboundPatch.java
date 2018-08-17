@@ -26,34 +26,6 @@ public class SoulboundPatch
 {
     @SpirePatch(
             cls="com.megacrit.cardcrawl.cards.CardGroup",
-            method="removeRandomCard"
-    )
-    public static class CardGroup_removeRandomCard
-    {
-        @SpireInsertPatch(
-                localvars={"c"}
-        )
-        public static void Insert(CardGroup __instance, @ByRef AbstractCard[] c)
-        {
-            while (c[0].cardID.equals(Necronomicurse.ID) || c[0].cardID.equals(AscendersBane.ID)
-                    || SoulboundField.soulbound.get(c[0])) {
-                c[0] = __instance.getRandomCard(true);
-            }
-        }
-
-        public static class Locator extends SpireInsertLocator
-        {
-            @Override
-            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
-            {
-                Matcher finalMatcher = new Matcher.MethodCallMatcher("com.megacrit.cardcrawl.cards.CardGroup", "removeCard");
-                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
-            }
-        }
-    }
-
-    @SpirePatch(
-            cls="com.megacrit.cardcrawl.cards.CardGroup",
             method="getPurgeableCards"
     )
     public static class CardGroup_getPurgeableCards
