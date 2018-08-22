@@ -117,6 +117,7 @@ public class SoulboundPatch
         }
         */
         @SpireInsertPatch(
+                locator=Locator.class,
                 localvars={"tmp"}
         )
         public static void Insert(AbstractCard prohibitedCard, Random rng, @ByRef ArrayList<String>[] tmp)
@@ -124,7 +125,7 @@ public class SoulboundPatch
             tmp[0].removeIf(id -> CardLibrary.cards.get(id).rarity == AbstractCard.CardRarity.SPECIAL);
         }
 
-        public static class Locator extends SpireInsertLocator
+        private static class Locator extends SpireInsertLocator
         {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
@@ -173,6 +174,7 @@ public class SoulboundPatch
     public static class Astrolabe_onEquip
     {
         @SpireInsertPatch(
+                locator=Locator.class,
                 localvars={"tmp"}
         )
         public static void Insert(Astrolabe __instance, @ByRef CardGroup[] tmp)
@@ -180,7 +182,7 @@ public class SoulboundPatch
             tmp[0].group.removeIf(c -> SoulboundField.soulbound.get(c));
         }
 
-        public static class Locator extends SpireInsertLocator
+        private static class Locator extends SpireInsertLocator
         {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception

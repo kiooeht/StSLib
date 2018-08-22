@@ -22,6 +22,7 @@ public class SneckoPatch
     public static class Draw
     {
         @SpireInsertPatch(
+                locator=Locator.class,
                 localvars = {"c"}
         )
         public static void Insert(AbstractPlayer __instance, int numCards, AbstractCard c)
@@ -36,7 +37,7 @@ public class SneckoPatch
             }
         }
 
-        public static class Locator extends SpireInsertLocator
+        private static class Locator extends SpireInsertLocator
         {
             @Override
             public int[] Locate(CtBehavior ctBehavior) throws Exception

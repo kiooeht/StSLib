@@ -20,7 +20,9 @@ public class RetainCardsSelectPatch
     )
     public static class Before
     {
-        @SpireInsertPatch
+        @SpireInsertPatch(
+                locator=Locator.class
+        )
         public static void Insert(RetainCardsAction __instance)
         {
             Iterator<AbstractCard> it = AbstractDungeon.player.hand.group.iterator();
@@ -33,7 +35,7 @@ public class RetainCardsSelectPatch
             }
         }
 
-        public static class Locator extends SpireInsertLocator
+        private static class Locator extends SpireInsertLocator
         {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
@@ -50,7 +52,9 @@ public class RetainCardsSelectPatch
     )
     public static class After
     {
-        @SpireInsertPatch
+        @SpireInsertPatch(
+                locator=Locator.class
+        )
         public static void Insert(RetainCardsAction __instance)
         {
             for (AbstractCard card : savedCards) {
@@ -59,7 +63,7 @@ public class RetainCardsSelectPatch
             savedCards.clear();
         }
 
-        public static class Locator extends SpireInsertLocator
+        private static class Locator extends SpireInsertLocator
         {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception

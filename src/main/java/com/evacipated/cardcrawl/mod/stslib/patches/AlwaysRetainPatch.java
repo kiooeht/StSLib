@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class AlwaysRetainPatch
 {
     @SpireInsertPatch(
+            locator=Locator.class,
             localvars={"c"}
     )
     public static void Insert(AbstractPlayer __instance, AbstractCard c)
@@ -24,7 +25,7 @@ public class AlwaysRetainPatch
         }
     }
 
-    public static class Locator extends SpireInsertLocator
+    private static class Locator extends SpireInsertLocator
     {
         @Override
         public int[] Locate(CtBehavior ctBehavior) throws Exception

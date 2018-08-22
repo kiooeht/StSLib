@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class PlayerDamage
 {
     @SpireInsertPatch(
+            locator=Locator.class,
             localvars={"damageAmount", "hadBlock"}
     )
     public static void Insert(AbstractPlayer __instance, DamageInfo info, @ByRef int[] damageAmount, @ByRef boolean[] hadBlock)
@@ -48,7 +49,7 @@ public class PlayerDamage
         System.out.println("Final damage: " + damageAmount[0]);
     }
 
-    public static class Locator extends SpireInsertLocator
+    private static class Locator extends SpireInsertLocator
     {
         @Override
         public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
