@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.Keyword;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.rooms.MonsterRoom;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -66,7 +66,6 @@ public class StSLib implements
     }
 
     @Override
-    public void receiveOnBattleStart(MonsterRoom monsterRoom)
     {
         playingToMasterDeckMap.clear();
     }
