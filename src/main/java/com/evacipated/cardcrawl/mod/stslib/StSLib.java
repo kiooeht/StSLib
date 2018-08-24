@@ -66,6 +66,7 @@ public class StSLib implements
     }
 
     @Override
+    public void receiveOnBattleStart(AbstractRoom room)
     {
         playingToMasterDeckMap.clear();
     }
