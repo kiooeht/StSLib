@@ -16,11 +16,7 @@ import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SoulboundPatch
 {
@@ -93,10 +89,23 @@ public class SoulboundPatch
     )
     public static class CardLibrary_getCurse1
     {
-        // TODO: Make this not a Replace patch
-        public static AbstractCard Replace()
+        @SpireInsertPatch(
+                locator=Locator.class,
+                localvars={"tmp"}
+        )
+        public static void Insert(@ByRef ArrayList<String>[] tmp)
         {
-            return CardLibrary.getCurse(null, AbstractDungeon.cardRng);
+            tmp[0].removeIf(id -> CardLibrary.cards.get(id).rarity == AbstractCard.CardRarity.SPECIAL);
+        }
+
+        private static class Locator extends SpireInsertLocator
+        {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
+            {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher("java.util.ArrayList", "get");
+                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+            }
         }
     }
 
@@ -107,15 +116,6 @@ public class SoulboundPatch
     )
     public static class CardLibrary_getCurse2
     {
-        /*
-        // TODO: Make this not a Replace patch
-        public static AbstractCard Replace(AbstractCard prohibitedCard, Random rng)
-        {
-            // Must be done as an extra method call or we get a
-            // Missing BootstrapMethods attribute error
-            return call(prohibitedCard, rng);
-        }
-        */
         @SpireInsertPatch(
                 locator=Locator.class,
                 localvars={"tmp"}
@@ -133,37 +133,6 @@ public class SoulboundPatch
                 Matcher finalMatcher = new Matcher.MethodCallMatcher("java.util.ArrayList", "get");
                 return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
             }
-        }
-
-        private static AbstractCard call(AbstractCard prohibitedCard, Random rng)
-        {
-            List<String> tmp = acceptableCurses();
-            if (prohibitedCard != null) {
-                tmp.removeIf(id -> id.equals(prohibitedCard.cardID));
-            }
-            return CardLibrary.cards.get(tmp.get(rng.random(0, tmp.size() - 1)));
-        }
-
-        private static List<String> acceptableCurses()
-        {
-            HashMap<String, AbstractCard> curses = null;
-            try {
-                Field f = CardLibrary.class.getDeclaredField("curses");
-                f.setAccessible(true);
-                curses = (HashMap<String, AbstractCard>) f.get(null);
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            ArrayList<String> tmp = new ArrayList<>();
-            if (curses != null) {
-                for (Map.Entry<String, AbstractCard> c : curses.entrySet()) {
-                    if (c.getValue().rarity != AbstractCard.CardRarity.SPECIAL) {
-                        tmp.add(c.getKey());
-                    }
-                }
-            }
-            return tmp;
         }
     }
 
