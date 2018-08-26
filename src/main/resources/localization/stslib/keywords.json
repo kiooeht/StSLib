@@ -40,5 +40,11 @@
       "fleeting"
     ],
     "DESCRIPTION": "This card #yPurges and is removed from your deck on use."
+  },
+  {
+    "NAMES": [
+      "temporary"
+    ],
+    "DESCRIPTION": "Temporary HP disappears at the end of combat."
   }
 ]
