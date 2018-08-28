@@ -26,7 +26,7 @@ public class StunMonsterPower extends AbstractPower
         amount = 1;
         type = PowerType.DEBUFF;
         updateDescription();
-        img = ImageMaster.INTENT_STUN;
+        img = ImageMaster.loadImage("images/powers/32/stun.png");
 
         moveByte = owner.nextMove;
         moveIntent = owner.intent;
