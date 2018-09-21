@@ -45,7 +45,7 @@ public class RenderHealthBar
         try {
             Field f = cls.getDeclaredField(varName);
             f.setAccessible(true);
-            return (T)f.get(obj);
+            return type.cast(f.get(obj));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -54,30 +54,23 @@ public class RenderHealthBar
 
     private static <O, T> T getPrivate(Class<O> obj, String varName, Class<T> type)
     {
-        try {
-            Field f = obj.getDeclaredField(varName);
-            f.setAccessible(true);
-            return (T)f.get(null);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return getPrivate(obj, null, varName, type);
     }
 
     private static void renderTempHPIconAndValue(AbstractCreature creature, SpriteBatch sb, float x, float y)
     {
         sb.setColor(Settings.GOLD_COLOR);
         sb.draw(StSLib.TEMP_HP_ICON,
-                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", float.class) - 16.0f * Settings.scale + creature.hb.width,
-                y + getPrivate(AbstractCreature.class, "BLOCK_ICON_Y", float.class) - 48.0f * Settings.scale,
+                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", Float.class) - 16.0f + creature.hb.width,
+                y + getPrivate(AbstractCreature.class, "BLOCK_ICON_Y", Float.class) - 32.0f,
                 32.0f, 32.0f, 64.0f, 64.0f, Settings.scale, Settings.scale,
                 0.0f, 0, 0, 64, 64,
                 false, false);
         FontHelper.renderFontCentered(sb, FontHelper.blockInfoFont,
                 Integer.toString(TempHPField.tempHp.get(creature)),
-                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", float.class) + 32.0f * Settings.scale + creature.hb.width,
+                x + getPrivate(AbstractCreature.class, "BLOCK_ICON_X", Float.class) + 16.0f + creature.hb.width,
                 y - 16.0f * Settings.scale,
                 Settings.CREAM_COLOR,
-                1.0f);//TheSpirit.getTemporaryHealth(creature) > 0 ? 5.0f : 1.0f);
+                1.0f);
     }
 }
