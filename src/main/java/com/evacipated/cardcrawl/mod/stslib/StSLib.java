@@ -36,7 +36,7 @@ public class StSLib implements
     @Override
     public void receivePostInitialize()
     {
-        TEMP_HP_ICON = ImageMaster.loadImage("images/ui/tempHP.png");
+        TEMP_HP_ICON = ImageMaster.loadImage("images/stslib/ui/tempHP.png");
     }
 
     @Override
