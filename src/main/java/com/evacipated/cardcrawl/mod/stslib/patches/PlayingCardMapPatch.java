@@ -8,7 +8,7 @@ import javassist.CtBehavior;
 import java.util.ArrayList;
 
 @SpirePatch(
-        cls="com.megacrit.cardcrawl.cards.CardGroup",
+        clz=CardGroup.class,
         method="initializeDeck"
 )
 public class PlayingCardMapPatch
@@ -31,7 +31,7 @@ public class PlayingCardMapPatch
         @Override
         public int[] Locate(CtBehavior ctBehavior) throws Exception
         {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher("com.megacrit.cardcrawl.cards.CardGroup", "shuffle");
+            Matcher finalMatcher = new Matcher.MethodCallMatcher(CardGroup.class, "shuffle");
 
             return LineFinder.findInOrder(ctBehavior, new ArrayList<>(), finalMatcher);
         }

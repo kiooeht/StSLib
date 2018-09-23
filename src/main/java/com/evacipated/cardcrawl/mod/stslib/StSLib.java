@@ -22,7 +22,7 @@ public class StSLib implements
         EditKeywordsSubscriber,
         EditStringsSubscriber,
         EditCardsSubscriber,
-        OnStartBattleSubscriber
+        PostBattleSubscriber
 {
     private static Map<AbstractCard, AbstractCard> playingToMasterDeckMap = new HashMap<>();
 
@@ -66,7 +66,7 @@ public class StSLib implements
     }
 
     @Override
-    public void receiveOnBattleStart(AbstractRoom room)
+    public void receivePostBattle(AbstractRoom room)
     {
         playingToMasterDeckMap.clear();
     }
