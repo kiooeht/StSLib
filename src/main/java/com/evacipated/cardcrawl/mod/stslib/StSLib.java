@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.Keyword;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import java.nio.charset.StandardCharsets;
@@ -56,8 +57,8 @@ public class StSLib implements
     @Override
     public void receiveEditStrings()
     {
-        BaseMod.loadCustomStrings(PowerStrings.class,
-                Gdx.files.internal("localization/stslib/powers.json").readString(String.valueOf(StandardCharsets.UTF_8)));
+        BaseMod.loadCustomStringsFile(PowerStrings.class, "localization/stslib/powers.json");
+        BaseMod.loadCustomStringsFile(RelicStrings.class, "localization/stslib/relics.json");
     }
 
     @Override

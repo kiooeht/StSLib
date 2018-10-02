@@ -1,0 +1,10 @@
+{
+  "stslib:Clickable": {
+    "NAME": "Clickable",
+    "FLAVOR": "THIS SHOULD NEVER BE SEEN",
+    "DESCRIPTIONS": [
+      "[#2aecd7]Right [#2aecd7]click [#2aecd7]during [#2aecd7]combat [#2aecd7]to [#2aecd7]activate.[]",
+      "[#2aecd7]Right [#2aecd7]click [#2aecd7]to [#2aecd7]activate.[]"
+    ]
+  }
+}
