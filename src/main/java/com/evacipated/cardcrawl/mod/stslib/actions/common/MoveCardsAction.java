@@ -1,5 +1,6 @@
 package com.evacipated.cardcrawl.mod.stslib.actions.common;
 
+import basemod.BaseMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
@@ -66,7 +67,7 @@ public class MoveCardsAction extends AbstractGameAction
             }
             if (tmp.size() == 1) {
                 AbstractCard card = tmp.getTopCard();
-                if (destination == p.hand && p.hand.size() == 10) {
+                if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                     source.moveToDiscardPile(card);
                     p.createHandIsFullDialog();
                 } else {
@@ -88,7 +89,7 @@ public class MoveCardsAction extends AbstractGameAction
             if (tmp.size() <= amount) {
                 for (int i = 0; i < tmp.size(); ++i) {
                     AbstractCard card = tmp.getNCardFromTop(i);
-                    if (destination == p.hand && p.hand.size() == 10) {
+                    if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                         source.moveToDiscardPile(card);
                         p.createHandIsFullDialog();
                     } else {
@@ -119,7 +120,7 @@ public class MoveCardsAction extends AbstractGameAction
         if (AbstractDungeon.gridSelectScreen.selectedCards.size() != 0) {
             for (AbstractCard c : AbstractDungeon.gridSelectScreen.selectedCards) {
                 c.unhover();
-                if (destination == p.hand && p.hand.size() == 10) {
+                if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                     source.moveToDiscardPile(c);
                     p.createHandIsFullDialog();
                 } else {
