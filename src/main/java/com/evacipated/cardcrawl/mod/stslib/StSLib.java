@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.Keyword;
 import com.megacrit.cardcrawl.localization.PowerStrings;
@@ -22,11 +23,8 @@ public class StSLib implements
         PostInitializeSubscriber,
         EditKeywordsSubscriber,
         EditStringsSubscriber,
-        EditCardsSubscriber,
-        PostBattleSubscriber
+        EditCardsSubscriber
 {
-    private static Map<AbstractCard, AbstractCard> playingToMasterDeckMap = new HashMap<>();
-
     public static Texture TEMP_HP_ICON;
 
     public static void initialize()
@@ -66,19 +64,13 @@ public class StSLib implements
     {
     }
 
-    @Override
-    public void receivePostBattle(AbstractRoom room)
-    {
-        playingToMasterDeckMap.clear();
-    }
-
-    public static void mapPlayingCardToMasterDeck(AbstractCard playingCard, AbstractCard masterCard)
-    {
-        playingToMasterDeckMap.put(playingCard, masterCard);
-    }
-
     public static AbstractCard getMasterDeckEquivalent(AbstractCard playingCard)
     {
-        return playingToMasterDeckMap.get(playingCard);
+        for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
+            if (c.uuid.equals(playingCard.uuid)) {
+                return c;
+            }
+        }
+        return null;
     }
 }
