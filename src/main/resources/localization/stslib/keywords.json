@@ -56,7 +56,7 @@
   {
     "NAMES": [
       "refund",
-	  "refunds"
+      "refunds"
     ],
     "DESCRIPTION": "Returns energy spent on playing the card, up to the Refund value."
   },
