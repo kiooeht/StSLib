@@ -52,5 +52,18 @@
       "fetch"
     ],
     "DESCRIPTION": "Choose a specified card from a specified pile and place it into your hand."
+  },
+  {
+    "NAMES": [
+      "refund",
+	  "refunds"
+    ],
+    "DESCRIPTION": "Returns energy spent on playing the card, up to the Refund value."
+  },
+  {
+    "NAMES": [
+      "exhaustive"
+    ],
+    "DESCRIPTION": "#yExhausts after a certain number of uses."
   }
 ]
