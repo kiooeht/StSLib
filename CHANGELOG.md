@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.4.0
 * Keywords
   * Exhaustive (The_Evil_Pickle)
   * Refund (The_Evil_Pickle)
