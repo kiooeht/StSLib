@@ -2,8 +2,11 @@ package com.evacipated.cardcrawl.mod.stslib;
 
 import basemod.BaseMod;
 import basemod.interfaces.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
+import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -62,6 +65,8 @@ public class StSLib implements
     @Override
     public void receiveEditCards()
     {
+    	BaseMod.addDynamicVariable(new ExhaustiveVariable());
+    	BaseMod.addDynamicVariable(new RefundVariable());
     }
 
     public static AbstractCard getMasterDeckEquivalent(AbstractCard playingCard)

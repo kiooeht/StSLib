@@ -18,12 +18,16 @@ public class RefundAction extends AbstractGameAction
 
     public RefundAction(AbstractCard targetCard, int energyCap)
     {
+        this(targetCard, energyCap, targetCard.energyOnUse);
+    }
+    public RefundAction(AbstractCard targetCard, int energyCap, int energyOnUse)
+    {
         this.targetCard = targetCard;
         setValues(AbstractDungeon.player, AbstractDungeon.player, 0);
         duration = Settings.ACTION_DUR_FAST;
         this.energyCap = energyCap;
         if (targetCard.costForTurn == -1) {
-            energyGain = targetCard.energyOnUse;
+            energyGain = energyOnUse;
         } else {
             energyGain = targetCard.costForTurn;
         }
