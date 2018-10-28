@@ -1,12 +1,8 @@
 package com.evacipated.cardcrawl.mod.stslib.variables;
 
-import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.ExhaustiveField;
-import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.RefundFields;
-import com.evacipated.cardcrawl.mod.stslib.powers.ExhaustiveNegationPower;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
 import basemod.abstracts.DynamicVariable;
+import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.RefundFields;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 
 public class RefundVariable extends DynamicVariable
 {
@@ -42,14 +38,14 @@ public class RefundVariable extends DynamicVariable
 
     public static void setBaseValue(AbstractCard card, int amount)
     {
-    	RefundFields.baseRefund.set(card, amount);
+        RefundFields.baseRefund.set(card, amount);
         RefundFields.refund.set(card, amount);
         card.initializeDescription();
     }
 
     public static void upgrade(AbstractCard card, int amount)
     {
-    	RefundFields.isRefundUpgraded.set(card, true);
+        RefundFields.isRefundUpgraded.set(card, true);
         setBaseValue(card, RefundFields.baseRefund.get(card) + amount);
     }
 }

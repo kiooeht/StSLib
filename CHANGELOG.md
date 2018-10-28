@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Enable Exhaustive and Refund variables (The_Evil_Pickle)
+* Make Exhaustive and Refund automatic (The_Evil_Pickle)
 
 #### v1.4.0
 * Keywords

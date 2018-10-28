@@ -20,6 +20,7 @@ public class RefundAction extends AbstractGameAction
     {
         this(targetCard, energyCap, targetCard.energyOnUse);
     }
+
     public RefundAction(AbstractCard targetCard, int energyCap, int energyOnUse)
     {
         this.targetCard = targetCard;

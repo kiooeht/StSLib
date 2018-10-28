@@ -1,8 +1,10 @@
 package com.evacipated.cardcrawl.mod.stslib;
 
 import basemod.BaseMod;
-import basemod.interfaces.*;
-
+import basemod.interfaces.EditCardsSubscriber;
+import basemod.interfaces.EditKeywordsSubscriber;
+import basemod.interfaces.EditStringsSubscriber;
+import basemod.interfaces.PostInitializeSubscriber;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
@@ -15,11 +17,8 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.Keyword;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 @SpireInitializer
 public class StSLib implements

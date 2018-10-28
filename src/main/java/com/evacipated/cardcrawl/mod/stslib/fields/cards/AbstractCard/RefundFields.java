@@ -8,7 +8,8 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
         clz=AbstractCard.class,
         method=SpirePatch.CLASS
 )
-public class RefundFields {
+public class RefundFields
+{
     public static SpireField<Integer> refund = new SpireField<>(() -> 0);
     public static SpireField<Integer> baseRefund = new SpireField<>(() -> 0);
     public static SpireField<Boolean> isRefundUpgraded = new SpireField<>(() -> false);
