@@ -16,8 +16,14 @@ public class StunMonsterAction extends AbstractGameAction
 {
     public StunMonsterAction(AbstractMonster target, AbstractCreature source)
     {
+        this(target, source, 1);
+    }
+
+    public StunMonsterAction(AbstractMonster target, AbstractCreature source, int amount)
+    {
         this.target = target;
         this.source = source;
+        this.amount = amount;
         actionType = AbstractGameAction.ActionType.DEBUFF;
         duration = Settings.ACTION_DUR_FAST;
     }
@@ -26,7 +32,7 @@ public class StunMonsterAction extends AbstractGameAction
     public void update()
     {
         if (duration == Settings.ACTION_DUR_FAST) {
-            AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(target, source, new StunMonsterPower((AbstractMonster) target), 1));
+            AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(target, source, new StunMonsterPower((AbstractMonster) target, amount), amount));
             if (!target.hasPower(ArtifactPower.POWER_ID)) {
                 try {
                     Field f = AbstractMonster.class.getDeclaredField("move");

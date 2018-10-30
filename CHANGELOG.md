@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Add optional amount param to StunMonsterAction
 
 #### v1.5.0 ####
 * Enable Exhaustive and Refund variables (The_Evil_Pickle)

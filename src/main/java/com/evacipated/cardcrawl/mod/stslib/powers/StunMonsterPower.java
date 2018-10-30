@@ -20,10 +20,15 @@ public class StunMonsterPower extends AbstractPower
 
     public StunMonsterPower(AbstractMonster owner)
     {
+        this(owner, 1);
+    }
+
+    public StunMonsterPower(AbstractMonster owner, int amount)
+    {
         name = NAME;
         ID = POWER_ID;
         this.owner = owner;
-        amount = 1;
+        this.amount = amount;
         type = PowerType.DEBUFF;
         updateDescription();
         img = ImageMaster.loadImage("images/stslib/powers/32/stun.png");
