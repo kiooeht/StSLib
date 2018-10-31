@@ -42,8 +42,10 @@
     "DESCRIPTION": "This card #yPurges and is removed from your deck on use."
   },
   {
+    "PROPER_NAME": "Temporary HP",
     "NAMES": [
-      "temporary"
+      "temporary hp",
+      "temporary_hp"
     ],
     "DESCRIPTION": "Temporary HP disappears at the end of combat."
   },

@@ -1,6 +1,7 @@
 ## Changelog ##
 #### dev ####
 * Add optional amount param to StunMonsterAction
+* Make Temporary HP a multiwork keyword
 
 #### v1.5.0 ####
 * Enable Exhaustive and Refund variables (The_Evil_Pickle)

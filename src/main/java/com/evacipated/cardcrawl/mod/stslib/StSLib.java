@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.localization.Keyword;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 
@@ -49,7 +48,7 @@ public class StSLib implements
 
         if (keywords != null) {
             for (Keyword keyword : keywords) {
-                BaseMod.addKeyword(keyword.NAMES, keyword.DESCRIPTION);
+                BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
             }
         }
     }
