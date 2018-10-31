@@ -92,8 +92,9 @@ public class StSLib implements
         for (CardGroup cardGroup : cardGroups) {
             for (AbstractCard c : cardGroup.group) {
                 if (c instanceof StartupCard) {
-                    AbstractDungeon.effectList.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy()));
-                    ((StartupCard) c).atBattleStartPreDraw();
+                    if (((StartupCard) c).atBattleStartPreDraw()) {
+                        AbstractDungeon.effectList.add(0, new ShowCardBrieflyEffect(c.makeStatEquivalentCopy()));
+                    }
                 }
             }
         }
