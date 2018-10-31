@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Keywords
+  * Startup
 * Add optional amount param to StunMonsterAction
 * Make Temporary HP a multiwork keyword
 

@@ -1,21 +1,22 @@
 package com.evacipated.cardcrawl.mod.stslib;
 
 import basemod.BaseMod;
-import basemod.interfaces.EditCardsSubscriber;
-import basemod.interfaces.EditKeywordsSubscriber;
-import basemod.interfaces.EditStringsSubscriber;
-import basemod.interfaces.PostInitializeSubscriber;
+import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
 import java.nio.charset.StandardCharsets;
 
@@ -24,7 +25,8 @@ public class StSLib implements
         PostInitializeSubscriber,
         EditKeywordsSubscriber,
         EditStringsSubscriber,
-        EditCardsSubscriber
+        EditCardsSubscriber,
+        OnStartBattleSubscriber
 {
     public static Texture TEMP_HP_ICON;
 
@@ -75,5 +77,25 @@ public class StSLib implements
             }
         }
         return null;
+    }
+
+    @Override
+    public void receiveOnBattleStart(AbstractRoom abstractRoom)
+    {
+        CardGroup[] cardGroups = new CardGroup[] {
+                AbstractDungeon.player.drawPile,
+                AbstractDungeon.player.hand,
+                AbstractDungeon.player.discardPile,
+                AbstractDungeon.player.exhaustPile
+        };
+
+        for (CardGroup cardGroup : cardGroups) {
+            for (AbstractCard c : cardGroup.group) {
+                if (c instanceof StartupCard) {
+                    AbstractDungeon.effectList.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy()));
+                    ((StartupCard) c).atBattleStartPreDraw();
+                }
+            }
+        }
     }
 }

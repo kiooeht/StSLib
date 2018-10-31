@@ -67,5 +67,11 @@
       "exhaustive"
     ],
     "DESCRIPTION": "#yExhausts after a certain number of uses."
+  },
+  {
+    "NAMES": [
+      "startup"
+    ],
+    "DESCRIPTION": "Triggers at the start of each combat."
   }
 ]
