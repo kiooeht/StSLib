@@ -1,48 +1,43 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.relicInterfaces;
 
+import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnReceivePowerRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.common.ApplyPoisonOnRandomMonsterAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.utility.TextAboveCreatureAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import javassist.CtBehavior;
 
-@SpirePatch(
-        clz=ApplyPowerAction.class,
-        method="update"
-)
 public class OnReceivePowerPatch
 {
-    @SpireInsertPatch(
-            locator=Locator.class,
-            localvars={"powerToApply"}
-    )
-    public static SpireReturn<Void> Insert(ApplyPowerAction __instance, AbstractPower powerToApply)
+    static SpireReturn<Void> CheckPower(AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply)
     {
-        if (__instance.target != null) {
-            for (AbstractPower power : __instance.target.powers) {
+        if (target != null) {
+            for (AbstractPower power : target.powers) {
                 if (power instanceof OnReceivePowerPower) {
-                    boolean apply = ((OnReceivePowerPower)power).onReceivePower(powerToApply, __instance.target, __instance.source);
+                    boolean apply = ((OnReceivePowerPower) power).onReceivePower(powerToApply, target, source);
                     if (!apply) {
-                        AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(__instance.target, ApplyPowerAction.TEXT[0]));
-                        __instance.isDone = true;
+                        AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
+                        duration[0] -= Gdx.graphics.getDeltaTime();
                         CardCrawlGame.sound.play("NULLIFY_SFX");
                         return SpireReturn.Return(null);
                     }
                 }
             }
-            if (__instance.target.isPlayer) {
+            if (target.isPlayer) {
                 for (AbstractRelic relic : AbstractDungeon.player.relics) {
                     if (relic instanceof OnReceivePowerRelic) {
-                        boolean apply = ((OnReceivePowerRelic) relic).onReceivePower(powerToApply, __instance.source);
+                        boolean apply = ((OnReceivePowerRelic) relic).onReceivePower(powerToApply, source);
                         if (!apply) {
-                            AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(__instance.target, ApplyPowerAction.TEXT[0]));
-                            __instance.isDone = true;
+                            AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
+                            duration[0] -= Gdx.graphics.getDeltaTime();
                             CardCrawlGame.sound.play("NULLIFY_SFX");
                             return SpireReturn.Return(null);
                         }
@@ -53,13 +48,56 @@ public class OnReceivePowerPatch
         return SpireReturn.Continue();
     }
 
-    private static class Locator extends SpireInsertLocator
+    @SpirePatch(
+            clz=ApplyPowerAction.class,
+            method="update"
+    )
+    public static class ApplyPower
     {
-        @Override
-        public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
+        @SpireInsertPatch(
+                locator = Locator.class,
+                localvars = {"duration", "powerToApply"}
+        )
+        public static SpireReturn<Void> Insert(ApplyPowerAction __instance, @ByRef float[] duration, AbstractPower powerToApply)
         {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractPlayer.class, "hasRelic");
-            return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            return CheckPower(__instance.target, __instance.source, duration, powerToApply);
+        }
+
+        private static class Locator extends SpireInsertLocator
+        {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
+            {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractPlayer.class, "hasRelic");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            }
+        }
+    }
+
+
+    @SpirePatch(
+            clz=ApplyPoisonOnRandomMonsterAction.class,
+            method="update"
+    )
+    public static class ApplyRandomPoison
+    {
+        @SpireInsertPatch(
+                locator=Locator.class,
+                localvars={"duration", "powerToApply"}
+        )
+        public static SpireReturn<Void> Insert(ApplyPoisonOnRandomMonsterAction __instance, @ByRef float[] duration, AbstractPower powerToApply)
+        {
+            return CheckPower(__instance.target, __instance.source, duration, powerToApply);
+        }
+
+        private static class Locator extends SpireInsertLocator
+        {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
+            {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractCreature.class, "hasPower");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@
   * Startup
 * Add optional amount param to StunMonsterAction
 * Make Temporary HP a multiwork keyword
+* Fix OnReceivePower to work with new ApplyPoisonOnRandomMonsterAction
 
 #### v1.5.0 ####
 * Enable Exhaustive and Refund variables (The_Evil_Pickle)
