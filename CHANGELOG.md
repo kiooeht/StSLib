@@ -3,7 +3,7 @@
 * Keywords
   * Startup
 * Add optional amount param to StunMonsterAction
-* Make Temporary HP a multiwork keyword
+* Make Temporary HP a multiword keyword
 * Fix OnReceivePower to work with new ApplyPoisonOnRandomMonsterAction
 
 #### v1.5.0 ####
