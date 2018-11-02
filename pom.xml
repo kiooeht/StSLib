@@ -9,8 +9,8 @@
     <version>1.6.0</version>
 
     <properties>
-        <SlayTheSpire.version>10-25-2018</SlayTheSpire.version>
-        <ModTheSpire.version>3.3.0</ModTheSpire.version>
+        <SlayTheSpire.version>11-01-2018</SlayTheSpire.version>
+        <ModTheSpire.version>3.6.0</ModTheSpire.version>
     </properties>
 
     <dependencies>
