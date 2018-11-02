@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.6.0 ####
 * Keywords
   * Startup
 * Add optional amount param to StunMonsterAction
