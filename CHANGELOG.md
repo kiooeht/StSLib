@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* `OnCardDrawPower`
 
 #### v1.6.0 ####
 * Keywords
