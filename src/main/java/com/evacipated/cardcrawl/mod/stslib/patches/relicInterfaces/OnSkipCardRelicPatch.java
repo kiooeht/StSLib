@@ -10,10 +10,16 @@ import com.megacrit.cardcrawl.screens.CardRewardScreen;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
 
-public class OnSkipCardRelicPatch {
-    @SpirePatch(clz = SingingBowlButton.class, method = "onClick")
-    public static class SingingBowlSkipPatch {
-        public static void Prefix(SingingBowlButton __instance) {
+public class OnSkipCardRelicPatch
+{
+    @SpirePatch(
+            clz=SingingBowlButton.class,
+            method="onClick"
+    )
+    public static class SingingBowlSkipPatch
+    {
+        public static void Prefix(SingingBowlButton __instance)
+        {
             for (AbstractRelic r : AbstractDungeon.player.relics) {
                 if (r instanceof OnSkipCardRelic) {
                     if (AbstractDungeon.player.hasRelic(SingingBowl.ID)) {
@@ -24,10 +30,17 @@ public class OnSkipCardRelicPatch {
         }
     }
 
-    @SpirePatch(clz = ProceedButton.class, method = "update")
-    public static class OnSkipCardPatch {
-        @SpireInsertPatch(rloc=102)
-        public static void Insert(ProceedButton __instance) {
+    @SpirePatch(
+            clz=ProceedButton.class,
+            method="update"
+    )
+    public static class OnSkipCardPatch
+    {
+        @SpireInsertPatch(
+                rloc=102
+        )
+        public static void Insert(ProceedButton __instance)
+        {
             for (AbstractRelic r : AbstractDungeon.player.relics) {
                 if (r instanceof OnSkipCardRelic) {
                     ((OnSkipCardRelic)r).onSkipCard();
