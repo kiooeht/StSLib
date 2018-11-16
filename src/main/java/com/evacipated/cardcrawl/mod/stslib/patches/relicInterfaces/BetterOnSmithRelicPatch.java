@@ -1,7 +1,8 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.relicInterfaces;
 
-import com.evacipated.cardcrawl.mod.stslib.relics.ActualOnSmithRelic;
+import com.evacipated.cardcrawl.mod.stslib.relics.BetterOnSmithRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -12,16 +13,17 @@ import javassist.CtBehavior;
         clz=CampfireSmithEffect.class,
         method="update"
 )
-public class ActualOnSmithRelicPatch
+public class BetterOnSmithRelicPatch
 {
     @SpireInsertPatch(
-            locator=Locator.class
+            locator=Locator.class,
+            localvars={"c"}
     )
-    public static void Insert(CampfireSmithEffect __instance)
+    public static void Insert(CampfireSmithEffect __instance, AbstractCard c)
     {
         for (AbstractRelic r : AbstractDungeon.player.relics) {
-            if (r instanceof ActualOnSmithRelic) {
-                ((ActualOnSmithRelic)r).actualOnSmith();
+            if (r instanceof BetterOnSmithRelic) {
+                ((BetterOnSmithRelic)r).betterOnSmith(c);
             }
         }
     }
