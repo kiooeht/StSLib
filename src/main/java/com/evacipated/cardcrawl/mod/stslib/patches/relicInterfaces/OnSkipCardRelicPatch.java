@@ -1,14 +1,14 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.relicInterfaces;
 
 import com.evacipated.cardcrawl.mod.stslib.relics.OnSkipCardRelic;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.SingingBowl;
-import com.megacrit.cardcrawl.screens.CardRewardScreen;
+import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
+import javassist.CtBehavior;
 
 public class OnSkipCardRelicPatch
 {
@@ -37,7 +37,7 @@ public class OnSkipCardRelicPatch
     public static class OnSkipCardPatch
     {
         @SpireInsertPatch(
-                rloc=102
+                locator=Locator.class
         )
         public static void Insert(ProceedButton __instance)
         {
@@ -45,6 +45,16 @@ public class OnSkipCardRelicPatch
                 if (r instanceof OnSkipCardRelic) {
                     ((OnSkipCardRelic)r).onSkipCard();
                 }
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator
+        {
+            @Override
+            public int[] Locate(CtBehavior ctBehavior) throws Exception
+            {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(RewardItem.class, "recordCardSkipMetrics");
+                return LineFinder.findAllInOrder(ctBehavior, finalMatcher);
             }
         }
     }

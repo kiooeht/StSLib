@@ -1,11 +1,12 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.relicInterfaces;
 
 import com.evacipated.cardcrawl.mod.stslib.relics.ActualOnSmithRelic;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.vfx.campfire.CampfireSmithEffect;
+import javassist.CtBehavior;
 
 @SpirePatch(
         clz=CampfireSmithEffect.class,
@@ -14,7 +15,7 @@ import com.megacrit.cardcrawl.vfx.campfire.CampfireSmithEffect;
 public class ActualOnSmithRelicPatch
 {
     @SpireInsertPatch(
-            rloc=13
+            locator=Locator.class
     )
     public static void Insert(CampfireSmithEffect __instance)
     {
@@ -22,6 +23,16 @@ public class ActualOnSmithRelicPatch
             if (r instanceof ActualOnSmithRelic) {
                 ((ActualOnSmithRelic)r).actualOnSmith();
             }
+        }
+    }
+
+    private static class Locator extends SpireInsertLocator
+    {
+        @Override
+        public int[] Locate(CtBehavior ctBehavior) throws Exception
+        {
+            Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractPlayer.class, "bottledCardUpgradeCheck");
+            return LineFinder.findAllInOrder(ctBehavior, finalMatcher);
         }
     }
 }
