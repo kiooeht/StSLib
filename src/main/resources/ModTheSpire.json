@@ -3,7 +3,7 @@
   "name": "StSLib",
   "author_list": ["kiooeht"],
   "description": "A collection of keywords and mechanics for other Slay the Spire mods to use.",
-  "credits": "Contributors: The_Evil_Pickle",
+  "credits": "Contributors: The_Evil_Pickle, Reina",
   "version": "${project.version}",
   "sts_version": "${SlayTheSpire.version}",
   "mts_version": "${ModTheSpire.version}",

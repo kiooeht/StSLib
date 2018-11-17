@@ -1,5 +1,9 @@
 ## Changelog ##
 #### dev ####
+* Relics
+  * `BetterOnSmithRelic` (Reina)
+  * `OnSkipCardRelic` (Reina)
+  * `OnRemoveCardFromMasterDeck` (Reina)
 
 #### v1.7.0 ####
 * `OnCardDrawPower`
