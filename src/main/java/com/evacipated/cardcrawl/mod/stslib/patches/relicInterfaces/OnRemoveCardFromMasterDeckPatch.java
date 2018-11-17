@@ -16,9 +16,11 @@ public class OnRemoveCardFromMasterDeckPatch
 {
     public static void Postfix(CardGroup __instance, AbstractCard c)
     {
-        for (AbstractRelic r : AbstractDungeon.player.relics) {
-            if (r instanceof OnRemoveCardFromMasterDeckRelic && __instance.type == CardGroup.CardGroupType.MASTER_DECK) {
-                ((OnRemoveCardFromMasterDeckRelic) r).onRemoveCardFromMasterDeck(c);
+        if (__instance.type == CardGroup.CardGroupType.MASTER_DECK) {
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r instanceof OnRemoveCardFromMasterDeckRelic) {
+                    ((OnRemoveCardFromMasterDeckRelic) r).onRemoveCardFromMasterDeck(c);
+                }
             }
         }
     }
