@@ -18,12 +18,17 @@ public class OnSkipCardRelicPatch
     )
     public static class SingingBowlSkipPatch
     {
-        public static void Prefix(SingingBowlButton __instance)
+        // This is effectively the same as a Prefix patch, but gives us easier access to private member variables
+        @SpireInsertPatch(
+                rloc=0,
+                localvars={"rItem"}
+        )
+        public static void Insert(SingingBowlButton __instance, RewardItem rItem)
         {
             for (AbstractRelic r : AbstractDungeon.player.relics) {
                 if (r instanceof OnSkipCardRelic) {
                     if (AbstractDungeon.player.hasRelic(SingingBowl.ID)) {
-                        ((OnSkipCardRelic)r).onSkipSingingBowl();
+                        ((OnSkipCardRelic)r).onSkipSingingBowl(rItem);
                     }
                 }
             }
@@ -37,13 +42,14 @@ public class OnSkipCardRelicPatch
     public static class OnSkipCardPatch
     {
         @SpireInsertPatch(
-                locator=Locator.class
+                locator=Locator.class,
+                localvars={"item"}
         )
-        public static void Insert(ProceedButton __instance)
+        public static void Insert(ProceedButton __instance, RewardItem item)
         {
             for (AbstractRelic r : AbstractDungeon.player.relics) {
                 if (r instanceof OnSkipCardRelic) {
-                    ((OnSkipCardRelic)r).onSkipCard();
+                    ((OnSkipCardRelic)r).onSkipCard(item);
                 }
             }
         }
