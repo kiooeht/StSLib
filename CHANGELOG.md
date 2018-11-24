@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.8.0 ####
 * Relics
   * `BetterOnSmithRelic` (Reina)
   * `OnSkipCardRelic` (Reina)
