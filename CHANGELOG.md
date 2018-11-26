@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix stun having incorrect intents the next turn
 
 #### v1.8.0 ####
 * Relics
