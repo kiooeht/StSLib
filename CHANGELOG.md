@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.8.1 ####
 * Fix stun having incorrect intents the next turn
 
 #### v1.8.0 ####
