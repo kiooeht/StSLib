@@ -2,6 +2,9 @@
 #### dev ####
 * Powers
   * `HealthBarRenderPower`
+  * `OnLoseTempHpPower`
+* Relics
+  * `OnLoseTempHpRelic`
 
 #### v1.8.1 ####
 * Fix stun having incorrect intents the next turn

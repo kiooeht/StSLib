@@ -1,6 +1,8 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.tempHp;
 
 import com.evacipated.cardcrawl.mod.stslib.patches.core.AbstractCreature.TempHPField;
+import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnLoseTempHpPower;
+import com.evacipated.cardcrawl.mod.stslib.relics.OnLoseTempHpRelic;
 import com.evacipated.cardcrawl.mod.stslib.vfx.combat.TempDamageNumberEffect;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -8,12 +10,14 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import javassist.CtBehavior;
 
 import java.util.ArrayList;
 
 @SpirePatch(
-        cls="com.megacrit.cardcrawl.characters.AbstractPlayer",
+        clz=AbstractPlayer.class,
         method="damage"
 )
 public class PlayerDamage
@@ -30,6 +34,17 @@ public class PlayerDamage
 
         int temporaryHealth = TempHPField.tempHp.get(__instance);
         if (temporaryHealth > 0) {
+            for (AbstractPower power : __instance.powers) {
+                if (power instanceof OnLoseTempHpPower) {
+                    damageAmount[0] = ((OnLoseTempHpPower) power).onLoseTempHp(info, damageAmount[0]);
+                }
+            }
+            for (AbstractRelic relic : __instance.relics) {
+                if (relic instanceof OnLoseTempHpRelic) {
+                    damageAmount[0] = ((OnLoseTempHpRelic) relic).onLoseTempHp(info, damageAmount[0]);
+                }
+            }
+
             hadBlock[0] = true;
             CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.MED, ScreenShake.ShakeDur.SHORT, false);
             if (temporaryHealth >= damageAmount[0]) {
@@ -45,8 +60,6 @@ public class PlayerDamage
 
             TempHPField.tempHp.set(__instance, temporaryHealth);
         }
-
-        System.out.println("Final damage: " + damageAmount[0]);
     }
 
     private static class Locator extends SpireInsertLocator
@@ -54,7 +67,7 @@ public class PlayerDamage
         @Override
         public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
         {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher("com.megacrit.cardcrawl.characters.AbstractPlayer", "decrementBlock");
+            Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractPlayer.class, "decrementBlock");
             return offset(LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher), 1);
         }
 
