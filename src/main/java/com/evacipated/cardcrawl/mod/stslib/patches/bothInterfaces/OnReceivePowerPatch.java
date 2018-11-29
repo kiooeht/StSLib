@@ -1,4 +1,4 @@
-package com.evacipated.cardcrawl.mod.stslib.patches.relicInterfaces;
+package com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces;
 
 import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
