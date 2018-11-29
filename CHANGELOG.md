@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.9.0 ####
 * Powers
   * `HealthBarRenderPower`
   * `OnLoseTempHpPower`
