@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Powers
+  * `BetterOnApplyPowerPower`
 
 #### v1.9.0 ####
 * Powers

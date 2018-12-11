@@ -1,6 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces;
 
 import com.badlogic.gdx.Gdx;
+import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.BetterOnApplyPowerPower;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnReceivePowerRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
@@ -19,6 +20,20 @@ public class OnReceivePowerPatch
 {
     static SpireReturn<Void> CheckPower(AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply)
     {
+        if (source != null) {
+            for (AbstractPower power : source.powers) {
+                if (power instanceof BetterOnApplyPowerPower) {
+                    boolean apply = ((BetterOnApplyPowerPower) power).betterOnApplyPower(powerToApply, target, source);
+                    if (!apply) {
+                        AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
+                        duration[0] -= Gdx.graphics.getDeltaTime();
+                        CardCrawlGame.sound.play("NULLIFY_SFX");
+                        return SpireReturn.Return(null);
+                    }
+                }
+            }
+        }
+
         if (target != null) {
             for (AbstractPower power : target.powers) {
                 if (power instanceof OnReceivePowerPower) {
