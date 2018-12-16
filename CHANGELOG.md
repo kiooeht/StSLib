@@ -2,6 +2,7 @@
 #### dev ####
 * Powers
   * `BetterOnApplyPowerPower`
+  * `OnMyBlockBrokenPower`
 
 #### v1.9.0 ####
 * Powers
