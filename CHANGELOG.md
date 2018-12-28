@@ -4,6 +4,7 @@
   * `BetterOnApplyPowerPower`
   * `OnMyBlockBrokenPower`
   * `TwoAmountPower`
+  * `NonStackablePower`
 
 #### v1.9.0 ####
 * Powers
