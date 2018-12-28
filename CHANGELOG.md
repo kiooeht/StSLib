@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.10.0 ####
 * Powers
   * `BetterOnApplyPowerPower`
   * `OnMyBlockBrokenPower`
