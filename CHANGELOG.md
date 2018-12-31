@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix SuperRareRelic causing crash if pool is empty
 
 #### v1.10.0 ####
 * Powers

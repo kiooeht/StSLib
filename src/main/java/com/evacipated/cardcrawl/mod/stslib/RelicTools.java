@@ -30,7 +30,7 @@ public class RelicTools
     {
         ArrayList<String> pool = relicTierPool(tier);
         if (pool != null && !pool.isEmpty()) {
-            int insertAt = AbstractDungeon.relicRng.random(1, pool.size()-1);
+            int insertAt = AbstractDungeon.relicRng.random(0, pool.size()-1);
             pool.add(insertAt, relicID);
             return true;
         }
