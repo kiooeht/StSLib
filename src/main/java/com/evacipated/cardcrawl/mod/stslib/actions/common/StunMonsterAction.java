@@ -33,17 +33,6 @@ public class StunMonsterAction extends AbstractGameAction
     {
         if (duration == Settings.ACTION_DUR_FAST) {
             AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(target, source, new StunMonsterPower((AbstractMonster) target, amount), amount));
-            if (!target.hasPower(ArtifactPower.POWER_ID)) {
-                try {
-                    Field f = AbstractMonster.class.getDeclaredField("move");
-                    f.setAccessible(true);
-                    EnemyMoveInfo move = (EnemyMoveInfo) f.get(target);
-                    move.intent = AbstractMonster.Intent.STUN;
-                    ((AbstractMonster) target).createIntent();
-                } catch (IllegalAccessException | NoSuchFieldException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         tickDuration();
     }

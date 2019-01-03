@@ -1,6 +1,8 @@
 ## Changelog ##
 #### dev ####
 * Fix SuperRareRelic causing crash if pool is empty
+* Fix Stun tooltip not matching icon amount
+* Fix Stun not resetting monster's intent correctly if used in an Autoplay card
 
 #### v1.10.0 ####
 * Powers
