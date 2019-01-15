@@ -16,21 +16,24 @@
   {
     "NAMES": [
       "autoplay",
-      "自動打出"
+      "自動打出",
+      "自动打出"
     ],
     "DESCRIPTION": "這張牌在抽到時會自動打出"
   },
   {
     "NAMES": [
       "soulbound",
-      "靈魂綁定"
+      "靈魂綁定",
+      "灵魂绑定"
     ],
     "DESCRIPTION": "不能從牌組中移除"
   },
   {
     "NAMES": [
       "snecko",
-      "異蛇"
+      "異蛇",
+      "异蛇"
     ],
     "DESCRIPTION": "抽到這張牌時，隨機改變耗能"
   },
@@ -53,7 +56,8 @@
     "NAMES": [
       "temporary hp",
       "temporary_hp",
-      "暫時性生命"
+      "暫時性生命",
+      "暂时性生命"
     ],
     "DESCRIPTION": "在戰鬥結束後，失去暫時性生命"
   },
@@ -68,7 +72,8 @@
     "NAMES": [
       "refund",
       "refunds",
-      "回饋"
+      "回饋",
+      "回馈"
     ],
     "DESCRIPTION": "打出時返還能量，最多返還至 回饋 的數值"
   },
@@ -82,7 +87,8 @@
   {
     "NAMES": [
       "startup",
-      "起動"
+      "起動",
+      "起动"
     ],
     "DESCRIPTION": "在每場戰鬥開始時生效"
   }
