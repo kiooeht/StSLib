@@ -1,11 +1,10 @@
-package com.evacipated.cardcrawl.mod.stslib.patches;
+package com.evacipated.cardcrawl.mod.stslib.swappables;
 
-import com.evacipated.cardcrawl.mod.stslib.actions.common.SwapCardAction;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.evacipated.cardcrawl.mod.stslib.helpers.SwapperHelper;
+import com.megacrit.cardcrawl.vfx.ThoughtBubble;
 
 public class SwapperCardPatch {
 
@@ -28,7 +27,16 @@ public class SwapperCardPatch {
                         }
                     }
                     if (index != -1) {
-                        AbstractDungeon.actionManager.addToBottom(new SwapCardAction(__instance, SwapperHelper.getPairedCard(__instance), index));
+                        if (__instance instanceof SwappableCard) {
+                            SwappableCard swappableCard = (SwappableCard)__instance;
+                            if (swappableCard.canSwap()) {
+                                AbstractDungeon.actionManager.addToBottom(new SwapCardAction(__instance, SwapperHelper.getPairedCard(__instance), index));
+                            } else {
+                                AbstractDungeon.effectList.add(new ThoughtBubble(AbstractDungeon.player.dialogX, AbstractDungeon.player.dialogY, 3.0f, swappableCard.getUnableToSwapString(), true));
+                            }
+                        } else {
+                            AbstractDungeon.actionManager.addToBottom(new SwapCardAction(__instance, SwapperHelper.getPairedCard(__instance), index));
+                        }
                     } else {
                         System.out.println("How is clicked/hovered card not in hand?");
                     }

@@ -1,4 +1,4 @@
-package com.evacipated.cardcrawl.mod.stslib.helpers;
+package com.evacipated.cardcrawl.mod.stslib.swappables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

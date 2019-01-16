@@ -1,4 +1,4 @@
-package com.evacipated.cardcrawl.mod.stslib.actions.common;
+package com.evacipated.cardcrawl.mod.stslib.swappables;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -27,6 +27,9 @@ public class SwapCardAction extends AbstractGameAction {
         p.hoveredCard = card2;
         p.hand.group.remove(index);
         p.hand.group.add(index, card2);
+        if (card1 instanceof SwappableCard) {
+            ((SwappableCard)card1).onSwapOut();
+        }
         if (card2.target == AbstractCard.CardTarget.ENEMY || card2.target == AbstractCard.CardTarget.SELF_AND_ENEMY) {
             p.inSingleTargetMode = true;
             p.isDraggingCard = false;
@@ -43,7 +46,10 @@ public class SwapCardAction extends AbstractGameAction {
             card2.target_x = InputHelper.mX;
             card2.target_y = InputHelper.mY;
         }
-        card2.isGlowing = true;
+        if (card2 instanceof SwappableCard) {
+            ((SwappableCard)card2).onSwapIn();
+        }
+        card2.isGlowing = card1.isGlowing;
         card1.isGlowing = false;
         card2.flash();
         card2.applyPowers();
