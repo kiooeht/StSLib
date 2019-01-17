@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.12.0 ####
 * Localization
   * Russian (Jedi)
   * Simplified Chinese (rainfoxest)
