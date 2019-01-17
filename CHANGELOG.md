@@ -2,6 +2,8 @@
 #### dev ####
 * Localization
   * Russian (Jedi)
+  * Simplified Chinese (rainfoxest)
+  * Traditional Chinese (rainfoxest)
 
 #### v1.11.0 ####
 * Fix SuperRareRelic causing crash if pool is empty
