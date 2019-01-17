@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Add callback of cards for `MoveCardsAction`
 
 #### v1.12.0 ####
 * Localization
