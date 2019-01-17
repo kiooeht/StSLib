@@ -1,6 +1,7 @@
 ## Changelog ##
 #### dev ####
 * Add callback of cards for `MoveCardsAction`
+* Add callback of cards for `FetchAction`
 
 #### v1.12.0 ####
 * Localization
