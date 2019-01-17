@@ -1,0 +1,10 @@
+{
+  "stslib:Clickable": {
+    "NAME": "Clickable",
+    "FLAVOR": "THIS SHOULD NEVER BE SEEN",
+    "DESCRIPTIONS": [
+      "[#2aecd7]Нажмите [#2aecd7]Правой [#2aecd7]кнопкой [#2aecd7]мыши [#2aecd7]в [#2aecd7]бою, [#2aecd7]чтобы [#2aecd7]использовать.[]",
+      "[#2aecd7]Нажмите [#2aecd7]Правой [#2aecd7]кнопкой [#2aecd7]мыши, [#2aecd7]чтобы [#2aecd7]использовать.[]"
+    ]
+  }
+}
