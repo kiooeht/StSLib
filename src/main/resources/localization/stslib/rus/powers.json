@@ -1,0 +1,17 @@
+{
+  "stslib:Stunned": {
+    "NAME": "Оглушение",
+    "DESCRIPTIONS": [
+      "Ничего не делает в течение #b",
+      " хода.",
+      " ходов."
+    ]
+  },
+  "stslib:ExhaustiveNegationPower": {
+    "NAME": "Negate Exhaustive",
+    "DESCRIPTIONS": [
+      "The next #b",
+      " times you play an Exhaustive card, the Exhaustive counter will not go down."
+    ]
+  }
+}

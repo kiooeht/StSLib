@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Localization
+  * Russian (Jedi)
 
 #### v1.11.0 ####
 * Fix SuperRareRelic causing crash if pool is empty
