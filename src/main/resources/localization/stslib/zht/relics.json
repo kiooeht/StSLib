@@ -1,0 +1,10 @@
+﻿{
+  "stslib:Clickable": {
+    "NAME": "可點擊",
+    "FLAVOR": "THIS SHOULD NEVER BE SEEN",
+    "DESCRIPTIONS": [
+      "[#2aecd7]在戰鬥時對其點擊右鍵來使用[]",
+      "[#2aecd7]對其點擊右鍵來使用[]"
+    ]
+  }
+}

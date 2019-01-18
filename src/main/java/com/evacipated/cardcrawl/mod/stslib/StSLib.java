@@ -79,6 +79,12 @@ public class StSLib implements
             case RUS:
                 language = "rus";
                 break;
+            case ZHS:
+                language = "zhs";
+                break;
+            case ZHT:
+                language = "zht";
+                break;
         }
 
         String path = "localization/stslib/" + language + "/";
