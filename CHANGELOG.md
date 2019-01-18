@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Localization
+  * Chinese: Fix missing relic and power
 
 #### v1.13.0 ####
 * Add callback of cards for `MoveCardsAction`
