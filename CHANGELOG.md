@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.13.1 ####
 * Localization
   * Chinese: Fix missing relic and power
 
