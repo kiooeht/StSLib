@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix fetching from exhaust pile making cards invisible
 
 #### v1.13.1 ####
 * Localization

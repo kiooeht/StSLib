@@ -92,10 +92,14 @@ public class MoveCardsAction extends AbstractGameAction
             }
             if (tmp.size() == 1) {
                 AbstractCard card = tmp.getTopCard();
+                if (source == p.exhaustPile) {
+                    card.unfadeOut();
+                }
                 if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                     source.moveToDiscardPile(card);
                     p.createHandIsFullDialog();
                 } else {
+                    card.untip();
                     card.unhover();
                     card.lighten(true);
                     card.setAngle(0.0F);
@@ -114,10 +118,14 @@ public class MoveCardsAction extends AbstractGameAction
             if (tmp.size() <= amount) {
                 for (int i = 0; i < tmp.size(); ++i) {
                     AbstractCard card = tmp.getNCardFromTop(i);
+                    if (source == p.exhaustPile) {
+                        card.unfadeOut();
+                    }
                     if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                         source.moveToDiscardPile(card);
                         p.createHandIsFullDialog();
                     } else {
+                        card.untip();
                         card.unhover();
                         card.lighten(true);
                         card.setAngle(0.0F);
@@ -146,7 +154,11 @@ public class MoveCardsAction extends AbstractGameAction
             List<AbstractCard> callbackList = new ArrayList<>();
             for (AbstractCard c : AbstractDungeon.gridSelectScreen.selectedCards) {
                 callbackList.add(c);
+                c.untip();
                 c.unhover();
+                if (source == p.exhaustPile) {
+                    c.unfadeOut();
+                }
                 if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                     source.moveToDiscardPile(c);
                     p.createHandIsFullDialog();
