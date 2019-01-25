@@ -112,12 +112,19 @@ public class MoveCardsAction extends AbstractGameAction
                     AbstractDungeon.player.hand.refreshHandLayout();
                     AbstractDungeon.player.hand.applyPowers();
                 }
+                List<AbstractCard> callbackList = new ArrayList<>();
+                callbackList.add(card);
+                if (callback != null) {
+                    callback.accept(callbackList);
+                }
                 isDone = true;
                 return;
             }
             if (tmp.size() <= amount) {
+                List<AbstractCard> callbackList = new ArrayList<>();
                 for (int i = 0; i < tmp.size(); ++i) {
                     AbstractCard card = tmp.getNCardFromTop(i);
+                    callbackList.add(card);
                     if (source == p.exhaustPile) {
                         card.unfadeOut();
                     }
@@ -138,6 +145,9 @@ public class MoveCardsAction extends AbstractGameAction
                         p.hand.refreshHandLayout();
                         p.hand.applyPowers();
                     }
+                }
+                if (callback != null) {
+                    callback.accept(callbackList);
                 }
                 isDone = true;
                 return;
