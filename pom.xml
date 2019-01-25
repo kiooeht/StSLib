@@ -6,11 +6,11 @@
 
     <groupId>com.evacipated.cardcrawl.mod</groupId>
     <artifactId>stslib</artifactId>
-    <version>1.13.1</version>
+    <version>1.13.2</version>
 
     <properties>
-        <SlayTheSpire.version>01-17-2019</SlayTheSpire.version>
-        <ModTheSpire.version>3.7.0</ModTheSpire.version>
+        <SlayTheSpire.version>01-23-2019</SlayTheSpire.version>
+        <ModTheSpire.version>3.8.0</ModTheSpire.version>
     </properties>
 
     <dependencies>

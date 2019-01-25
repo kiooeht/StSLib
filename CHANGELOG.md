@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.13.2 ####
 * Fix fetching from exhaust pile making cards invisible
 * Fix `MoveCardsAction` callback not calling if it shortcuts
 
