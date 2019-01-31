@@ -10,6 +10,9 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.UIStrings;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class MoveCardsAction extends AbstractGameAction
@@ -20,16 +23,38 @@ public class MoveCardsAction extends AbstractGameAction
     private CardGroup source;
     private CardGroup destination;
     private Predicate<AbstractCard> predicate;
+    private Consumer<List<AbstractCard>> callback;
 
-    public MoveCardsAction(CardGroup destination, CardGroup source, Predicate<AbstractCard> predicate, int amount)
+    public MoveCardsAction(CardGroup destination, CardGroup source, Predicate<AbstractCard> predicate, int amount, Consumer<List<AbstractCard>> callback)
     {
         p = AbstractDungeon.player;
         this.destination = destination;
         this.source = source;
         this.predicate = predicate;
+        this.callback = callback;
         setValues(p, AbstractDungeon.player, amount);
         actionType = AbstractGameAction.ActionType.CARD_MANIPULATION;
         duration = Settings.ACTION_DUR_MED;
+    }
+
+    public MoveCardsAction(CardGroup destination, CardGroup source, Predicate<AbstractCard> predicate, Consumer<List<AbstractCard>> callback)
+    {
+        this(destination, source, predicate, 1, callback);
+    }
+
+    public MoveCardsAction(CardGroup destination, CardGroup source, int amount, Consumer<List<AbstractCard>> callback)
+    {
+        this(destination, source, c -> true, amount, callback);
+    }
+
+    public MoveCardsAction(CardGroup destination, CardGroup source, Consumer<List<AbstractCard>> callback)
+    {
+        this(destination, source, c -> true, 1, callback);
+    }
+
+    public MoveCardsAction(CardGroup destination, CardGroup source, Predicate<AbstractCard> predicate, int amount)
+    {
+        this (destination, source, predicate, amount, null);
     }
 
     public MoveCardsAction(CardGroup destination, CardGroup source, Predicate<AbstractCard> predicate)
@@ -118,7 +143,9 @@ public class MoveCardsAction extends AbstractGameAction
             return;
         }
         if (AbstractDungeon.gridSelectScreen.selectedCards.size() != 0) {
+            List<AbstractCard> callbackList = new ArrayList<>();
             for (AbstractCard c : AbstractDungeon.gridSelectScreen.selectedCards) {
+                callbackList.add(c);
                 c.unhover();
                 if (destination == p.hand && p.hand.size() == BaseMod.MAX_HAND_SIZE) {
                     source.moveToDiscardPile(c);
@@ -132,6 +159,10 @@ public class MoveCardsAction extends AbstractGameAction
             }
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
             p.hand.refreshHandLayout();
+
+            if (callback != null) {
+                callback.accept(callbackList);
+            }
         }
         tickDuration();
     }

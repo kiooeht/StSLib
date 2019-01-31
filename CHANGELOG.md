@@ -1,6 +1,20 @@
 ## Changelog ##
 #### dev ####
 
+#### v1.13.1 ####
+* Localization
+  * Chinese: Fix missing relic and power
+
+#### v1.13.0 ####
+* Add callback of cards for `MoveCardsAction`
+* Add callback of cards for `FetchAction`
+
+#### v1.12.0 ####
+* Localization
+  * Russian (Jedi)
+  * Simplified Chinese (rainfoxest)
+  * Traditional Chinese (rainfoxest)
+
 #### v1.11.0 ####
 * Fix SuperRareRelic causing crash if pool is empty
 * Fix Stun tooltip not matching icon amount

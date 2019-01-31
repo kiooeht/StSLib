@@ -1,0 +1,17 @@
+﻿{
+  "stslib:Stunned": {
+    "NAME": "行動不能",
+    "DESCRIPTIONS": [
+      "#b",
+      " 回合不作任何行動",
+      " 回合不作任何行動"
+    ]
+  },
+  "stslib:ExhaustiveNegationPower": {
+    "NAME": "零消耗性",
+    "DESCRIPTIONS": [
+      "下 #b",
+      " 次打出 消耗性 的牌時，其次數不會減少"
+    ]
+  }
+}

@@ -11,6 +11,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
@@ -44,8 +45,23 @@ public class StSLib implements
     @Override
     public void receiveEditKeywords()
     {
+        String language = "eng";
+        switch (Settings.language) {
+            case RUS:
+                language = "rus";
+                break;
+            case ZHS:
+                language = "zhs";
+                break;
+            case ZHT:
+                language = "zht";
+                break;
+        }
+
+        String path = "localization/stslib/" + language + "/";
+
         Gson gson = new Gson();
-        String json = Gdx.files.internal("localization/stslib/keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        String json = Gdx.files.internal(path + "keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
         Keyword[] keywords = gson.fromJson(json, Keyword[].class);
 
         if (keywords != null) {
@@ -58,8 +74,23 @@ public class StSLib implements
     @Override
     public void receiveEditStrings()
     {
-        BaseMod.loadCustomStringsFile(PowerStrings.class, "localization/stslib/powers.json");
-        BaseMod.loadCustomStringsFile(RelicStrings.class, "localization/stslib/relics.json");
+        String language = "eng";
+        switch (Settings.language) {
+            case RUS:
+                language = "rus";
+                break;
+            case ZHS:
+                language = "zhs";
+                break;
+            case ZHT:
+                language = "zht";
+                break;
+        }
+
+        String path = "localization/stslib/" + language + "/";
+
+        BaseMod.loadCustomStringsFile(PowerStrings.class, path + "powers.json");
+        BaseMod.loadCustomStringsFile(RelicStrings.class, path + "relics.json");
     }
 
     @Override
