@@ -19,15 +19,17 @@ public class OnLoseBlockPatch
 {
     public static SpireReturn<Integer> Prefix(AbstractCreature __instance, DamageInfo info, @ByRef int[] damageAmount)
     {
-        for (AbstractPower power : __instance.powers) {
-            if (power instanceof OnLoseBlockPower) {
-                damageAmount[0] = ((OnLoseBlockPower) power).onLoseBlock(info, damageAmount[0]);
+        if (info.type != DamageInfo.DamageType.HP_LOSS && __instance.currentBlock > 0) {
+            for (AbstractPower power : __instance.powers) {
+                if (power instanceof OnLoseBlockPower) {
+                    damageAmount[0] = ((OnLoseBlockPower) power).onLoseBlock(info, damageAmount[0]);
+                }
             }
-        }
-        if (__instance.isPlayer) {
-            for (AbstractRelic relic : AbstractDungeon.player.relics) {
-                if (relic instanceof OnLoseBlockRelic) {
-                    damageAmount[0] = ((OnLoseBlockRelic) relic).onLoseBlock(info, damageAmount[0]);
+            if (__instance.isPlayer) {
+                for (AbstractRelic relic : AbstractDungeon.player.relics) {
+                    if (relic instanceof OnLoseBlockRelic) {
+                        damageAmount[0] = ((OnLoseBlockRelic) relic).onLoseBlock(info, damageAmount[0]);
+                    }
                 }
             }
         }
