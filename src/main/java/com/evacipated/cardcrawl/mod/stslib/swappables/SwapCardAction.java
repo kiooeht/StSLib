@@ -52,7 +52,9 @@ public class SwapCardAction extends AbstractGameAction {
         card2.isGlowing = card1.isGlowing;
         card1.isGlowing = false;
         card2.flash();
-        card2.applyPowers();
+        for (AbstractCard handCard : p.hand.group) {
+            handCard.applyPowers();
+        }
         this.isDone = true;
     }
 }
