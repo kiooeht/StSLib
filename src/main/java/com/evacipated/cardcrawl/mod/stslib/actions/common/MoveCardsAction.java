@@ -24,6 +24,7 @@ public class MoveCardsAction extends AbstractGameAction
     private CardGroup destination;
     private Predicate<AbstractCard> predicate;
     private Consumer<List<AbstractCard>> callback;
+    private boolean sortCards = false;
 
     public MoveCardsAction(CardGroup destination, CardGroup source, Predicate<AbstractCard> predicate, int amount, Consumer<List<AbstractCard>> callback)
     {
@@ -70,6 +71,12 @@ public class MoveCardsAction extends AbstractGameAction
     public MoveCardsAction(CardGroup destination, CardGroup source)
     {
         this(destination, source, c -> true, 1);
+    }
+
+    public MoveCardsAction sort(boolean sortCards)
+    {
+        this.sortCards = sortCards;
+        return this;
     }
 
     public void update()
@@ -151,6 +158,10 @@ public class MoveCardsAction extends AbstractGameAction
                 }
                 isDone = true;
                 return;
+            }
+            if (sortCards) {
+                tmp.sortAlphabetically(true);
+                tmp.sortByRarityPlusStatusCardType(true);
             }
             if (amount == 1) {
                 AbstractDungeon.gridSelectScreen.open(tmp, amount, TEXT[0], false);

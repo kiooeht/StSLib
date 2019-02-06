@@ -1,6 +1,7 @@
 ## Changelog ##
 #### dev ####
 * Fix `OnLoseBlock` hooks triggering when creature has no block
+* Allow card selection in `MoveCardsAction` to be sorted
 
 #### v1.13.2 ####
 * Fix fetching from exhaust pile making cards invisible
