@@ -2,11 +2,11 @@
 #### dev ####
 * Powers
   * `BetterOnExhaustPower`
-* Fix `OnLoseBlock` hooks triggering when creature has no block
 * Allow card selection in `MoveCardsAction` to be sorted
-* Use English strings as backup for localization
 * Allow `OnReceivePower` to change stackAmount
 * Allow `BetterOnApplyPowerPower` to change stackAmount
+* Use English strings as backup for localization
+* Fix `OnLoseBlock` hooks triggering when creature has no block
 
 #### v1.13.2 ####
 * Fix fetching from exhaust pile making cards invisible
