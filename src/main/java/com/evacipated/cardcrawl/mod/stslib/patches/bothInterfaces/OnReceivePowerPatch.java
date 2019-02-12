@@ -24,6 +24,9 @@ public class OnReceivePowerPatch
         if (source != null) {
             for (AbstractPower power : source.powers) {
                 if (power instanceof BetterOnApplyPowerPower) {
+                    // Allows changing the stackAmount
+                    action.amount = ((BetterOnApplyPowerPower) power).betterOnApplyPowerStacks(powerToApply, target, source, action.amount);
+                    // Allows negating the power
                     boolean apply = ((BetterOnApplyPowerPower) power).betterOnApplyPower(powerToApply, target, source);
                     if (!apply) {
                         AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
