@@ -42,6 +42,21 @@ public class StSLib implements
         TEMP_HP_ICON = ImageMaster.loadImage("images/stslib/ui/tempHP.png");
     }
 
+    private void loadLangKeywords(String language)
+    {
+        String path = "localization/stslib/" + language + "/";
+
+        Gson gson = new Gson();
+        String json = Gdx.files.internal(path + "keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        Keyword[] keywords = gson.fromJson(json, Keyword[].class);
+
+        if (keywords != null) {
+            for (Keyword keyword : keywords) {
+                BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
+            }
+        }
+    }
+
     @Override
     public void receiveEditKeywords()
     {
@@ -58,17 +73,16 @@ public class StSLib implements
                 break;
         }
 
+        loadLangKeywords("eng");
+        loadLangKeywords(language);
+    }
+
+    private void loadLangStrings(String language)
+    {
         String path = "localization/stslib/" + language + "/";
 
-        Gson gson = new Gson();
-        String json = Gdx.files.internal(path + "keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
-        Keyword[] keywords = gson.fromJson(json, Keyword[].class);
-
-        if (keywords != null) {
-            for (Keyword keyword : keywords) {
-                BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
-            }
-        }
+        BaseMod.loadCustomStringsFile(PowerStrings.class, path + "powers.json");
+        BaseMod.loadCustomStringsFile(RelicStrings.class, path + "relics.json");
     }
 
     @Override
@@ -87,10 +101,8 @@ public class StSLib implements
                 break;
         }
 
-        String path = "localization/stslib/" + language + "/";
-
-        BaseMod.loadCustomStringsFile(PowerStrings.class, path + "powers.json");
-        BaseMod.loadCustomStringsFile(RelicStrings.class, path + "relics.json");
+        loadLangStrings("eng");
+        loadLangStrings(language);
     }
 
     @Override
