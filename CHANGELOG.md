@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.14.0 ####
 * Powers
   * `BetterOnExhaustPower`
 * Allow card selection in `MoveCardsAction` to be sorted
