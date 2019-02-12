@@ -5,6 +5,7 @@ import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.BetterOnApplyPowerP
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnReceivePowerRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPoisonOnRandomMonsterAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.utility.TextAboveCreatureAction;
@@ -18,7 +19,7 @@ import javassist.CtBehavior;
 
 public class OnReceivePowerPatch
 {
-    static SpireReturn<Void> CheckPower(AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply)
+    static SpireReturn<Void> CheckPower(AbstractGameAction action, AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply)
     {
         if (source != null) {
             for (AbstractPower power : source.powers) {
@@ -37,6 +38,9 @@ public class OnReceivePowerPatch
         if (target != null) {
             for (AbstractPower power : target.powers) {
                 if (power instanceof OnReceivePowerPower) {
+                    // Allows changing the stackAmount
+                    action.amount = ((OnReceivePowerPower) power).onReceivePowerStacks(powerToApply, target, source, action.amount);
+                    // Allows negating the power
                     boolean apply = ((OnReceivePowerPower) power).onReceivePower(powerToApply, target, source);
                     if (!apply) {
                         AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
@@ -49,6 +53,9 @@ public class OnReceivePowerPatch
             if (target.isPlayer) {
                 for (AbstractRelic relic : AbstractDungeon.player.relics) {
                     if (relic instanceof OnReceivePowerRelic) {
+                        // Allows changing the stackAmount
+                        action.amount = ((OnReceivePowerRelic) relic).onReceivePowerStacks(powerToApply, source, action.amount);
+                        // Allows negating the power
                         boolean apply = ((OnReceivePowerRelic) relic).onReceivePower(powerToApply, source);
                         if (!apply) {
                             AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
@@ -75,7 +82,7 @@ public class OnReceivePowerPatch
         )
         public static SpireReturn<Void> Insert(ApplyPowerAction __instance, @ByRef float[] duration, AbstractPower powerToApply)
         {
-            return CheckPower(__instance.target, __instance.source, duration, powerToApply);
+            return CheckPower(__instance, __instance.target, __instance.source, duration, powerToApply);
         }
 
         private static class Locator extends SpireInsertLocator
@@ -102,7 +109,7 @@ public class OnReceivePowerPatch
         )
         public static SpireReturn<Void> Insert(ApplyPoisonOnRandomMonsterAction __instance, @ByRef float[] duration, AbstractPower powerToApply)
         {
-            return CheckPower(__instance.target, __instance.source, duration, powerToApply);
+            return CheckPower(__instance, __instance.target, __instance.source, duration, powerToApply);
         }
 
         private static class Locator extends SpireInsertLocator
