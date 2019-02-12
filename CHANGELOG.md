@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Powers
+  * `BetterOnExhaustPower`
 * Fix `OnLoseBlock` hooks triggering when creature has no block
 * Allow card selection in `MoveCardsAction` to be sorted
 * Use English strings as backup for localization
