@@ -9,6 +9,8 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 public abstract class TwoAmountPower extends AbstractPower
 {
     public int amount2 = 0;
+    private Color redColor = Color.RED;
+    private Color greenColor = Color.GREEN;
 
     @Override
     public void renderAmount(SpriteBatch sb, float x, float y, Color c)
@@ -16,8 +18,16 @@ public abstract class TwoAmountPower extends AbstractPower
         super.renderAmount(sb, x, y, c);
 
         if (amount2 > 0) {
-            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont,
-                    Integer.toString(amount2), x, y + 15 * Settings.scale, fontScale, c);
+            if (!isTurnBased) {
+                greenColor.a = c.a;
+                c = greenColor;
+            }
+            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont, Integer.toString(amount2), x, y + 15.0F * Settings.scale, fontScale, c);
+        }
+        else if (amount2 < 0 && canGoNegative) {
+            redColor.a = c.a;
+            c = redColor;
+            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont, Integer.toString(amount2), x, y + 15.0F * Settings.scale, fontScale, c);
         }
     }
 }
