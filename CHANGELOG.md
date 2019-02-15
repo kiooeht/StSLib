@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Add color to `TwoAmountPower` (Rin Camelia)
 
 #### v1.14.0 ####
 * Powers
