@@ -22,12 +22,13 @@ public abstract class TwoAmountPower extends AbstractPower
                 greenColor.a = c.a;
                 c = greenColor;
             }
-            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont, Integer.toString(amount2), x, y + 15.0F * Settings.scale, fontScale, c);
-        }
-        else if (amount2 < 0 && canGoNegative) {
+            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont,
+                    Integer.toString(amount2), x, y + 15 * Settings.scale, fontScale, c);
+        } else if (amount2 < 0 && canGoNegative) {
             redColor.a = c.a;
             c = redColor;
-            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont, Integer.toString(amount2), x, y + 15.0F * Settings.scale, fontScale, c);
+            FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont,
+                    Integer.toString(amount2), x, y + 15 * Settings.scale, fontScale, c);
         }
     }
 }
