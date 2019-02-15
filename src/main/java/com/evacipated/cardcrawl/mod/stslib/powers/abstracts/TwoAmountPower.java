@@ -9,8 +9,8 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 public abstract class TwoAmountPower extends AbstractPower
 {
     public int amount2 = 0;
-    private Color redColor = Color.RED;
-    private Color greenColor = Color.GREEN;
+    private Color redColor = Color.RED.cpy();
+    private Color greenColor = Color.GREEN.cpy();
 
     @Override
     public void renderAmount(SpriteBatch sb, float x, float y, Color c)
