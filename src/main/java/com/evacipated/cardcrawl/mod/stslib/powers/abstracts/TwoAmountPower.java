@@ -11,6 +11,7 @@ public abstract class TwoAmountPower extends AbstractPower
     public int amount2 = 0;
     private Color redColor = Color.RED.cpy();
     private Color greenColor = Color.GREEN.cpy();
+    public boolean canGoNegative2 = false;
 
     @Override
     public void renderAmount(SpriteBatch sb, float x, float y, Color c)
@@ -24,9 +25,9 @@ public abstract class TwoAmountPower extends AbstractPower
             }
             FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont,
                     Integer.toString(amount2), x, y + 15 * Settings.scale, fontScale, c);
-        } else if (amount2 < 0 && canGoNegative) {
             redColor.a = c.a;
             c = redColor;
+        } else if (amount2 < 0 && canGoNegative2) {
             FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont,
                     Integer.toString(amount2), x, y + 15 * Settings.scale, fontScale, c);
         }
