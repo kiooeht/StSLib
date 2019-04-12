@@ -1,5 +1,9 @@
 ## Changelog ##
 #### dev ####
+* Powers
+  * `OnPlayerDeathPower`
+* Relics
+  * `OnPlayerDeathRelic`
 
 #### v1.15.0 ####
 * Add color to `TwoAmountPower` (Rin Camelia)
