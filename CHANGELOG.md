@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.16.0 ####
 * Powers
   * `OnPlayerDeathPower`
 * Relics
