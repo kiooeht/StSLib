@@ -6,7 +6,6 @@ import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower
 import com.evacipated.cardcrawl.mod.stslib.relics.OnReceivePowerRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPoisonOnRandomMonsterAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.utility.TextAboveCreatureAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -94,33 +93,6 @@ public class OnReceivePowerPatch
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
             {
                 Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractPlayer.class, "hasRelic");
-                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
-            }
-        }
-    }
-
-
-    @SpirePatch(
-            clz=ApplyPoisonOnRandomMonsterAction.class,
-            method="update"
-    )
-    public static class ApplyRandomPoison
-    {
-        @SpireInsertPatch(
-                locator=Locator.class,
-                localvars={"duration", "powerToApply"}
-        )
-        public static SpireReturn<Void> Insert(ApplyPoisonOnRandomMonsterAction __instance, @ByRef float[] duration, AbstractPower powerToApply)
-        {
-            return CheckPower(__instance, __instance.target, __instance.source, duration, powerToApply);
-        }
-
-        private static class Locator extends SpireInsertLocator
-        {
-            @Override
-            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
-            {
-                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractCreature.class, "hasPower");
                 return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
             }
         }
