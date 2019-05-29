@@ -2,10 +2,9 @@ package com.evacipated.cardcrawl.mod.stslib.patches.relicInterfaces;
 
 import com.evacipated.cardcrawl.mod.stslib.relics.BetterOnUsePotionRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.potions.FairyPotion;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.ui.panels.PotionPopUp;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
@@ -14,18 +13,17 @@ import javassist.CtBehavior;
 public class BetterOnUsePotionPatch
 {
     @SpirePatch(
-            clz=AbstractPlayer.class,
-            method="damage"
+            clz=FairyPotion.class,
+            method="onPlayerDeath"
     )
-    public static class FairyPotion
+    public static class FairyPotionPatch
     {
         @SpireInsertPatch(
-                locator=Locator.class,
-                localvars={"p"}
+                locator=Locator.class
         )
-        public static void Insert(AbstractPlayer __instance, DamageInfo info, AbstractPotion potion)
+        public static void Insert(FairyPotion __instance)
         {
-            Do(potion);
+            Do(__instance);
         }
     }
 
