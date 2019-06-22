@@ -1,0 +1,10 @@
+{
+  "stslib:Clickable": {
+    "NAME": "クリック可能",
+    "FLAVOR": "これは決して見られるべきではない。",
+    "DESCRIPTIONS": [
+      "[#2aecd7]戦闘 [#2aecd7]中に [#2aecd7]右 [#2aecd7]クリック [#2aecd7]で [#2aecd7]有効化。[]",
+      "[#2aecd7]右 [#2aecd7]クリック [#2aecd7]で [#2aecd7]有効化。[]"
+    ]
+  }
+}
