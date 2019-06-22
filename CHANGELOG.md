@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Make TempHP work on monsters
 
 #### v1.16.0 ####
 * Powers

@@ -7,9 +7,11 @@ import com.evacipated.cardcrawl.mod.stslib.vfx.combat.TempDamageNumberEffect;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import javassist.CtBehavior;
@@ -26,7 +28,7 @@ public class PlayerDamage
             locator=Locator.class,
             localvars={"damageAmount", "hadBlock"}
     )
-    public static void Insert(AbstractPlayer __instance, DamageInfo info, @ByRef int[] damageAmount, @ByRef boolean[] hadBlock)
+    public static void Insert(AbstractCreature __instance, DamageInfo info, @ByRef int[] damageAmount, @ByRef boolean[] hadBlock)
     {
         if (damageAmount[0] <= 0) {
             return;
@@ -39,9 +41,11 @@ public class PlayerDamage
                     damageAmount[0] = ((OnLoseTempHpPower) power).onLoseTempHp(info, damageAmount[0]);
                 }
             }
-            for (AbstractRelic relic : __instance.relics) {
-                if (relic instanceof OnLoseTempHpRelic) {
-                    damageAmount[0] = ((OnLoseTempHpRelic) relic).onLoseTempHp(info, damageAmount[0]);
+            if (__instance instanceof AbstractPlayer) {
+                for (AbstractRelic relic : ((AbstractPlayer) __instance).relics) {
+                    if (relic instanceof OnLoseTempHpRelic) {
+                        damageAmount[0] = ((OnLoseTempHpRelic) relic).onLoseTempHp(info, damageAmount[0]);
+                    }
                 }
             }
 
