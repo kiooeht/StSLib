@@ -1,22 +1,22 @@
 [
   {
     "NAMES": [
-      "purge",
-      "パージ"
+      "パージ",
+      "purge"
     ],
     "DESCRIPTION": "戦闘終了まで除外される。 廃棄 の山には #r行かない 。"
   },
   {
     "NAMES": [
-      "retain",
-      "保持"
+      "保持",
+      "retain"
     ],
     "DESCRIPTION": "ターン終了時に捨てられない。"
   },
   {
     "NAMES": [
-      "autoplay",
-      "オートプレイ"
+    "オートプレイ",
+    "autoplay"
     ],
     "DESCRIPTION": "このカードは引かれたときに自動的にプレイされる。"
   },
@@ -29,8 +29,8 @@
   },
   {
     "NAMES": [
-      "snecko",
-      "スネッコ"
+      "スネッコ",
+      "snecko"
     ],
     "DESCRIPTION": "このカードが引かれたとき、コストがランダムに変化する。"
   },
@@ -43,8 +43,8 @@
   },
   {
     "NAMES": [
-      "fleeting",
-      "一瞬"
+      "一瞬",
+      "fleeting"
     ],
     "DESCRIPTION": "このカードは #yパージ し、使用時にデッキから除外される。"
   },
@@ -59,9 +59,9 @@
   },
   {
     "NAMES": [
-      "fetch",
       "取り出し",
-      "取り出す"
+      "取り出す",
+      "fetch"
     ],
     "DESCRIPTION": "指定の山から指定のカードを選び、手札に加える。"
   },
@@ -76,15 +76,15 @@
   },
   {
     "NAMES": [
-      "exhaustive",
-      "廃棄性"
+      "廃棄性",
+      "exhaustive"
     ],
     "DESCRIPTION": "一定回数の使用後に #y廃棄 する。"
   },
   {
     "NAMES": [
-      "startup",
-      "スタートアップ"
+      "スタートアップ",
+      "startup"
     ],
     "DESCRIPTION": "戦闘開始時にトリガーとなる。"
   }
