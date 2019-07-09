@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Fix onCardDraw() being called twice on powers
+* Deprecate `OnCardDrawPower`
 
 #### v1.17.0 ####
 * Make TempHP work on monsters
