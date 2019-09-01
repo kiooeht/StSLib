@@ -175,6 +175,7 @@ public class BranchingUpgradesPatch {
     public static class CancelUpgrade {
         public static void Prefix(GridCardSelectScreen __instance) {
             BranchSelectFields.waitingForBranchUpgradeSelection.set(__instance, false);
+            BranchSelectFields.isBranchUpgrading.set(__instance, false);
         }
     }
 
@@ -216,6 +217,7 @@ public class BranchingUpgradesPatch {
                 if (c instanceof BranchingUpgradesCard) {
                     BranchingUpgradesCard upgradeCard = (BranchingUpgradesCard) c;
                     upgradeCard.setIsBranchUpgrade();
+                    BranchSelectFields.isBranchUpgrading.set(AbstractDungeon.gridSelectScreen, false);
                 }
             }
         }
