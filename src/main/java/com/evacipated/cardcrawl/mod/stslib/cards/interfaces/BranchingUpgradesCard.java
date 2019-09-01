@@ -7,7 +7,7 @@ public interface BranchingUpgradesCard {
 
     void branchUpgrade();
 
-    void setBranchDescription();
+    default void setBranchDescription() {}
 
     default void setIsBranchUpgrade() {
         if (this instanceof AbstractCard) {
