@@ -26,15 +26,15 @@ public interface BranchingUpgradesCard {
             }
             if (c.upgradedBlock) {
                 c.isBlockModified = true;
-                c.baseBlock = c.block;
+                c.block = c.baseBlock;
             }
             if (c.upgradedDamage) {
                 c.isDamageModified = true;
-                c.baseDamage = c.damage;
+                c.damage = c.baseDamage;
             }
             if (c.upgradedMagicNumber) {
                 c.isMagicNumberModified = true;
-                c.baseMagicNumber = c.magicNumber;
+                c.magicNumber = c.baseMagicNumber;
             }
         }
     }
