@@ -1,10 +1,10 @@
 ﻿{
   "stslib:Stunned": {
-    "NAME": "行动不能",
+    "NAME": "击晕",
     "DESCRIPTIONS": [
-      "#b",
-      " 回合不作任何行动",
-      " 回合不作任何行动"
+      "在 #b",
+      " 个回合不作任何行动",
+      " 个回合不作任何行动"
     ]
   },
   "stslib:ExhaustiveNegationPower": {

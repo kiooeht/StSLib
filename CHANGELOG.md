@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Updated ZHS translation by Rita-B
 
 #### v1.17.1 ####
 * Fix onCardDraw() being called twice on powers
