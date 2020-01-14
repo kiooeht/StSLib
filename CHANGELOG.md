@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.17.1 ####
 * Fix onCardDraw() being called twice on powers
 * Deprecate `OnCardDrawPower`
 
