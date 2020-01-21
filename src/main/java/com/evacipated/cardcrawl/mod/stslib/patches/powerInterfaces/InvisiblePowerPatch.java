@@ -2,6 +2,7 @@ package com.evacipated.cardcrawl.mod.stslib.patches.powerInterfaces;
 
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.InvisiblePower;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import javassist.CannotCompileException;
@@ -72,6 +73,28 @@ public class InvisiblePowerPatch
                                     "$_ = $proceed($$);" +
                                     "}");
                         }
+                    }
+                }
+            };
+        }
+    }
+    @SpirePatch(
+            clz=RemoveSpecificPowerAction.class,
+            method="update"
+    )
+    public static class HideExpireText
+    {
+        public static ExprEditor Instrument()
+        {
+            return new ExprEditor()
+            {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException
+                {
+                    if (m.getClassName().equals(ArrayList.class.getName()) && m.getMethodName().equals("add")) {
+                        m.replace("if (!(removeMe instanceof " + InvisiblePower.class.getName()+ ")) {" +
+                                "$_ = $proceed($$);" +
+                                "}");
                     }
                 }
             };
