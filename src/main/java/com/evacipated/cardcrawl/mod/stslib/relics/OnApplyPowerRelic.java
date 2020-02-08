@@ -5,9 +5,22 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 
 public interface OnApplyPowerRelic {
     /**
+     * @param power  The power the source is applying
+     * @param target The target receiving the power
      * @param source The source applying the power
-     * @param target The target the power is applied to
-     * @param power  The power the target is receiving
+     * @return       Whether or not to apply the power (true = apply, false = negate)
      */
-    void onApplyPower(AbstractCreature source, AbstractCreature target, AbstractPower power);
+    boolean onApplyPower(AbstractPower power, AbstractCreature target, AbstractCreature source);
+
+    /**
+     * @param power       The power the source is applying
+     * @param target      The target receiving the power
+     * @param source      The source applying the power
+     * @param stackAmount The amount to stack the power if the owner already has it
+     * @return            Whether or not to apply the power (true = apply, false = negate)
+     */
+    default int onApplyPowerStacks(AbstractPower power, AbstractCreature target, AbstractCreature source, int stackAmount)
+    {
+        return stackAmount;
+    }
 }
