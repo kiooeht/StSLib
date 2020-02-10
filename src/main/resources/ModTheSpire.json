@@ -3,7 +3,7 @@
   "name": "StSLib",
   "author_list": ["kiooeht"],
   "description": "A collection of keywords and mechanics for other Slay the Spire mods to use.",
-  "credits": "\n  Contributors: The_Evil_Pickle, Reina, Rin Camelia \n  Translation: Jedi (Russian), Rita-B (ZHS), rainfoxest (ZHS, ZHT)",
+  "credits": "\n  Contributors: The_Evil_Pickle, Reina, Rin Camelia, erasels \n  Translation: Jedi (Russian), Rita-B (ZHS), rainfoxest (ZHS, ZHT)",
   "version": "${project.version}",
   "sts_version": "${SlayTheSpire.version}",
   "mts_version": "${ModTheSpire.version}",
