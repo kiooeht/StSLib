@@ -3,6 +3,7 @@ package com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces;
 import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.BetterOnApplyPowerPower;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
+import com.evacipated.cardcrawl.mod.stslib.relics.OnAnyPowerAppliedRelic;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnApplyPowerRelic;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnReceivePowerRelic;
 import com.evacipated.cardcrawl.modthespire.lib.*;
@@ -84,6 +85,21 @@ public class OnReceivePowerPatch
                             CardCrawlGame.sound.play("NULLIFY_SFX");
                             return SpireReturn.Return(null);
                         }
+                    }
+                }
+            }
+
+            for (AbstractRelic relic : AbstractDungeon.player.relics) {
+                if (relic instanceof OnAnyPowerAppliedRelic) {
+                    // Allows changing the stackAmount
+                    action.amount = ((OnAnyPowerAppliedRelic) relic).onAnyPowerApplyStacks(powerToApply, target, source, action.amount);
+                    // Allows negating the power
+                    boolean apply = ((OnAnyPowerAppliedRelic) relic).onAnyPowerApply(powerToApply, target, source);
+                    if (!apply) {
+                        AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
+                        duration[0] -= Gdx.graphics.getDeltaTime();
+                        CardCrawlGame.sound.play("NULLIFY_SFX");
+                        return SpireReturn.Return(null);
                     }
                 }
             }
