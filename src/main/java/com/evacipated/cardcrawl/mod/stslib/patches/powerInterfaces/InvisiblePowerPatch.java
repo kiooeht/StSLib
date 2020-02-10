@@ -2,6 +2,7 @@ package com.evacipated.cardcrawl.mod.stslib.patches.powerInterfaces;
 
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.InvisiblePower;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import javassist.CannotCompileException;
@@ -42,6 +43,10 @@ public class InvisiblePowerPatch
             method="renderPowerTips"
     )
     @SpirePatch(
+            clz=AbstractPlayer.class,
+            method="renderPowerTips"
+    )
+    @SpirePatch(
             clz=AbstractMonster.class,
             method="renderTip"
     )
@@ -56,7 +61,7 @@ public class InvisiblePowerPatch
                 @Override
                 public void edit(MethodCall m) throws CannotCompileException
                 {
-                    if (m.getFileName().equals("AbstractMonster.java")) {
+                    if (m.getFileName().equals("AbstractMonster.java") || m.getFileName().equals("AbstractPlayer.java")) {
                         if (m.getClassName().equals(ArrayList.class.getName()) && m.getMethodName().equals("add")) {
                             // Skip first instance of tips.add()
                             if (count > 0) {
