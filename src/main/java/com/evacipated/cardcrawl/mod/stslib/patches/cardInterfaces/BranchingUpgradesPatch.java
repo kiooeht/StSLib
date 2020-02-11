@@ -113,7 +113,11 @@ public class BranchingUpgradesPatch {
                 c.render(sb);
                 c.updateHoverLogic();
                 c.hb.resize(0, 0);
-                __instance.upgradePreviewCard.drawScale = 0.9F;
+                if (__instance.upgradePreviewCard.hb.hovered) {
+                    __instance.upgradePreviewCard.drawScale = 1;
+                } else {
+                    __instance.upgradePreviewCard.drawScale = 0.9F;
+                }
                 __instance.upgradePreviewCard.current_x = (Settings.WIDTH * 0.63F);
                 __instance.upgradePreviewCard.current_y = (Settings.HEIGHT * 0.75F - (50 * Settings.scale));
                 __instance.upgradePreviewCard.target_x = (Settings.WIDTH * 0.63F);
@@ -122,7 +126,11 @@ public class BranchingUpgradesPatch {
                 __instance.upgradePreviewCard.updateHoverLogic();
                 __instance.upgradePreviewCard.renderCardTip(sb);
                 cardList.add(__instance.upgradePreviewCard);
-                branchUpgradedCard.drawScale = 0.9F;
+                if (branchUpgradedCard.hb.hovered) {
+                    branchUpgradedCard.drawScale = 1;
+                } else {
+                    branchUpgradedCard.drawScale = 0.9F;
+                }
                 branchUpgradedCard.current_x = (Settings.WIDTH * 0.63F);
                 branchUpgradedCard.current_y = (Settings.HEIGHT / 4.0F + (50 * Settings.scale));
                 branchUpgradedCard.target_x = (Settings.WIDTH * 0.63F);
@@ -287,7 +295,7 @@ public class BranchingUpgradesPatch {
             hoveredCardField.setAccessible(true);
             return (AbstractCard) hoveredCardField.get(gc);
         } catch (Exception e) {
-            System.out.println("Exception occurred when getting private field hoveredCard from Aspiration: " + e.toString());
+            System.out.println("Exception occurred when getting private field hoveredCard from StSLib: " + e.toString());
             return null;
         }
     }
