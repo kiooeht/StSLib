@@ -22,6 +22,11 @@ public class CustomDiscoveryAction
     private boolean allowSkip;
     private boolean retrieveCard;
 
+    /* @CardGroup - source pool of cards from which to select.
+    * @number - how many cards will be displayed for selection (defaults to 3, same as for base game)
+    * allowSkip - whether to allow skipping selection (default to false, same as for base game Discovery)
+    * */
+
     public CustomDiscoveryAction(CardGroup group)
     {
         this(group, 3, false);
