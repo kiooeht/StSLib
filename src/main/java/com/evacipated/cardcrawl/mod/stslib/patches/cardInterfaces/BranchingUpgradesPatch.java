@@ -13,7 +13,10 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
+import javassist.CannotCompileException;
 import javassist.CtBehavior;
+import javassist.expr.ExprEditor;
+import javassist.expr.MethodCall;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -98,10 +101,22 @@ public class BranchingUpgradesPatch {
             method = "render"
     )
     public static class RenderBranchingUpgrade {
-        @SpireInsertPatch(
-                locator = Locator.class
-        )
-        public static SpireReturn Insert(GridCardSelectScreen __instance, SpriteBatch sb) {
+        // Instrument to insert the patch call after renderArrows()
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException
+                {
+                    if (m.getMethodName().equals("renderArrows")) {
+                        m.replace("$_ = $proceed($$);" +
+                                "if (" + RenderBranchingUpgrade.class.getName() + ".Do(this, sb).isPresent()) {" +
+                                "return;" +
+                                "}");
+                    }
+                }
+            };
+        }
+        public static SpireReturn Do(GridCardSelectScreen __instance, SpriteBatch sb) {
             AbstractCard c = getHoveredCard();
             if (c instanceof BranchingUpgradesCard) {
                 cardList.clear();
@@ -151,14 +166,6 @@ public class BranchingUpgradesPatch {
             }
             return SpireReturn.Continue();
         }
-
-        private static class Locator extends SpireInsertLocator {
-            @Override
-            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
-                Matcher finalMatcher = new Matcher.MethodCallMatcher(GridCardSelectScreen.class, "renderArrows");
-                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
-            }
-        }
     }
 
 
@@ -173,6 +180,35 @@ public class BranchingUpgradesPatch {
                 return SpireReturn.Return(null);
             }
             return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = GridCardSelectScreen.class,
+            method = "renderArrows"
+    )
+    public static class RenderSplitArrows {
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                private int count = 0;
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException
+                {
+                    if (m.getClassName().equals(SpriteBatch.class.getName()) && m.getMethodName().equals("draw")) {
+                        if (count != 0) {
+                            m.replace("if (hoveredCard instanceof " + BranchingUpgradesCard.class.getName() + ") {" +
+                                    "$10 = 45f;" +
+                                    "$3 += 64f * " + Settings.class.getName() + ".scale *" + count + ";" +
+                                    "$_ = $proceed($$);" +
+                                    "$10 = -45f;" +
+                                    "$3 -= 2 * 64f * " + Settings.class.getName() + ".scale *" + count + ";" +
+                                    "}" +
+                                    "$_ = $proceed($$);");
+                        }
+                        ++count;
+                    }
+                }
+            };
         }
     }
 
