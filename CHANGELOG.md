@@ -2,6 +2,8 @@
 #### dev ####
 * Fix InvisiblePower tooltips appearing on player
 * `OnApplyPowerRelic` (erasels)
+* `OnAnyPowerAppliedRelic` (erasels)
+* Branching upgrade cards (Reina & erasels)
 
 #### v1.17.2 ####
 * Updated ZHS translation by Rita-B
