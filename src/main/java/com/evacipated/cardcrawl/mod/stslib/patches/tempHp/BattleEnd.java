@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import java.lang.reflect.Field;
 
 @SpirePatch(
-        cls="com.megacrit.cardcrawl.rooms.AbstractRoom",
+        clz=AbstractRoom.class,
         method="endBattle"
 )
 public class BattleEnd

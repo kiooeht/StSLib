@@ -1,6 +1,9 @@
 ## Changelog ##
 #### dev ####
 
+#### v1.17.0 ####
+* Make TempHP work on monsters
+
 #### v1.16.0 ####
 * Powers
   * `OnPlayerDeathPower`

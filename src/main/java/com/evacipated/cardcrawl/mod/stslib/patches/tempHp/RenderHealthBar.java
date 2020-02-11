@@ -5,16 +5,17 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.patches.core.AbstractCreature.TempHPField;
 import com.evacipated.cardcrawl.mod.stslib.StSLib;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import javassist.CtBehavior;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 @SpirePatch(
-        cls="com.megacrit.cardcrawl.core.AbstractCreature",
+        clz=AbstractCreature.class,
         method="renderHealth"
 )
 public class RenderHealthBar
@@ -23,7 +24,7 @@ public class RenderHealthBar
     private static float HEALTH_BAR_OFFSET_Y = -1;
 
     @SpireInsertPatch(
-            rloc=25,
+            locator=Locator.class,
             localvars={"x", "y"}
     )
     public static void Insert(AbstractCreature __instance, SpriteBatch sb, float x, float y)
@@ -37,6 +38,18 @@ public class RenderHealthBar
             if (TempHPField.tempHp.get(__instance) > 0 && __instance.hbAlpha > 0) {
                 renderTempHPIconAndValue(__instance, sb, x, y);
             }
+        }
+    }
+
+    private static class Locator extends SpireInsertLocator
+    {
+        @Override
+        public int[] Locate(CtBehavior ctBehavior) throws Exception
+        {
+            Matcher finalMatcher = new Matcher.FieldAccessMatcher(AbstractCreature.class, "currentBlock");
+            ArrayList<Matcher> matchers = new ArrayList<>();
+            matchers.add(finalMatcher);
+            return LineFinder.findInOrder(ctBehavior, matchers, finalMatcher);
         }
     }
 
