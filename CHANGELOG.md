@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.18.0 ####
 * Fix InvisiblePower tooltips appearing on player
 * `OnApplyPowerRelic` (erasels)
 * `OnAnyPowerAppliedRelic` (erasels)
