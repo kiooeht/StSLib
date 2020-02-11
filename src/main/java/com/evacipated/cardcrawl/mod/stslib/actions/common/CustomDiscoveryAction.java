@@ -78,7 +78,7 @@ public class CustomDiscoveryAction
                         groupToShow.addToBottom(c.makeStatEquivalentCopy());
                     }
                 }
-                Method discovery = CardRewardScreen.class.getDeclaredMethod("customDiscovery", CardGroup.class, boolean.class);
+                Method discovery = CardRewardScreen.class.getDeclaredMethod("customSTSLibDiscovery", CardGroup.class, boolean.class);
                 discovery.setAccessible(true);
                 discovery.invoke(AbstractDungeon.cardRewardScreen, groupToShow, allowSkip);
                 this.tickDuration();

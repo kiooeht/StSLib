@@ -15,28 +15,25 @@ public class DiscoveryPatch
     {
         CtClass ctClass = ctMethodToPatch.getDeclaringClass();
         CtMethod method = CtNewMethod.make(
-            "public void customDiscovery(" + CardGroup.class.getName() + " cardGroup, boolean allowSkip) {" +
-                "rItem = null;" +
-                "codex = false;" +
-                "discovery = true;" +
-                "discoveryCard = null;" +
-                "draft = false;" +
-                "codexCard = null;" +
-                "bowlButton.hide();" +
-                "if (!allowSkip) { skipButton.hide(); } else { skipButton.show(); }" +
-                "onCardSelect = true;" +
-                    AbstractDungeon.class.getName() + ".topPanel.unhoverHitboxes();" +
-                "rewardGroup = cardGroup.group;" +
-                AbstractDungeon.class.getName() + ".isScreenUp = true;" +
-                AbstractDungeon.class.getName() + ".screen = " + AbstractDungeon.CurrentScreen.class.getName() + ".CARD_REWARD;" +
-                AbstractDungeon.class.getName() + ".dynamicBanner.appear(TEXT[1]);" +
-                AbstractDungeon.class.getName() + ".overlayMenu.showBlackScreen();" +
-                "placeCards((float)" + Settings.class.getName() + ".WIDTH / 2.0F, CARD_TARGET_Y);" +
-                "}",
+                "public void customSTSLibDiscovery(" + CardGroup.class.getName() + " cardGroup, boolean allowSkip) {" +
+                        "this.touchCard = null;" +
+                        "rItem = null;" +
+                        "codex = false;" +
+                        "discovery = true;" +
+                        "discoveryCard = null;" +
+                        "draft = false;" +
+                        "codexCard = null;" +
+                        "bowlButton.hide();" +
+                        "if (!allowSkip) { skipButton.hide(); } else { skipButton.show(); }" +
+                        AbstractDungeon.class.getName() + ".topPanel.unhoverHitboxes();" +
+                        "rewardGroup = cardGroup.group;" +
+                        AbstractDungeon.class.getName() + ".isScreenUp = true;" +
+                        AbstractDungeon.class.getName() + ".screen = " + AbstractDungeon.CurrentScreen.class.getName() + ".CARD_REWARD;" +
+                        AbstractDungeon.class.getName() + ".dynamicBanner.appear(TEXT[1]);" +
+                        AbstractDungeon.class.getName() + ".overlayMenu.showBlackScreen();" +
+                        "placeCards((float)" + Settings.class.getName() + ".WIDTH / 2.0F, CARD_TARGET_Y);" +
+                        "}",
                 ctClass);
-
-
-
         ctClass.addMethod(method);
     }
 }
