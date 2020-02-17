@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.18.1 ####
 * Fix branching upgrade trying to display when transforming a card
 
 #### v1.18.0 ####
