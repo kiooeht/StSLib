@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix branching upgrade trying to display when transforming a card
 
 #### v1.18.0 ####
 * Fix InvisiblePower tooltips appearing on player

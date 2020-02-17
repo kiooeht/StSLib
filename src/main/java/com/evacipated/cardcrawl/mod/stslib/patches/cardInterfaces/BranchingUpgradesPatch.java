@@ -118,7 +118,7 @@ public class BranchingUpgradesPatch {
         }
         public static SpireReturn Do(GridCardSelectScreen __instance, SpriteBatch sb) {
             AbstractCard c = getHoveredCard();
-            if (c instanceof BranchingUpgradesCard) {
+            if (__instance.forUpgrade && c instanceof BranchingUpgradesCard) {
                 cardList.clear();
                 AbstractCard branchUpgradedCard = BranchSelectFields.branchUpgradePreviewCard.get(__instance);
                 c.current_x = (Settings.WIDTH * 0.36F);
@@ -196,7 +196,7 @@ public class BranchingUpgradesPatch {
                 {
                     if (m.getClassName().equals(SpriteBatch.class.getName()) && m.getMethodName().equals("draw")) {
                         if (count != 0) {
-                            m.replace("if (hoveredCard instanceof " + BranchingUpgradesCard.class.getName() + ") {" +
+                            m.replace("if (forUpgrade && hoveredCard instanceof " + BranchingUpgradesCard.class.getName() + ") {" +
                                     "$10 = 45f;" +
                                     "$3 += 64f * " + Settings.class.getName() + ".scale *" + count + ";" +
                                     "$_ = $proceed($$);" +
