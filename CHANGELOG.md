@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix branching upgrades not working when copying cards
 
 #### v1.18.1 ####
 * Fix branching upgrade trying to display when transforming a card

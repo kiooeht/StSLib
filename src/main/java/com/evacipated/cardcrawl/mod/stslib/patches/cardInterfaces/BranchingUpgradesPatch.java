@@ -272,15 +272,26 @@ public class BranchingUpgradesPatch {
             method = "makeStatEquivalentCopy"
     )
     public static class CopiesRetainBranchUpgrade {
-        public static AbstractCard Postfix(AbstractCard __result, AbstractCard __instance) {
-            if (__result.timesUpgraded < 0 && __result instanceof BranchingUpgradesCard) {
-                for (int i = 0; i > __result.timesUpgraded; i--) {
-                    BranchingUpgradesCard c = (BranchingUpgradesCard) __result;
+        @SpireInsertPatch(
+                locator = Locator.class,
+                localvars = {"card"}
+        )
+        public static void Insert(AbstractCard __instance, AbstractCard card) {
+            if (__instance.timesUpgraded < 0 && card instanceof BranchingUpgradesCard) {
+                for (int i = 0; i > __instance.timesUpgraded; i--) {
+                    BranchingUpgradesCard c = (BranchingUpgradesCard) card;
                     c.setIsBranchUpgrade();
                     c.setBranchDescription();
                 }
             }
-            return __result;
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctBehavior) throws Exception {
+                Matcher finalMatcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "name");
+                return LineFinder.findAllInOrder(ctBehavior, finalMatcher);
+            }
         }
     }
 
