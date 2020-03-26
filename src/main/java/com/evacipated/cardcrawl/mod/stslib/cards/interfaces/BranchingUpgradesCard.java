@@ -9,6 +9,10 @@ public interface BranchingUpgradesCard {
 
     default void setBranchDescription() {}
 
+    default float getBranchUpgradeRewardChance() {
+        return 0.5f;
+    }
+
     default void setIsBranchUpgrade() {
         if (this instanceof AbstractCard) {
             AbstractCard c = (AbstractCard) this;

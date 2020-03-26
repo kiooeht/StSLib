@@ -2,6 +2,7 @@
 #### dev ####
 * Fix branching upgrades not working when copying cards
 * Fix infinite branch upgrades at campfires
+* Allow card rewards to use branching upgrade some of the time
 
 #### v1.18.1 ####
 * Fix branching upgrade trying to display when transforming a card

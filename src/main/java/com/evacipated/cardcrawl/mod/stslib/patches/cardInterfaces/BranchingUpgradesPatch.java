@@ -342,6 +342,27 @@ public class BranchingUpgradesPatch {
         }
     }
 
+    @SpirePatch(
+            clz = AbstractDungeon.class,
+            method = "getRewardCards"
+    )
+    public static class BranchUpgradeRewards {
+        public static ArrayList<AbstractCard> Postfix(ArrayList<AbstractCard> __result) {
+            for (int i = 0; i <__result.size(); ++i) {
+                AbstractCard c = __result.get(i);
+                if (c instanceof BranchingUpgradesCard && c.upgraded) {
+                    AbstractCard copy = c.makeCopy();
+                    BranchingUpgradesCard branchCopy = (BranchingUpgradesCard) copy;
+                    if (AbstractDungeon.cardRng.randomBoolean(branchCopy.getBranchUpgradeRewardChance())) {
+                        branchCopy.setIsBranchUpgrade();
+                        __result.set(i, copy);
+                    }
+                }
+            }
+            return __result;
+        }
+    }
+
     public static Field hoveredCardField;
     public static AbstractCard getHoveredCard() {
         GridCardSelectScreen gc = AbstractDungeon.gridSelectScreen;
