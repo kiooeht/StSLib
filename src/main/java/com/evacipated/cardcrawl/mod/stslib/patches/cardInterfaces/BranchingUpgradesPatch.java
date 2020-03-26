@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
+import com.megacrit.cardcrawl.vfx.campfire.CampfireSmithEffect;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
@@ -251,19 +252,28 @@ public class BranchingUpgradesPatch {
     }
 
     @SpirePatch(
-            clz = GridSelectConfirmButton.class,
+            clz = CampfireSmithEffect.class,
             method = "update"
     )
     public static class DoBranchUpgrade {
-        public static void Prefix(GridSelectConfirmButton __instance) {
-            if (BranchSelectFields.isBranchUpgrading.get(AbstractDungeon.gridSelectScreen) && __instance.hb.hovered && InputHelper.justClickedLeft) {
-                AbstractCard c = getHoveredCard();
-                if (c instanceof BranchingUpgradesCard) {
-                    BranchingUpgradesCard upgradeCard = (BranchingUpgradesCard) c;
-                    upgradeCard.setIsBranchUpgrade();
-                    BranchSelectFields.isBranchUpgrading.set(AbstractDungeon.gridSelectScreen, false);
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("upgrade")) {
+                        m.replace(
+                                "if (((Boolean)" + BranchSelectFields.class.getName() + ".isBranchUpgrading.get(" + AbstractDungeon.class.getName() + ".gridSelectScreen)).booleanValue()) {" +
+                                        "if ($0 instanceof " + BranchingUpgradesCard.class.getName() + ") {" +
+                                        "((" + BranchingUpgradesCard.class.getName() + ")$0).setIsBranchUpgrade();" +
+                                        "}" +
+                                        BranchSelectFields.class.getName() + ".isBranchUpgrading.set(" + AbstractDungeon.class.getName() + ".gridSelectScreen, ($w)false);" +
+                                        "} else {" +
+                                        "$proceed($$);" +
+                                        "}"
+                        );
+                    }
                 }
-            }
+            };
         }
     }
 
