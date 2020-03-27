@@ -8,9 +8,14 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.events.exordium.LivingWall;
+import com.megacrit.cardcrawl.events.shrines.AccursedBlacksmith;
+import com.megacrit.cardcrawl.events.shrines.Designer;
+import com.megacrit.cardcrawl.events.shrines.UpgradeShrine;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.neow.NeowReward;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.megacrit.cardcrawl.vfx.campfire.CampfireSmithEffect;
@@ -255,12 +260,32 @@ public class BranchingUpgradesPatch {
             clz = CampfireSmithEffect.class,
             method = "update"
     )
+    @SpirePatch(
+            clz = NeowReward.class,
+            method = "update"
+    )
+    @SpirePatch(
+            clz = UpgradeShrine.class,
+            method = "update"
+    )
+    @SpirePatch(
+            clz = AccursedBlacksmith.class,
+            method = "update"
+    )
+    @SpirePatch(
+            clz = LivingWall.class,
+            method = "update"
+    )
+    @SpirePatch(
+            clz = Designer.class,
+            method = "update"
+    )
     public static class DoBranchUpgrade {
         public static ExprEditor Instrument() {
             return new ExprEditor() {
                 @Override
                 public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getMethodName().equals("upgrade")) {
+                    if (m.getClassName().equals(AbstractCard.class.getName()) && m.getMethodName().equals("upgrade")) {
                         m.replace(
                                 "if (((Boolean)" + BranchSelectFields.class.getName() + ".isBranchUpgrading.get(" + AbstractDungeon.class.getName() + ".gridSelectScreen)).booleanValue()) {" +
                                         "if ($0 instanceof " + BranchingUpgradesCard.class.getName() + ") {" +

@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix branching upgrades not working during upgrade events
 
 #### v1.18.2 ####
 * Fix branching upgrades not working when copying cards
