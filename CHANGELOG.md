@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.19.0 ####
 * Refactor branching upgrade cards
 * Fix branching upgrades not working during upgrade events
 
