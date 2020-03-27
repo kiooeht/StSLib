@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Refactor branching upgrade cards
 * Fix branching upgrades not working during upgrade events
 
 #### v1.18.2 ####

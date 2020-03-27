@@ -1,45 +1,67 @@
 package com.evacipated.cardcrawl.mod.stslib.cards.interfaces;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.mod.stslib.patches.cardInterfaces.BranchingUpgradesPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 
 public interface BranchingUpgradesCard {
 
-    void branchUpgrade();
-
-    default void setBranchDescription() {}
-
-    default float getBranchUpgradeRewardChance() {
-        return 0.5f;
+    enum UpgradeType {
+        RANDOM_UPGRADE,
+        NORMAL_UPGRADE,
+        BRANCH_UPGRADE
     }
 
-    default void setIsBranchUpgrade() {
+    default void doNormalUpgrade() {
         if (this instanceof AbstractCard) {
-            AbstractCard c = (AbstractCard) this;
-            BranchingUpgradesPatch.BranchingUpgradeField.isBranchUpgraded.set(c, true);
-            branchUpgrade();
-            c.upgraded = true;
+            setUpgradeType(UpgradeType.NORMAL_UPGRADE);
+            ((AbstractCard) this).upgrade();
         }
     }
 
-    default void displayBranchUpgrades() {
+    default void doBranchUpgrade() {
         if (this instanceof AbstractCard) {
-            AbstractCard c = (AbstractCard) this;
-            if (c.upgradedCost) {
-                c.isCostModified = true;
+            setUpgradeType(UpgradeType.BRANCH_UPGRADE);
+            ((AbstractCard) this).upgrade();
+        }
+    }
+
+    default void doRandomUpgrade() {
+        if (this instanceof AbstractCard) {
+            setUpgradeType(UpgradeType.RANDOM_UPGRADE);
+            ((AbstractCard) this).upgrade();
+        }
+    }
+
+    default float chanceForBranchUpgrade() {
+        return 0.5f;
+    }
+
+    // If branch upgrade path hasn't been decided yet, decides and upgrade type becomes concrete
+    default boolean isBranchUpgrade() {
+        UpgradeType upgradeType = getUpgradeType();
+        if (upgradeType == UpgradeType.RANDOM_UPGRADE) {
+            boolean ret = MathUtils.randomBoolean(chanceForBranchUpgrade());
+            if (ret) {
+                setUpgradeType(UpgradeType.BRANCH_UPGRADE);
+            } else {
+                setUpgradeType(UpgradeType.NORMAL_UPGRADE);
             }
-            if (c.upgradedBlock) {
-                c.isBlockModified = true;
-                c.block = c.baseBlock;
-            }
-            if (c.upgradedDamage) {
-                c.isDamageModified = true;
-                c.damage = c.baseDamage;
-            }
-            if (c.upgradedMagicNumber) {
-                c.isMagicNumberModified = true;
-                c.magicNumber = c.baseMagicNumber;
-            }
+            return ret;
+        }
+        return upgradeType == UpgradeType.BRANCH_UPGRADE;
+    }
+
+    default UpgradeType getUpgradeType() {
+        if (this instanceof AbstractCard) {
+            return BranchingUpgradesPatch.BranchingUpgradeField.upgradeType.get(this);
+        }
+        return UpgradeType.NORMAL_UPGRADE;
+    }
+
+    default void setUpgradeType(UpgradeType upgradeType) {
+        if (this instanceof AbstractCard) {
+            BranchingUpgradesPatch.BranchingUpgradeField.upgradeType.set(this, upgradeType);
         }
     }
 }

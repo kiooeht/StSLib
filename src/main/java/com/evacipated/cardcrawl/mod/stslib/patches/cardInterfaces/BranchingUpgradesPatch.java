@@ -8,17 +8,11 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.events.exordium.LivingWall;
-import com.megacrit.cardcrawl.events.shrines.AccursedBlacksmith;
-import com.megacrit.cardcrawl.events.shrines.Designer;
-import com.megacrit.cardcrawl.events.shrines.UpgradeShrine;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.neow.NeowReward;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import com.megacrit.cardcrawl.vfx.campfire.CampfireSmithEffect;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
@@ -34,7 +28,7 @@ public class BranchingUpgradesPatch {
             method = SpirePatch.CLASS
     )
     public static class BranchingUpgradeField {
-        public static SpireField<Boolean> isBranchUpgraded = new SpireField<>(() -> false);
+        public static SpireField<BranchingUpgradesCard.UpgradeType> upgradeType = new SpireField<>(() -> BranchingUpgradesCard.UpgradeType.RANDOM_UPGRADE);
     }
 
     @SpirePatch(
@@ -62,9 +56,8 @@ public class BranchingUpgradesPatch {
             AbstractCard c = getHoveredCard();
             if (c instanceof BranchingUpgradesCard) {
                 AbstractCard previewCard = c.makeStatEquivalentCopy();
-                BranchingUpgradesCard setBranchUpgradesCard = (BranchingUpgradesCard) previewCard;
-                setBranchUpgradesCard.setIsBranchUpgrade();
-                setBranchUpgradesCard.displayBranchUpgrades();
+                ((BranchingUpgradesCard) previewCard).doBranchUpgrade();
+                previewCard.displayUpgrades();
                 BranchSelectFields.branchUpgradePreviewCard.set(__instance, previewCard);
                 BranchSelectFields.waitingForBranchUpgradeSelection.set(__instance, true);
             }
@@ -74,7 +67,30 @@ public class BranchingUpgradesPatch {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
                 Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractCard.class, "makeStatEquivalentCopy");
-                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = GridCardSelectScreen.class,
+            method = "update"
+    )
+    public static class ForceNormalUpgrade {
+        @SpireInsertPatch(
+                locator = Locator.class
+        )
+        public static void Insert(GridCardSelectScreen __instance) {
+            if (__instance.upgradePreviewCard instanceof BranchingUpgradesCard) {
+                ((BranchingUpgradesCard) __instance.upgradePreviewCard).setUpgradeType(BranchingUpgradesCard.UpgradeType.NORMAL_UPGRADE);
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractCard.class, "upgrade");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
             }
         }
     }
@@ -230,6 +246,32 @@ public class BranchingUpgradesPatch {
     }
 
     @SpirePatch(
+            clz = GridCardSelectScreen.class,
+            method = "update"
+    )
+    public static class ConfirmUpgrade {
+        @SpireInsertPatch(
+                locator = Locator.class
+        )
+        public static void Insert(GridCardSelectScreen __instance) {
+            AbstractCard hoveredCard = getHoveredCard();
+            if (hoveredCard instanceof BranchingUpgradesCard && BranchSelectFields.isBranchUpgrading.get(__instance)) {
+                ((BranchingUpgradesCard) hoveredCard).setUpgradeType(BranchingUpgradesCard.UpgradeType.BRANCH_UPGRADE);
+                BranchSelectFields.isBranchUpgrading.set(__instance, false);
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractDungeon.class, "closeCurrentScreen");
+                int[] found = LineFinder.findAllInOrder(ctMethodToPatch, finalMatcher);
+                return new int[]{found[found.length - 1]}; // last
+            }
+        }
+    }
+
+    @SpirePatch(
             clz = AbstractCard.class,
             method = "update"
     )
@@ -237,7 +279,7 @@ public class BranchingUpgradesPatch {
         public static void Postfix(AbstractCard __instance) {
             if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.GRID && AbstractDungeon.gridSelectScreen.forUpgrade) {
                 if (__instance.hb.hovered && InputHelper.justClickedLeft) {
-                    if (BranchingUpgradeField.isBranchUpgraded.get(__instance)) {
+                    if (__instance.timesUpgraded < 0) {
                         BranchSelectFields.isBranchUpgrading.set(AbstractDungeon.gridSelectScreen, true);
                     } else {
                         BranchSelectFields.isBranchUpgrading.set(AbstractDungeon.gridSelectScreen, false);
@@ -257,52 +299,6 @@ public class BranchingUpgradesPatch {
     }
 
     @SpirePatch(
-            clz = CampfireSmithEffect.class,
-            method = "update"
-    )
-    @SpirePatch(
-            clz = NeowReward.class,
-            method = "update"
-    )
-    @SpirePatch(
-            clz = UpgradeShrine.class,
-            method = "update"
-    )
-    @SpirePatch(
-            clz = AccursedBlacksmith.class,
-            method = "update"
-    )
-    @SpirePatch(
-            clz = LivingWall.class,
-            method = "update"
-    )
-    @SpirePatch(
-            clz = Designer.class,
-            method = "update"
-    )
-    public static class DoBranchUpgrade {
-        public static ExprEditor Instrument() {
-            return new ExprEditor() {
-                @Override
-                public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getClassName().equals(AbstractCard.class.getName()) && m.getMethodName().equals("upgrade")) {
-                        m.replace(
-                                "if (((Boolean)" + BranchSelectFields.class.getName() + ".isBranchUpgrading.get(" + AbstractDungeon.class.getName() + ".gridSelectScreen)).booleanValue()) {" +
-                                        "if ($0 instanceof " + BranchingUpgradesCard.class.getName() + ") {" +
-                                        "((" + BranchingUpgradesCard.class.getName() + ")$0).setIsBranchUpgrade();" +
-                                        "}" +
-                                        BranchSelectFields.class.getName() + ".isBranchUpgrading.set(" + AbstractDungeon.class.getName() + ".gridSelectScreen, ($w)false);" +
-                                        "} else {" +
-                                        "$proceed($$);" +
-                                        "}"
-                        );
-                    }
-                }
-            };
-        }
-    }
-
-    @SpirePatch(
             clz = AbstractCard.class,
             method = "makeStatEquivalentCopy"
     )
@@ -313,10 +309,9 @@ public class BranchingUpgradesPatch {
         )
         public static void Insert(AbstractCard __instance, AbstractCard card) {
             if (__instance.timesUpgraded < 0 && card instanceof BranchingUpgradesCard) {
+                BranchingUpgradesCard c = (BranchingUpgradesCard) card;
                 for (int i = 0; i > __instance.timesUpgraded; i--) {
-                    BranchingUpgradesCard c = (BranchingUpgradesCard) card;
-                    c.setIsBranchUpgrade();
-                    c.setBranchDescription();
+                    c.doBranchUpgrade();
                 }
             }
         }
@@ -340,14 +335,19 @@ public class BranchingUpgradesPatch {
             }
     )
     public static class SaveBranchingUpgrades {
-        public static AbstractCard Postfix(AbstractCard __result, String useless0, int upgradeCount, int useless1) {
-            if (upgradeCount < 0 && __result instanceof BranchingUpgradesCard) {
-                for (int i = 0; i > upgradeCount; i--) {
-                    BranchingUpgradesCard c = (BranchingUpgradesCard) __result;
-                    c.setIsBranchUpgrade();
+        @SpireInsertPatch(
+                rloc = 9,
+                localvars = {"retVal"}
+        )
+        public static void Insert(String key, @ByRef int[] upgradeTime, int misc, AbstractCard retVal) {
+            if (retVal instanceof BranchingUpgradesCard) {
+                if (upgradeTime[0] < 0) {
+                    upgradeTime[0] *= -1;
+                    ((BranchingUpgradesCard) retVal).setUpgradeType(BranchingUpgradesCard.UpgradeType.BRANCH_UPGRADE);
+                } else if (upgradeTime[0] > 0) {
+                    ((BranchingUpgradesCard) retVal).setUpgradeType(BranchingUpgradesCard.UpgradeType.NORMAL_UPGRADE);
                 }
             }
-            return __result;
         }
     }
 
@@ -357,34 +357,15 @@ public class BranchingUpgradesPatch {
     )
     public static class AvoidSomeFractalsOrSomethingIGuess {
         public static void Postfix(AbstractCard __instance) {
-            if (__instance instanceof BranchingUpgradesCard  && BranchingUpgradeField.isBranchUpgraded.get(__instance)) {
-                __instance.timesUpgraded -= 2;
-                String tmp = __instance.name.substring(__instance.name.length()-1);
-                if(tmp.equals("+")) {
-                    __instance.name  =__instance.name.substring(0, __instance.name.length()-1) + "*";
-                }
-            }
-        }
-    }
-
-    @SpirePatch(
-            clz = AbstractDungeon.class,
-            method = "getRewardCards"
-    )
-    public static class BranchUpgradeRewards {
-        public static ArrayList<AbstractCard> Postfix(ArrayList<AbstractCard> __result) {
-            for (int i = 0; i <__result.size(); ++i) {
-                AbstractCard c = __result.get(i);
-                if (c instanceof BranchingUpgradesCard && c.upgraded) {
-                    AbstractCard copy = c.makeCopy();
-                    BranchingUpgradesCard branchCopy = (BranchingUpgradesCard) copy;
-                    if (AbstractDungeon.cardRng.randomBoolean(branchCopy.getBranchUpgradeRewardChance())) {
-                        branchCopy.setIsBranchUpgrade();
-                        __result.set(i, copy);
+            if (__instance instanceof BranchingUpgradesCard) {
+                if (((BranchingUpgradesCard) __instance).isBranchUpgrade()) {
+                    __instance.timesUpgraded -= 2;
+                    String tmp = __instance.name.substring(__instance.name.length() - 1);
+                    if (tmp.equals("+")) {
+                        __instance.name = __instance.name.substring(0, __instance.name.length() - 1) + "*";
                     }
                 }
             }
-            return __result;
         }
     }
 
