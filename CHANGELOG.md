@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix crash when using non-English
 
 #### v1.19.2 ####
 * Fix branching upgrades flashing in SingleCardView

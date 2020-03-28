@@ -4,6 +4,7 @@ import basemod.BaseMod;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
@@ -84,7 +85,9 @@ public class StSLib implements
 
         BaseMod.loadCustomStringsFile(PowerStrings.class, path + "powers.json");
         BaseMod.loadCustomStringsFile(RelicStrings.class, path + "relics.json");
-        BaseMod.loadCustomStringsFile(UIStrings.class, path + "ui.json");
+        try {
+            BaseMod.loadCustomStringsFile(UIStrings.class, path + "ui.json");
+        } catch (GdxRuntimeException ignored) {}
     }
 
     @Override
