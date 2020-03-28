@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
@@ -83,6 +84,7 @@ public class StSLib implements
 
         BaseMod.loadCustomStringsFile(PowerStrings.class, path + "powers.json");
         BaseMod.loadCustomStringsFile(RelicStrings.class, path + "relics.json");
+        BaseMod.loadCustomStringsFile(UIStrings.class, path + "ui.json");
     }
 
     @Override

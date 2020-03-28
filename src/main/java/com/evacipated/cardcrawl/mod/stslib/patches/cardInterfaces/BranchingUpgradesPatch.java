@@ -1,24 +1,33 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.cardInterfaces;
 
 import basemod.ReflectionHacks;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.BranchingUpgradesCard;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
+import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class BranchingUpgradesPatch {
@@ -308,8 +317,8 @@ public class BranchingUpgradesPatch {
                 localvars = {"card"}
         )
         public static void Insert(AbstractCard __instance, AbstractCard card) {
+            BranchingUpgradeField.upgradeType.set(card, BranchingUpgradeField.upgradeType.get(__instance));
             if (__instance.timesUpgraded < 0 && card instanceof BranchingUpgradesCard) {
-                BranchingUpgradeField.upgradeType.set(card, BranchingUpgradeField.upgradeType.get(__instance));
                 BranchingUpgradesCard c = (BranchingUpgradesCard) card;
                 for (int i = 0; i > __instance.timesUpgraded; i--) {
                     c.doBranchUpgrade();
@@ -320,7 +329,7 @@ public class BranchingUpgradesPatch {
         private static class Locator extends SpireInsertLocator {
             @Override
             public int[] Locate(CtBehavior ctBehavior) throws Exception {
-                Matcher finalMatcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "name");
+                Matcher finalMatcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "timesUpgraded");
                 return LineFinder.findAllInOrder(ctBehavior, finalMatcher);
             }
         }
@@ -366,6 +375,298 @@ public class BranchingUpgradesPatch {
                         __instance.name = __instance.name.substring(0, __instance.name.length() - 1) + "*";
                     }
                 }
+            }
+        }
+    }
+
+    // Add second button for branch upgrade to SingleCardViewPopup
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = SpirePatch.CLASS
+    )
+    public static class BranchUpgradeButton {
+        public static SpireField<Hitbox> branchUpgradeHb = new SpireField<>(() -> new Hitbox(250f * Settings.scale, 80f * Settings.scale));
+        public static SpireField<Boolean> isViewingBranchUpgrade = new SpireField<>(() -> false);
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "render"
+    )
+    public static class DoBranchUpgradePreview {
+        @SpireInsertPatch(
+                locator = NormalLocator.class
+        )
+        public static void InsertNormalPreview(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card) {
+            if (___card instanceof BranchingUpgradesCard && ((BranchingUpgradesCard) ___card).getUpgradeType() == BranchingUpgradesCard.UpgradeType.RANDOM_UPGRADE) {
+                ((BranchingUpgradesCard) ___card).setUpgradeType(BranchingUpgradesCard.UpgradeType.NORMAL_UPGRADE);
+            }
+        }
+        @SpireInsertPatch(
+                locator = BranchLocator.class,
+                localvars = {"copy"}
+        )
+        public static void InsertBranchPreview(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, @ByRef AbstractCard[] copy) {
+            if (___card instanceof BranchingUpgradesCard) {
+                if (BranchUpgradeButton.isViewingBranchUpgrade.get(__instance) && ((BranchingUpgradesCard) ___card).getUpgradeType() == BranchingUpgradesCard.UpgradeType.RANDOM_UPGRADE) {
+                    copy[0] = ___card.makeStatEquivalentCopy();
+                    ((BranchingUpgradesCard) ___card).doBranchUpgrade();
+                    ___card.displayUpgrades();
+                }
+            }
+        }
+
+        private static class NormalLocator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractCard.class, "upgrade");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            }
+        }
+
+        private static class BranchLocator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(SpriteBatch.class, "setColor");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "open",
+            paramtypez = {AbstractCard.class, CardGroup.class}
+    )
+    public static class MoveBranchUpgradeButton1 {
+        public static void Postfix(SingleCardViewPopup __instance, AbstractCard card, CardGroup group, Hitbox ___upgradeHb) {
+            if (card instanceof BranchingUpgradesCard) {
+                Hitbox branchUpgradeHb = BranchUpgradeButton.branchUpgradeHb.get(__instance);
+                try {
+                    Method canToggleBetaArt = SingleCardViewPopup.class.getDeclaredMethod("canToggleBetaArt");
+                    canToggleBetaArt.setAccessible(true);
+                    Method allowUpgradePreview = SingleCardViewPopup.class.getDeclaredMethod("allowUpgradePreview");
+                    allowUpgradePreview.setAccessible(true);
+                    if ((boolean) canToggleBetaArt.invoke(__instance)) {
+                        if ((boolean) allowUpgradePreview.invoke(__instance)) {
+                            ___upgradeHb.move(Settings.WIDTH / 2f - 300f * Settings.scale, 70f * Settings.scale);
+                            branchUpgradeHb.move(Settings.WIDTH / 2f - 40f * Settings.scale, 70f * Settings.scale);
+                        }
+                    } else {
+                        ___upgradeHb.move(Settings.WIDTH / 2f + 250f * Settings.scale, 70f * Settings.scale);
+                        branchUpgradeHb.move(Settings.WIDTH / 2f - 250f * Settings.scale, 70f * Settings.scale);
+                    }
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "open",
+            paramtypez = {AbstractCard.class}
+    )
+    public static class MoveBranchUpgradeButton2 {
+        public static void Postfix(SingleCardViewPopup __instance, AbstractCard card, Hitbox ___upgradeHb) {
+            if (card instanceof BranchingUpgradesCard) {
+                Hitbox branchUpgradeHb = BranchUpgradeButton.branchUpgradeHb.get(__instance);
+                try {
+                    Method canToggleBetaArt = SingleCardViewPopup.class.getDeclaredMethod("canToggleBetaArt");
+                    canToggleBetaArt.setAccessible(true);
+                    if ((boolean) canToggleBetaArt.invoke(__instance)) {
+                        ___upgradeHb.move(Settings.WIDTH / 2f - 300f * Settings.scale, 70f * Settings.scale);
+                        branchUpgradeHb.move(Settings.WIDTH / 2f - 40f * Settings.scale, 70f * Settings.scale);
+                    } else {
+                        ___upgradeHb.move(Settings.WIDTH / 2f + 250f * Settings.scale, 70f * Settings.scale);
+                        branchUpgradeHb.move(Settings.WIDTH / 2f - 250f * Settings.scale, 70f * Settings.scale);
+                    }
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "openPrev"
+    )
+    public static class OpenPrev {
+        private static boolean save = false;
+
+        public static void Prefix(SingleCardViewPopup __instance) {
+            save = BranchUpgradeButton.isViewingBranchUpgrade.get(__instance);
+        }
+
+        public static void Postfix(SingleCardViewPopup __instance, AbstractCard ___prevCard) {
+            if (!(___prevCard instanceof BranchingUpgradesCard)) {
+                save = false;
+            }
+            BranchUpgradeButton.isViewingBranchUpgrade.set(__instance, save);
+            save = false;
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "openNext"
+    )
+    public static class OpenNext {
+        private static boolean save = false;
+
+        public static void Prefix(SingleCardViewPopup __instance) {
+            save = BranchUpgradeButton.isViewingBranchUpgrade.get(__instance);
+        }
+
+        public static void Postfix(SingleCardViewPopup __instance, AbstractCard ___nextCard) {
+            if (!(___nextCard instanceof BranchingUpgradesCard)) {
+                save = false;
+            }
+            BranchUpgradeButton.isViewingBranchUpgrade.set(__instance, save);
+            save = false;
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "close"
+    )
+    public static class CloseDisableBranchPreview {
+        public static void Postfix(SingleCardViewPopup __instance) {
+            BranchUpgradeButton.isViewingBranchUpgrade.set(__instance, false);
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "updateUpgradePreview"
+    )
+    public static class UpdateBranchUpgradeButton {
+        public static void Postfix(SingleCardViewPopup __instance, AbstractCard ___card) {
+            if (SingleCardViewPopup.isViewingUpgrade) {
+                BranchUpgradeButton.isViewingBranchUpgrade.set(__instance, false);
+            }
+
+            if (___card instanceof BranchingUpgradesCard) {
+                Hitbox branchUpgradeHb = BranchUpgradeButton.branchUpgradeHb.get(__instance);
+
+                branchUpgradeHb.update();
+                if (branchUpgradeHb.hovered && InputHelper.justClickedLeft) {
+                    branchUpgradeHb.clickStarted = true;
+                }
+
+                if (branchUpgradeHb.clicked) {
+                    branchUpgradeHb.clicked = false;
+                    SingleCardViewPopup.isViewingUpgrade = false;
+                    BranchUpgradeButton.isViewingBranchUpgrade.set(__instance, !BranchUpgradeButton.isViewingBranchUpgrade.get(__instance));
+                }
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "updateInput"
+    )
+    public static class StopClosingOnBranchUpgradeButton {
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                private boolean accessedUpgradeHb = false;
+                @Override
+                public void edit(FieldAccess f) throws CannotCompileException
+                {
+                    if (accessedUpgradeHb && f.getFieldName().equals("hovered")) {
+                        f.replace("$_ = $proceed($$) || ((" + Hitbox.class.getName() + ") " + BranchUpgradeButton.class.getName() + ".branchUpgradeHb.get(this)).hovered;");
+                        accessedUpgradeHb = false;
+                    } else if (f.getFieldName().equals("upgradeHb")) {
+                        accessedUpgradeHb = true;
+                    }
+                }
+            };
+        }
+    }
+
+    private static UIStrings uiStrings = null;
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "renderUpgradeViewToggle"
+    )
+    public static class RenderBranchUpgradeButton {
+        public static void Postfix(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card) {
+            if (___card instanceof BranchingUpgradesCard) {
+                if (uiStrings == null) {
+                    uiStrings = CardCrawlGame.languagePack.getUIString("stslib:SingleCardViewPopup");
+                }
+
+                Hitbox branchUpgradeHb = BranchUpgradeButton.branchUpgradeHb.get(__instance);
+
+                sb.setColor(Color.WHITE);
+                sb.draw(
+                        ImageMaster.CHECKBOX,
+                        branchUpgradeHb.cX - 80f * Settings.scale - 32f,
+                        branchUpgradeHb.cY - 32f,
+                        32f, 32f,
+                        64f, 64f,
+                        Settings.scale, Settings.scale,
+                        0f,
+                        0, 0,
+                        64, 64,
+                        false, false
+                );
+                Color fontColor = Settings.GOLD_COLOR;
+                if (branchUpgradeHb.hovered) {
+                    fontColor = Settings.BLUE_TEXT_COLOR;
+                }
+                FontHelper.renderFont(
+                        sb,
+                        FontHelper.cardTitleFont,
+                        uiStrings.TEXT[0],
+                        branchUpgradeHb.cX - 45f * Settings.scale,
+                        branchUpgradeHb.cY + 10f * Settings.scale,
+                        fontColor
+                );
+                if (BranchUpgradeButton.isViewingBranchUpgrade.get(__instance)) {
+                    sb.setColor(Color.WHITE);
+                    sb.draw(
+                            ImageMaster.TICK,
+                            branchUpgradeHb.cX - 80f * Settings.scale - 32f,
+                            branchUpgradeHb.cY - 32f,
+                            32f, 32f,
+                            64f, 64f,
+                            Settings.scale, Settings.scale,
+                            0f,
+                            0, 0,
+                            64, 64,
+                            false, false
+                    );
+                }
+                BranchUpgradeButton.branchUpgradeHb.get(__instance).render(sb);
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "renderInLibrary"
+    )
+    public static class RenderInLibraryUpgrade {
+        @SpireInsertPatch(
+                locator = Locator.class,
+                localvars = {"copy"}
+        )
+        public static void Insert(AbstractCard __instance, SpriteBatch sb, AbstractCard copy) {
+            if (copy instanceof BranchingUpgradesCard) {
+                ((BranchingUpgradesCard) copy).setUpgradeType(BranchingUpgradesCard.UpgradeType.NORMAL_UPGRADE);
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractCard.class, "upgrade");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
             }
         }
     }
