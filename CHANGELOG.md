@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.19.1 ####
 * Fix branching upgrades sometimes upgrading incorrectly (vex)
 
 #### v1.19.0 ####
