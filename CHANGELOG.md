@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.19.3 ####
 * Fix crash when using non-English
 
 #### v1.19.2 ####
