@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.19.2 ####
 * Fix branching upgrades flashing in SingleCardView
 * Add button to SingleCardView to preview alt upgrade
 
