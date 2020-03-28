@@ -309,6 +309,7 @@ public class BranchingUpgradesPatch {
         )
         public static void Insert(AbstractCard __instance, AbstractCard card) {
             if (__instance.timesUpgraded < 0 && card instanceof BranchingUpgradesCard) {
+                BranchingUpgradeField.upgradeType.set(card, BranchingUpgradeField.upgradeType.get(__instance));
                 BranchingUpgradesCard c = (BranchingUpgradesCard) card;
                 for (int i = 0; i > __instance.timesUpgraded; i--) {
                     c.doBranchUpgrade();
