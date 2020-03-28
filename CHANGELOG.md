@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix branching upgrades sometimes upgrading incorrectly (vex)
 
 #### v1.19.0 ####
 * Refactor branching upgrade cards
