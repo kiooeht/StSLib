@@ -9,5 +9,5 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
         method=SpirePatch.CLASS
 )
 public class CommonKeywordIconsField {
-    public static SpireField<Boolean> useIcons = new SpireField<>(() -> true);
+    public static SpireField<Boolean> useIcons = new SpireField<>(() -> false);
 }
