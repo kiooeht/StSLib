@@ -215,7 +215,7 @@ public class CommonKeywordIconsPatches {
         private static void drawBadge(SpriteBatch sb, AbstractCard card, Hitbox hb, Texture img, int offset) {
             float badge_w = img.getWidth();
             float badge_h = img.getHeight();
-            sb.draw(img, hb.x + hb.width - (badge_w * Settings.scale) * 0.66f, hb.y + hb.height - (badge_h * Settings.scale) * 0.5f - ((offset * (badge_h * Settings.scale)*0.6f)), 0, 0, badge_w * Settings.scale, badge_h * Settings.scale,
+            sb.draw(img, hb.x + hb.width - (badge_w * Settings.scale) * 0.66f, hb.y + hb.height - (badge_h * Settings.scale) * 0.5f - ((offset * (badge_h * Settings.scale)*0.6f)), 0, 0, badge_w , badge_h ,
                     Settings.scale, Settings.scale, card.angle, 0, 0, (int)badge_w, (int)badge_h, false, false);
         }
 
