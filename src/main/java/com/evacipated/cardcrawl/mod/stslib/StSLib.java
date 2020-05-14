@@ -32,6 +32,11 @@ public class StSLib implements
         OnStartBattleSubscriber
 {
     public static Texture TEMP_HP_ICON;
+    public static Texture BADGE_EXHAUST;
+    public static Texture BADGE_ETHEREAL;
+    public static Texture BADGE_INNATE;
+    public static Texture BADGE_PURGE;
+    public static Texture BADGE_RETAIN;
 
     public static void initialize()
     {
@@ -42,6 +47,11 @@ public class StSLib implements
     public void receivePostInitialize()
     {
         TEMP_HP_ICON = ImageMaster.loadImage("images/stslib/ui/tempHP.png");
+        BADGE_EXHAUST = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Exhaust.png");
+        BADGE_ETHEREAL = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Ethereal.png");
+        BADGE_INNATE = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Innate.png");
+        BADGE_PURGE = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Purge.png");
+        BADGE_RETAIN = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Retain.png");
     }
 
     private void loadLangKeywords(String language)
