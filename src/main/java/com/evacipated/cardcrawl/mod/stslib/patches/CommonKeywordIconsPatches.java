@@ -11,9 +11,11 @@ import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.CommonKeywo
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.localization.KeywordStrings;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.CtBehavior;
 
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CommonKeywordIconsPatches {
+    public static String purgeName = null;
+
     //Hook into AbstractCard render methods (above renderType) and call the badge rendering logic if the relevant field is set.
     @SpirePatch(
             clz= AbstractCard.class,
@@ -85,23 +89,23 @@ public class CommonKeywordIconsPatches {
             if(CommonKeywordIconsField.useIcons.get(c)) {
                 if (c.isInnate)
                 {
-                    keywords[0].add("innate");
+                    keywords[0].add(GameDictionary.INNATE.NAMES[0]);
                 }
                 if (c.isEthereal)
                 {
-                    keywords[0].add("ethereal");
+                    keywords[0].add(GameDictionary.ETHEREAL.NAMES[0]);
                 }
                 if (c.retain || c.selfRetain)
                 {
-                    keywords[0].add("retain");
+                    keywords[0].add(GameDictionary.RETAIN.NAMES[0]);
                 }
                 if (c.purgeOnUse)
                 {
-                    keywords[0].add("purge");
+                    keywords[0].add(purgeName);
                 }
                 if (c.exhaust || c.exhaustOnUseOnce)
                 {
-                    keywords[0].add("exhaust");
+                    keywords[0].add(GameDictionary.EXHAUST.NAMES[0]);
                 }
 
                 keywords[0] = keywords[0].stream().distinct().collect(Collectors.toCollection(ArrayList::new));
@@ -126,23 +130,23 @@ public class CommonKeywordIconsPatches {
         @SpirePostfixPatch
         public static void patch(SpriteBatch sb, String word, float x, float y) {
             Texture badge = null;
-            if (word.equals("innate"))
+            if (word.equals(GameDictionary.INNATE.NAMES[0]))
             {
                 badge = StSLib.BADGE_INNATE;
             }
-            else if (word.equals("ethereal"))
+            else if (word.equals(GameDictionary.ETHEREAL.NAMES[0]))
             {
                 badge = StSLib.BADGE_ETHEREAL;
             }
-            else if (word.equals("retain"))
+            else if (word.equals(GameDictionary.RETAIN.NAMES[0]))
             {
                 badge = StSLib.BADGE_RETAIN;
             }
-            else if (word.equals("purge"))
+            else if (word.equals(purgeName))
             {
                 badge = StSLib.BADGE_PURGE;
             }
-            else if (word.equals("exhaust"))
+            else if (word.equals(GameDictionary.EXHAUST.NAMES[0]))
             {
                 badge = StSLib.BADGE_EXHAUST;
             }
@@ -174,7 +178,7 @@ public class CommonKeywordIconsPatches {
                 try {
                     cardField = SingleCardViewPopup.class.getDeclaredField("card");
                     cardField.setAccessible(true);
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
             }
             AbstractCard c = (AbstractCard) cardField.get(__instance);
 
@@ -183,7 +187,7 @@ public class CommonKeywordIconsPatches {
                     try {
                         cardHbField = SingleCardViewPopup.class.getDeclaredField("cardHb");
                         cardHbField.setAccessible(true);
-                    } catch (Exception e) {}
+                    } catch (Exception ignored) {}
                 }
                 Hitbox cardHb = (Hitbox) cardHbField.get(__instance);
 
@@ -239,23 +243,23 @@ public class CommonKeywordIconsPatches {
         )
         public static void patch(float x, float y, SpriteBatch sb, ArrayList<PowerTip> powerTips, PowerTip tip) {
             Texture badge = null;
-            if (tip.header.equalsIgnoreCase("innate"))
+            if (tip.header.equalsIgnoreCase(GameDictionary.INNATE.NAMES[0]))
             {
                 badge = StSLib.BADGE_INNATE;
             }
-            else if (tip.header.equalsIgnoreCase("ethereal"))
+            else if (tip.header.equalsIgnoreCase(GameDictionary.ETHEREAL.NAMES[0]))
             {
                 badge = StSLib.BADGE_ETHEREAL;
             }
-            else if (tip.header.equalsIgnoreCase("retain"))
+            else if (tip.header.equalsIgnoreCase(GameDictionary.RETAIN.NAMES[0]))
             {
                 badge = StSLib.BADGE_RETAIN;
             }
-            else if (tip.header.equalsIgnoreCase("purge"))
+            else if (tip.header.equalsIgnoreCase(purgeName))
             {
                 badge = StSLib.BADGE_PURGE;
             }
-            else if (tip.header.equalsIgnoreCase("exhaust"))
+            else if (tip.header.equalsIgnoreCase(GameDictionary.EXHAUST.NAMES[0]))
             {
                 badge = StSLib.BADGE_EXHAUST;
             }
