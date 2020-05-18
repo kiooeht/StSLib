@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* ZHS translation of branching upgrade UI
 
 #### v1.19.3 ####
 * Fix crash when using non-English
