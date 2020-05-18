@@ -1,6 +1,15 @@
 ## Changelog ##
 #### dev ####
 * ZHS translation of branching upgrade UI
+* Actions
+  * `SelectCardsAction` (Jedi)
+  * `SelectCardsInHandAction` (Jedi)
+* Icons for common keywords (erasels/EatYourBeetS)
+  * Exhaust
+  * Ethereal
+  * Purge
+  * Innate
+  * Retain
 
 #### v1.19.3 ####
 * Fix crash when using non-English
