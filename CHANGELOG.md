@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.20.1 ####
 * Fix common keyword icons appearing on all tooltips for their keyword
 
 #### v1.20.0 ####
