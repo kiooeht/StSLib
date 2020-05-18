@@ -11,6 +11,7 @@ import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.CommonKeywo
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.PowerTip;
@@ -236,6 +237,40 @@ public class CommonKeywordIconsPatches {
         }
     }
 
+
+    private static boolean workaroundSwitch = false;
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "renderTips"
+    )
+    public static class DontAlwaysShowIconsPls {
+        @SpireInsertPatch(
+                locator = Locator.class,
+                localvars = {"t"}
+        )
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, ArrayList<PowerTip> t) throws IllegalAccessException {
+            if(cardField == null) {
+                try {
+                    cardField = SingleCardViewPopup.class.getDeclaredField("card");
+                    cardField.setAccessible(true);
+                } catch (Exception ignored) {}
+            }
+            AbstractCard c = (AbstractCard) cardField.get(__instance);
+
+            if(CommonKeywordIconsField.useIcons.get(c)) {
+                workaroundSwitch = true;
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctBehavior) throws Exception {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(TipHelper.class, "queuePowerTips");
+                return LineFinder.findInOrder(ctBehavior, finalMatcher);
+            }
+        }
+    }
+
     @SpirePatch(
             clz = TipHelper.class,
             method = "renderPowerTips"
@@ -246,6 +281,10 @@ public class CommonKeywordIconsPatches {
                 localvars = {"tip"}
         )
         public static void patch(float x, float y, SpriteBatch sb, ArrayList<PowerTip> powerTips, PowerTip tip) {
+            if(!workaroundSwitch) {
+                return;
+            }
+
             Texture badge = null;
             if (tip.header.equalsIgnoreCase(GameDictionary.INNATE.NAMES[0]))
             {
@@ -273,6 +312,10 @@ public class CommonKeywordIconsPatches {
                 float badge_h = badge.getHeight();
                 sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
                         0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
+            }
+
+            if(powerTips.get(powerTips.size() - 1).equals(tip)) {
+                workaroundSwitch = false;
             }
         }
 
