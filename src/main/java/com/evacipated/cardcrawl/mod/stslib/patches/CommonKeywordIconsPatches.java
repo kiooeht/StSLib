@@ -121,14 +121,18 @@ public class CommonKeywordIconsPatches {
         }
     }
 
-    //Render icon on keyword powertips for clarity. Sadly I can't only enable this only on cards that have the keywords without a lot more effort than I'm willing to put into this
+    //Render icon on keyword powertips for clarity
     @SpirePatch(
             clz = TipHelper.class,
             method = "renderBox"
     )
     public static class RenderIconOnTips {
         @SpirePostfixPatch
-        public static void patch(SpriteBatch sb, String word, float x, float y) {
+        public static void patch(SpriteBatch sb, String word, float x, float y, AbstractCard ___card) {
+            if (___card == null || !CommonKeywordIconsField.useIcons.get(___card)) {
+                return;
+            }
+
             Texture badge = null;
             if (word.equals(GameDictionary.INNATE.NAMES[0]))
             {

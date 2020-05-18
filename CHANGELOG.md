@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix common keyword icons appearing on all tooltips for their keyword
 
 #### v1.20.0 ####
 * ZHS translation of branching upgrade UI
