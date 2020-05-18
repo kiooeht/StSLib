@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.20.0 ####
 * ZHS translation of branching upgrade UI
 * Actions
   * `SelectCardsAction` (Jedi)
