@@ -6,12 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
+import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
@@ -32,6 +34,11 @@ public class StSLib implements
         OnStartBattleSubscriber
 {
     public static Texture TEMP_HP_ICON;
+    public static Texture BADGE_EXHAUST;
+    public static Texture BADGE_ETHEREAL;
+    public static Texture BADGE_INNATE;
+    public static Texture BADGE_PURGE;
+    public static Texture BADGE_RETAIN;
 
     public static void initialize()
     {
@@ -42,6 +49,13 @@ public class StSLib implements
     public void receivePostInitialize()
     {
         TEMP_HP_ICON = ImageMaster.loadImage("images/stslib/ui/tempHP.png");
+        BADGE_EXHAUST = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Exhaust.png");
+        BADGE_ETHEREAL = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Ethereal.png");
+        BADGE_INNATE = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Innate.png");
+        BADGE_PURGE = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Purge.png");
+        BADGE_RETAIN = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Retain.png");
+
+        CommonKeywordIconsPatches.purgeName = BaseMod.getKeywordProper("purge");
     }
 
     private void loadLangKeywords(String language)
