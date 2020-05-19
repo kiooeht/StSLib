@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.20.2 ####
 * Fix displaying common keyword icons on all cards in single card view
 
 #### v1.20.1 ####
