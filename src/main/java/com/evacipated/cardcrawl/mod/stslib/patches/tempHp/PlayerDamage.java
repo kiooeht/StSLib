@@ -55,6 +55,9 @@ public class PlayerDamage
             }
 
             hadTempHP = true;
+            for (int i = 0; i < 18; ++i) {
+                AbstractDungeon.effectsQueue.add(new DamageImpactLineEffect(__instance.hb.cX, __instance.hb.cY));
+            }
             CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.MED, ScreenShake.ShakeDur.SHORT, false);
             if (temporaryHealth >= damageAmount[0]) {
                 temporaryHealth -= damageAmount[0];
