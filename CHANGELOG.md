@@ -1,5 +1,8 @@
 ## Changelog ##
 #### dev ####
+* Fix Writhing Mass intent changing when Stunned (Celicath)
+* Remove block effect with TempHP (Celicath)
+* Fix crash when hovering purge cards (erasels)
 
 #### v1.20.2 ####
 * Fix displaying common keyword icons on all cards in single card view
