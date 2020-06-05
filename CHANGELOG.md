@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.20.3 ####
 * Fix Writhing Mass intent changing when Stunned (Celicath)
 * Remove block effect with TempHP (Celicath)
 * Fix crash when hovering purge cards (erasels)
