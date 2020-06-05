@@ -14,6 +14,8 @@ import com.megacrit.cardcrawl.helpers.ScreenShake;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.vfx.combat.DamageImpactLineEffect;
+import com.megacrit.cardcrawl.vfx.combat.StrikeEffect;
 import javassist.CtBehavior;
 
 import java.util.ArrayList;
@@ -24,12 +26,15 @@ import java.util.ArrayList;
 )
 public class PlayerDamage
 {
+    static boolean hadTempHP;
+
     @SpireInsertPatch(
             locator=Locator.class,
             localvars={"damageAmount", "hadBlock"}
     )
     public static void Insert(AbstractCreature __instance, DamageInfo info, @ByRef int[] damageAmount, @ByRef boolean[] hadBlock)
     {
+        hadTempHP = false;
         if (damageAmount[0] <= 0) {
             return;
         }
@@ -49,7 +54,10 @@ public class PlayerDamage
                 }
             }
 
-            hadBlock[0] = true;
+            hadTempHP = true;
+            for (int i = 0; i < 18; ++i) {
+                AbstractDungeon.effectsQueue.add(new DamageImpactLineEffect(__instance.hb.cX, __instance.hb.cY));
+            }
             CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.MED, ScreenShake.ShakeDur.SHORT, false);
             if (temporaryHealth >= damageAmount[0]) {
                 temporaryHealth -= damageAmount[0];
@@ -80,6 +88,30 @@ public class PlayerDamage
                 originalArr[i] += offset;
             }
             return originalArr;
+        }
+    }
+
+    // Disables strike effect
+    @SpireInsertPatch(
+            locator=StrikeEffectLocator.class
+    )
+    public static SpireReturn<Void> Insert(AbstractCreature __instance, DamageInfo info)
+    {
+        if (hadTempHP) {
+            return SpireReturn.Return(null);
+        } else {
+            return SpireReturn.Continue();
+        }
+    }
+
+    private static class StrikeEffectLocator extends SpireInsertLocator
+    {
+        @Override
+        public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
+        {
+            Matcher finalMatcher = new Matcher.NewExprMatcher(StrikeEffect.class);
+            int[] all = LineFinder.findAllInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+            return new int[] {all[all.length - 1]};
         }
     }
 }
