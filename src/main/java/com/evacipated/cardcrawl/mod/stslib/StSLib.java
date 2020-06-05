@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
@@ -54,8 +55,6 @@ public class StSLib implements
         BADGE_INNATE = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Innate.png");
         BADGE_PURGE = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Purge.png");
         BADGE_RETAIN = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Retain.png");
-
-        CommonKeywordIconsPatches.purgeName = BaseMod.getKeywordProper("purge");
     }
 
     private void loadLangKeywords(String language)
@@ -69,6 +68,14 @@ public class StSLib implements
         if (keywords != null) {
             for (Keyword keyword : keywords) {
                 BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
+
+                if(keyword.NAMES.length > 0 && keyword.NAMES[0].equalsIgnoreCase("purge")) {
+                    if(keyword.NAMES.length > 1) {
+                        CommonKeywordIconsPatches.purgeName = keyword.NAMES[1];
+                    } else {
+                        CommonKeywordIconsPatches.purgeName = keyword.NAMES[0];
+                    }
+                }
             }
         }
     }

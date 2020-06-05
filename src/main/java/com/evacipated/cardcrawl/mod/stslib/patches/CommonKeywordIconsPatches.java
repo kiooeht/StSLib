@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CommonKeywordIconsPatches {
-    public static String purgeName = null;
+    public static String purgeName = "";
 
     //Hook into AbstractCard render methods (above renderType) and call the badge rendering logic if the relevant field is set.
     @SpirePatch(
