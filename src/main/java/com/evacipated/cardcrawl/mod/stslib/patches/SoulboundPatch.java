@@ -4,8 +4,6 @@ import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.SoulboundFi
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
-import com.megacrit.cardcrawl.cards.curses.AscendersBane;
-import com.megacrit.cardcrawl.cards.curses.Necronomicurse;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.shrines.FountainOfCurseRemoval;
@@ -15,6 +13,7 @@ import com.megacrit.cardcrawl.relics.Astrolabe;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
+import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
@@ -40,19 +39,23 @@ public class SoulboundPatch
     )
     public static class AbstractPlayer_isCursed
     {
-        // TODO: Make this not a Replace patch
-        public static boolean Replace(AbstractPlayer __instance)
+        public static ExprEditor Instrument()
         {
-            boolean cursed = false;
-            for (AbstractCard c : __instance.masterDeck.group) {
-                if (c.type == AbstractCard.CardType.CURSE
-                        && !c.cardID.equals(Necronomicurse.ID) && !c.cardID.equals(AscendersBane.ID)
-                        && !SoulboundField.soulbound.get(c)) {
-                    cursed = true;
-                    break;
+            return new ExprEditor() {
+                @Override
+                public void edit(FieldAccess f) throws CannotCompileException
+                {
+                    if (f.isReader() && f.getClassName().equals(AbstractCard.class.getName()) && f.getFieldName().equals("type")) {
+                        f.replace(
+                                "if (((" + Boolean.class.getName() + ")" + SoulboundField.class.getName() + ".soulbound.get($0)).booleanValue()) {" +
+                                        "$_ = null;" +
+                                        "} else {" +
+                                        "$_ = $proceed($$);" +
+                                        "}"
+                        );
+                    }
                 }
-            }
-            return cursed;
+            };
         }
     }
 
