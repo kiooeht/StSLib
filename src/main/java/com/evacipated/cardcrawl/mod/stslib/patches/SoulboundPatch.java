@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.cards.curses.AscendersBane;
 import com.megacrit.cardcrawl.cards.curses.Necronomicurse;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.events.shrines.FountainOfCurseRemoval;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.relics.Astrolabe;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class SoulboundPatch
 {
     @SpirePatch(
-            cls="com.megacrit.cardcrawl.cards.CardGroup",
+            clz=CardGroup.class,
             method="getPurgeableCards"
     )
     public static class CardGroup_getPurgeableCards
@@ -34,7 +35,7 @@ public class SoulboundPatch
     }
 
     @SpirePatch(
-            cls="com.megacrit.cardcrawl.characters.AbstractPlayer",
+            clz=AbstractPlayer.class,
             method="isCursed"
     )
     public static class AbstractPlayer_isCursed
@@ -56,7 +57,7 @@ public class SoulboundPatch
     }
 
     @SpirePatch(
-            cls="com.megacrit.cardcrawl.events.shrines.FountainOfCurseRemoval",
+            clz= FountainOfCurseRemoval.class,
             method="buttonEffect"
     )
     public static class FountainOfCurseRemoval_buttonEffect
@@ -83,7 +84,7 @@ public class SoulboundPatch
     }
 
     @SpirePatch(
-            cls="com.megacrit.cardcrawl.helpers.CardLibrary",
+            clz=CardLibrary.class,
             method="getCurse",
             paramtypes={}
     )
@@ -103,16 +104,19 @@ public class SoulboundPatch
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
             {
-                Matcher finalMatcher = new Matcher.MethodCallMatcher("java.util.ArrayList", "get");
-                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(ArrayList.class, "get");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
             }
         }
     }
 
     @SpirePatch(
-            cls="com.megacrit.cardcrawl.helpers.CardLibrary",
+            clz=CardLibrary.class,
             method="getCurse",
-            paramtypes={"com.megacrit.cardcrawl.cards.AbstractCard", "com.megacrit.cardcrawl.random.Random"}
+            paramtypez={
+                    AbstractCard.class,
+                    Random.class
+            }
     )
     public static class CardLibrary_getCurse2
     {
@@ -130,14 +134,14 @@ public class SoulboundPatch
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
             {
-                Matcher finalMatcher = new Matcher.MethodCallMatcher("java.util.ArrayList", "get");
-                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(ArrayList.class, "get");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
             }
         }
     }
 
     @SpirePatch(
-            cls="com.megacrit.cardcrawl.relics.Astrolabe",
+            clz=Astrolabe.class,
             method="onEquip"
     )
     public static class Astrolabe_onEquip
@@ -156,8 +160,8 @@ public class SoulboundPatch
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception
             {
-                Matcher finalMatcher = new Matcher.MethodCallMatcher("java.util.ArrayList", "isEmpty");
-                return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(ArrayList.class, "isEmpty");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
             }
         }
     }
