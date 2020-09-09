@@ -1,6 +1,7 @@
 ## Changelog ##
 #### dev ####
 * Replace the Replace patch
+* Fix `SelectCardsAction` for selecting multiple cards (rft50)
 
 #### v1.20.3 ####
 * Fix Writhing Mass intent changing when Stunned (Celicath)
