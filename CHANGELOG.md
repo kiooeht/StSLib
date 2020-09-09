@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.20.4 ####
 * Replace the Replace patch
 * Fix `SelectCardsAction` for selecting multiple cards (rft50)
 
