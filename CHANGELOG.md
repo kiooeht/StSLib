@@ -1,5 +1,9 @@
 ## Changelog ##
 #### dev ####
+* Powers
+  * `BeforeRenderIntentPower` (erasels)
+* Relics
+  * `BeforeRenderIntentRelic` (erasels)
 
 #### v1.20.4 ####
 * Replace the Replace patch
