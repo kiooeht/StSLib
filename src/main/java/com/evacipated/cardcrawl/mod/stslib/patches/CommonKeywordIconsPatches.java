@@ -88,28 +88,7 @@ public class CommonKeywordIconsPatches {
         @SpireInsertPatch(locator = Locator.class)
         public static void patch(AbstractCard c, SpriteBatch sb, @ByRef ArrayList<String>[] keywords) {
             if(CommonKeywordIconsField.useIcons.get(c)) {
-                if (c.isInnate)
-                {
-                    keywords[0].add(GameDictionary.INNATE.NAMES[0]);
-                }
-                if (c.isEthereal)
-                {
-                    keywords[0].add(GameDictionary.ETHEREAL.NAMES[0]);
-                }
-                if (c.retain || c.selfRetain)
-                {
-                    keywords[0].add(GameDictionary.RETAIN.NAMES[0]);
-                }
-                if (c.purgeOnUse)
-                {
-                    keywords[0].add(purgeName);
-                }
-                if (c.exhaust || c.exhaustOnUseOnce)
-                {
-                    keywords[0].add(GameDictionary.EXHAUST.NAMES[0]);
-                }
-
-                keywords[0] = keywords[0].stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+                keywords[0] = addKeywords(c, keywords[0]);
             }
         }
 
@@ -120,6 +99,49 @@ public class CommonKeywordIconsPatches {
                 return LineFinder.findInOrder(ctBehavior, finalMatcher);
             }
         }
+    }
+
+    @SpirePatch(clz = SingleCardViewPopup.class, method = "renderTips")
+    public static class RenderKeywordsForSingleCardViewPopup {
+        @SpireInsertPatch(locator = Locator.class)
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card) {
+            if(CommonKeywordIconsField.useIcons.get(___card)) {
+                ___card.keywords = addKeywords(___card, ___card.keywords);
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctBehavior) throws Exception {
+                Matcher finalMatcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "keywords");
+                return LineFinder.findInOrder(ctBehavior, finalMatcher);
+            }
+        }
+    }
+
+    public static ArrayList<String> addKeywords(AbstractCard c, ArrayList<String> kws) {
+        if (c.isInnate)
+        {
+            kws.add(GameDictionary.INNATE.NAMES[0]);
+        }
+        if (c.isEthereal)
+        {
+            kws.add(GameDictionary.ETHEREAL.NAMES[0]);
+        }
+        if (c.retain || c.selfRetain)
+        {
+            kws.add(GameDictionary.RETAIN.NAMES[0]);
+        }
+        if (c.purgeOnUse)
+        {
+            kws.add(purgeName);
+        }
+        if (c.exhaust || c.exhaustOnUseOnce)
+        {
+            kws.add(GameDictionary.EXHAUST.NAMES[0]);
+        }
+
+        return kws.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 
     //Render icon on keyword powertips for clarity
