@@ -7,8 +7,5 @@ public interface BeforeRenderIntentPower {
      * @param monster      The monster that the intent is about to be rendered for
      * @return            Allows stopping the intent from rendering (false = don't render)
      */
-    default boolean beforeRenderIntent(AbstractMonster monster)
-    {
-        return true;
-    }
+    boolean beforeRenderIntent(AbstractMonster monster);
 }
