@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix keyword tooltips not rendering in SingleCardView (erasels)
 
 #### v1.21.0 ####
 * Powers
