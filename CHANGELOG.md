@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.21.1 ####
 * Fix keyword tooltips not rendering in SingleCardView (erasels)
 
 #### v1.21.0 ####
