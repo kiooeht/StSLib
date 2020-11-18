@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Fix `InvisiblePower` needing image
+* Fix `InvisiblePower` notifying player when applied
 
 #### v1.21.1 ####
 * Fix keyword tooltips not rendering in SingleCardView (erasels)
