@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.21.2 ####
 * Fix `InvisiblePower` needing image
 * Fix `InvisiblePower` notifying player when applied
 
