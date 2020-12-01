@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Localization
+  * Update Russian TempHP to remove underscore (Jedi)
 
 #### v1.21.2 ####
 * Fix `InvisiblePower` needing image
