@@ -1,0 +1,91 @@
+[
+  {
+    "NAMES": [
+      "パージ",
+      "purge"
+    ],
+    "DESCRIPTION": "戦闘終了まで除外される。 廃棄 の山には #r行かない 。"
+  },
+  {
+    "NAMES": [
+      "保持",
+      "retain"
+    ],
+    "DESCRIPTION": "ターン終了時に捨てられない。"
+  },
+  {
+    "NAMES": [
+    "オートプレイ",
+    "autoplay"
+    ],
+    "DESCRIPTION": "このカードは引かれたときに自動的にプレイされる。"
+  },
+  {
+    "NAMES": [
+      "soulbound",
+      "ソウルバウンド"
+    ],
+    "DESCRIPTION": "デッキから除外できない。"
+  },
+  {
+    "NAMES": [
+      "スネッコ",
+      "snecko"
+    ],
+    "DESCRIPTION": "このカードが引かれたとき、コストがランダムに変化する。"
+  },
+  {
+    "NAMES": [
+      "grave",
+      "埋葬"
+    ],
+    "DESCRIPTION": "このカードを捨ててから戦闘を始める。"
+  },
+  {
+    "NAMES": [
+      "一瞬",
+      "fleeting"
+    ],
+    "DESCRIPTION": "このカードは #yパージ し、使用時にデッキから除外される。"
+  },
+  {
+    "PROPER_NAME": "一時HP",
+    "NAMES": [
+      "一時HP",
+      "temporary hp",
+      "temporary_hp"
+    ],
+    "DESCRIPTION": "一時HPは戦闘終了時になくなる。"
+  },
+  {
+    "NAMES": [
+      "取り出し",
+      "取り出す",
+      "fetch"
+    ],
+    "DESCRIPTION": "指定の山から指定のカードを選び、手札に加える。"
+  },
+  {
+    "NAMES": [
+      "払い戻し",
+      "払い戻す",
+      "refund",
+      "refunds"
+    ],
+    "DESCRIPTION": "カードのプレイ時に消費したエナジーを、払い戻し額まで返す。"
+  },
+  {
+    "NAMES": [
+      "廃棄性",
+      "exhaustive"
+    ],
+    "DESCRIPTION": "一定回数の使用後に #y廃棄 する。"
+  },
+  {
+    "NAMES": [
+      "スタートアップ",
+      "startup"
+    ],
+    "DESCRIPTION": "戦闘開始時にトリガーとなる。"
+  }
+]

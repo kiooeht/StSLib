@@ -1,0 +1,17 @@
+{
+  "stslib:Stunned": {
+    "NAME": "スタン",
+    "DESCRIPTIONS": [
+      "#b",
+      " ターン何もできない。",
+      " ターン何もできない。"
+    ]
+  },
+  "stslib:ExhaustiveNegationPower": {
+    "NAME": "廃棄性無効",
+    "DESCRIPTIONS": [
+      "次の #b",
+      " 回、 廃棄性 のカードをプレイしても 廃棄性 のカウントが減らない。"
+    ]
+  }
+}

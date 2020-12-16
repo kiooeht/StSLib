@@ -94,6 +94,9 @@ public class StSLib implements
             case ZHT:
                 language = "zht";
                 break;
+            case JPN:
+                language = "jpn";
+                break;
         }
 
         loadLangKeywords("eng");
@@ -124,6 +127,9 @@ public class StSLib implements
                 break;
             case ZHT:
                 language = "zht";
+                break;
+            case JPN:
+                language = "jpn";
                 break;
         }
 
