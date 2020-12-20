@@ -242,7 +242,7 @@ public class CommonKeywordIconsPatches {
                 locator = Locator.class,
                 localvars = {"t"}
         )
-        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, ArrayList<PowerTip> t, AbstractCard ___card) throws IllegalAccessException {
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, ArrayList<PowerTip> t) {
             if(CommonKeywordIconsField.useIcons.get(___card)) {
                 workaroundSwitch = true;
             }
