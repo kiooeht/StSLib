@@ -175,20 +175,11 @@ public class CommonKeywordIconsPatches {
                 badge = StSLib.BADGE_EXHAUST;
             }
 
-            if(badge != null) {
-                float badge_w = badge.getWidth();
-                float badge_h = badge.getHeight();
-                sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
-                        0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
-            }
+            drawBadgeOnTip(x, y, sb, badge);
         }
     }
 
     //Render in single card view madness
-    private static Field cardField = null;
-    private static Field cardHbField = null;
-
-
     @SpirePatch(
             clz = SingleCardViewPopup.class,
             method = "render"
@@ -201,23 +192,23 @@ public class CommonKeywordIconsPatches {
             if(CommonKeywordIconsField.useIcons.get(___card)) {
                 int offset_y = 0;
                 if (___card.isInnate) {
-                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_INNATE, offset_y);
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_INNATE, offset_y);
                     offset_y++;
                 }
                 if (___card.isEthereal) {
-                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_ETHEREAL, offset_y);
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_ETHEREAL, offset_y);
                     offset_y++;
                 }
                 if (___card.retain || ___card.selfRetain) {
-                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_RETAIN, offset_y);
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_RETAIN, offset_y);
                     offset_y++;
                 }
                 if (___card.purgeOnUse) {
-                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_PURGE, offset_y);
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_PURGE, offset_y);
                     offset_y++;
                 }
                 if (___card.exhaust || ___card.exhaustOnUseOnce) {
-                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_EXHAUST, offset_y);
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_EXHAUST, offset_y);
                     offset_y++;
                 }
             }
@@ -302,12 +293,7 @@ public class CommonKeywordIconsPatches {
                 badge = StSLib.BADGE_EXHAUST;
             }
 
-            if(badge != null) {
-                float badge_w = badge.getWidth();
-                float badge_h = badge.getHeight();
-                sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
-                        0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
-            }
+            drawBadgeOnTip(x, y, sb, badge);
 
             if(powerTips.get(powerTips.size() - 1).equals(tip)) {
                 workaroundSwitch = false;
@@ -320,6 +306,15 @@ public class CommonKeywordIconsPatches {
                 Matcher finalMatcher = new Matcher.MethodCallMatcher(GlyphLayout.class, "setText");
                 return LineFinder.findInOrder(ctBehavior, finalMatcher);
             }
+        }
+    }
+
+    private static void drawBadgeOnTip(float x, float y, SpriteBatch sb, Texture badge) {
+        if(badge != null) {
+            float badge_w = badge.getWidth();
+            float badge_h = badge.getHeight();
+            sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
+                    0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
         }
     }
 
