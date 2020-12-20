@@ -188,7 +188,7 @@ public class CommonKeywordIconsPatches {
         @SpireInsertPatch(
                 locator = Locator.class
         )
-        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, Hitbox ___cardHb) throws IllegalAccessException {
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, Hitbox ___cardHb) {
             if(CommonKeywordIconsField.useIcons.get(___card)) {
                 int offset_y = 0;
                 if (___card.isInnate) {
