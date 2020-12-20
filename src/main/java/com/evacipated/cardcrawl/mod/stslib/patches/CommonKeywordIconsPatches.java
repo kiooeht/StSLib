@@ -1,6 +1,5 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
-import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -11,12 +10,10 @@ import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.CommonKeywo
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
-import com.megacrit.cardcrawl.localization.KeywordStrings;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.CtBehavior;
 
@@ -200,43 +197,27 @@ public class CommonKeywordIconsPatches {
         @SpireInsertPatch(
                 locator = Locator.class
         )
-        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb) throws IllegalAccessException {
-            if(cardField == null) {
-                try {
-                    cardField = SingleCardViewPopup.class.getDeclaredField("card");
-                    cardField.setAccessible(true);
-                } catch (Exception ignored) {}
-            }
-            AbstractCard c = (AbstractCard) cardField.get(__instance);
-
-            if(CommonKeywordIconsField.useIcons.get(c)) {
-                if(cardHbField == null) {
-                    try {
-                        cardHbField = SingleCardViewPopup.class.getDeclaredField("cardHb");
-                        cardHbField.setAccessible(true);
-                    } catch (Exception ignored) {}
-                }
-                Hitbox cardHb = (Hitbox) cardHbField.get(__instance);
-
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, Hitbox ___cardHb) throws IllegalAccessException {
+            if(CommonKeywordIconsField.useIcons.get(___card)) {
                 int offset_y = 0;
-                if (c.isInnate) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_INNATE, offset_y);
+                if (___card.isInnate) {
+                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_INNATE, offset_y);
                     offset_y++;
                 }
-                if (c.isEthereal) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_ETHEREAL, offset_y);
+                if (___card.isEthereal) {
+                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_ETHEREAL, offset_y);
                     offset_y++;
                 }
-                if (c.retain || c.selfRetain) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_RETAIN, offset_y);
+                if (___card.retain || ___card.selfRetain) {
+                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_RETAIN, offset_y);
                     offset_y++;
                 }
-                if (c.purgeOnUse) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_PURGE, offset_y);
+                if (___card.purgeOnUse) {
+                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_PURGE, offset_y);
                     offset_y++;
                 }
-                if (c.exhaust || c.exhaustOnUseOnce) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_EXHAUST, offset_y);
+                if (___card.exhaust || ___card.exhaustOnUseOnce) {
+                    drawBadge(sb, c, ___cardHb, StSLib.BADGE_EXHAUST, offset_y);
                     offset_y++;
                 }
             }
@@ -270,16 +251,8 @@ public class CommonKeywordIconsPatches {
                 locator = Locator.class,
                 localvars = {"t"}
         )
-        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, ArrayList<PowerTip> t) throws IllegalAccessException {
-            if(cardField == null) {
-                try {
-                    cardField = SingleCardViewPopup.class.getDeclaredField("card");
-                    cardField.setAccessible(true);
-                } catch (Exception ignored) {}
-            }
-            AbstractCard c = (AbstractCard) cardField.get(__instance);
-
-            if(CommonKeywordIconsField.useIcons.get(c)) {
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, ArrayList<PowerTip> t, AbstractCard ___card) throws IllegalAccessException {
+            if(CommonKeywordIconsField.useIcons.get(___card)) {
                 workaroundSwitch = true;
             }
         }
