@@ -22,7 +22,7 @@ public class SelectCardsAction
     private CardGroup selectGroup;
 
     /**
-    * @param group - ArrayList of cards to filter and select from.
+    * @param group - Collection of cards to filter and select from.
     * Example: AbstractDungeon.player.discardPile.group
     * @param amount - maximum number of cards allowed for selectoin
     * @param textForSelect - text that will be displayed on the grid select screen at the bottom. It will show just this text with nothing else added by itself.
@@ -42,7 +42,7 @@ public class SelectCardsAction
     * if there's no callback the action will not trigger simply because you told player to "select cards to do nothing with them"
     * */
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, int amount, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
+    public SelectCardsAction(Collection<AbstractCard> group, int amount, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
     {
         this.amount = amount;
         this.duration = this.startDuration = Settings.ACTION_DUR_XFAST;
@@ -54,22 +54,22 @@ public class SelectCardsAction
         // It's distinct() because if i don't it may cause the infamous "jiggle" when you see a grid of cards with a same object in different locations.
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
+    public SelectCardsAction(Collection<AbstractCard> group, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
     {
         this(group, 1, textForSelect, anyNumber, cardFilter, callback);
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
+    public SelectCardsAction(Collection<AbstractCard> group, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
     {
         this(group, 1, textForSelect, false, cardFilter, callback);
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, String textForSelect, Consumer<List<AbstractCard>> callback)
+    public SelectCardsAction(Collection<AbstractCard> group, String textForSelect, Consumer<List<AbstractCard>> callback)
     {
         this(group, 1, textForSelect, false, c -> true, callback);
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, int amount, String textForSelect, Consumer<List<AbstractCard>> callback)
+    public SelectCardsAction(Collection<AbstractCard> group, int amount, String textForSelect, Consumer<List<AbstractCard>> callback)
     {
         this(group, amount, textForSelect, false, c -> true, callback);
     }
