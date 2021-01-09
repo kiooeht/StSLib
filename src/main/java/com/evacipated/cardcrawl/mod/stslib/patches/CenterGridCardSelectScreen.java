@@ -1,4 +1,4 @@
-package com.evacipated.cardcrawl.mod.bard.patches;
+package com.evacipated.cardcrawl.mod.stslib.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
