@@ -92,7 +92,7 @@ public class SelectCardsAction
                 return;
             }
 
-            AbstractDungeon.gridSelectScreen.open(selectGroup, amount, text, anyNumber);
+            AbstractDungeon.gridSelectScreen.open(selectGroup, amount, anyNumber, text);
             tickDuration();
         }
 
