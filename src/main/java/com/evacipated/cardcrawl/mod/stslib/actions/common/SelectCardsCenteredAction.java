@@ -84,11 +84,13 @@ public class SelectCardsAction
                 return;
             }
 
+			CenterGridCardSelect.centerGridSelect = true;
             AbstractDungeon.gridSelectScreen.open(selectGroup, amount, anyNumber, text);
             tickDuration();
         }
 
         if (AbstractDungeon.gridSelectScreen.selectedCards.size() != 0) {
+			CenterGridCardSelect.centerGridSelect = false;
             callback.accept(AbstractDungeon.gridSelectScreen.selectedCards);
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
             AbstractDungeon.player.hand.refreshHandLayout();
