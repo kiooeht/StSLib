@@ -27,7 +27,6 @@ public class SelectCardsCenteredAction
      * @param textForSelect - text that will be displayed on the grid select screen at the bottom. It will show just this text with nothing else added by itself.
      * @param anyNumber     - whether player has to select exact number of cards (amount) or any number up to, including 0.
      *                      false for exact number.
-     * @param centered      - whether or not to center the GridSelectScreen's cards.
      * @param cardFilter    - Filters the cards in the group.
      *                      Example: if you want to display only skills, it would be c -> c.type == CardType.SKILL
      *                      If you don't need the filter, set it as c -> true
@@ -55,19 +54,19 @@ public class SelectCardsCenteredAction
     }
 
     public SelectCardsCenteredAction(ArrayList<AbstractCard> group, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
-        this(group, 1, textForSelect, anyNumber, false, cardFilter, callback);
+        this(group, 1, textForSelect, anyNumber, cardFilter, callback);
     }
 
     public SelectCardsCenteredAction(ArrayList<AbstractCard> group, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
-        this(group, 1, textForSelect, false, false, cardFilter, callback);
+        this(group, 1, textForSelect, false, cardFilter, callback);
     }
 
     public SelectCardsCenteredAction(ArrayList<AbstractCard> group, String textForSelect, Consumer<List<AbstractCard>> callback) {
-        this(group, 1, textForSelect, false, false, c -> true, callback);
+        this(group, 1, textForSelect, false, c -> true, callback);
     }
 
     public SelectCardsCenteredAction(ArrayList<AbstractCard> group, int amount, String textForSelect, Consumer<List<AbstractCard>> callback) {
-        this(group, amount, textForSelect, false, false, c -> true, callback);
+        this(group, amount, textForSelect, false, c -> true, callback);
     }
 
     @Override
@@ -84,13 +83,13 @@ public class SelectCardsCenteredAction
                 return;
             }
 
-			CenterGridCardSelect.centerGridSelect = true;
+			CenterGridCardSelectScreen.centerGridSelect = true;
             AbstractDungeon.gridSelectScreen.open(selectGroup, amount, anyNumber, text);
             tickDuration();
         }
 
         if (AbstractDungeon.gridSelectScreen.selectedCards.size() != 0) {
-			CenterGridCardSelect.centerGridSelect = false;
+            CenterGridCardSelectScreen.centerGridSelect = false;
             callback.accept(AbstractDungeon.gridSelectScreen.selectedCards);
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
             AbstractDungeon.player.hand.refreshHandLayout();
