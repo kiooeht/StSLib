@@ -125,6 +125,9 @@ public class StSLib implements
             case ZHT:
                 language = "zht";
                 break;
+            case KOR:
+                language = "kor";
+                break;
         }
 
         loadLangStrings("eng");

@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Localization
+  * Korean
 
 #### v1.21.3 ####
 * Localization

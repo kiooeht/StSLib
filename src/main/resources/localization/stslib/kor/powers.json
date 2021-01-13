@@ -1,0 +1,17 @@
+{
+  "stslib:Stunned": {
+    "NAME": "기절함",
+    "DESCRIPTIONS": [
+      "아무런 행동도 하지 못합니다. 지속시간 #b",
+      " 턴.",
+      " 턴."
+    ]
+  },
+  "stslib:ExhaustiveNegationPower": {
+    "NAME": "소멸성 무시",
+    "DESCRIPTIONS": [
+      "다음 #b",
+      " 회동안 소멸성 카드의 사용 횟수가 감소하지 않습니다."
+    ]
+  }
+}
