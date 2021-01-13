@@ -1,6 +1,5 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
-import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -11,12 +10,10 @@ import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.CommonKeywo
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
-import com.megacrit.cardcrawl.localization.KeywordStrings;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.CtBehavior;
 
@@ -178,20 +175,11 @@ public class CommonKeywordIconsPatches {
                 badge = StSLib.BADGE_EXHAUST;
             }
 
-            if(badge != null) {
-                float badge_w = badge.getWidth();
-                float badge_h = badge.getHeight();
-                sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
-                        0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
-            }
+            drawBadgeOnTip(x, y, sb, badge);
         }
     }
 
     //Render in single card view madness
-    private static Field cardField = null;
-    private static Field cardHbField = null;
-
-
     @SpirePatch(
             clz = SingleCardViewPopup.class,
             method = "render"
@@ -200,43 +188,27 @@ public class CommonKeywordIconsPatches {
         @SpireInsertPatch(
                 locator = Locator.class
         )
-        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb) throws IllegalAccessException {
-            if(cardField == null) {
-                try {
-                    cardField = SingleCardViewPopup.class.getDeclaredField("card");
-                    cardField.setAccessible(true);
-                } catch (Exception ignored) {}
-            }
-            AbstractCard c = (AbstractCard) cardField.get(__instance);
-
-            if(CommonKeywordIconsField.useIcons.get(c)) {
-                if(cardHbField == null) {
-                    try {
-                        cardHbField = SingleCardViewPopup.class.getDeclaredField("cardHb");
-                        cardHbField.setAccessible(true);
-                    } catch (Exception ignored) {}
-                }
-                Hitbox cardHb = (Hitbox) cardHbField.get(__instance);
-
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, Hitbox ___cardHb) {
+            if(CommonKeywordIconsField.useIcons.get(___card)) {
                 int offset_y = 0;
-                if (c.isInnate) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_INNATE, offset_y);
+                if (___card.isInnate) {
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_INNATE, offset_y);
                     offset_y++;
                 }
-                if (c.isEthereal) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_ETHEREAL, offset_y);
+                if (___card.isEthereal) {
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_ETHEREAL, offset_y);
                     offset_y++;
                 }
-                if (c.retain || c.selfRetain) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_RETAIN, offset_y);
+                if (___card.retain || ___card.selfRetain) {
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_RETAIN, offset_y);
                     offset_y++;
                 }
-                if (c.purgeOnUse) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_PURGE, offset_y);
+                if (___card.purgeOnUse) {
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_PURGE, offset_y);
                     offset_y++;
                 }
-                if (c.exhaust || c.exhaustOnUseOnce) {
-                    drawBadge(sb, c, cardHb, StSLib.BADGE_EXHAUST, offset_y);
+                if (___card.exhaust || ___card.exhaustOnUseOnce) {
+                    drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_EXHAUST, offset_y);
                     offset_y++;
                 }
             }
@@ -270,16 +242,8 @@ public class CommonKeywordIconsPatches {
                 locator = Locator.class,
                 localvars = {"t"}
         )
-        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, ArrayList<PowerTip> t) throws IllegalAccessException {
-            if(cardField == null) {
-                try {
-                    cardField = SingleCardViewPopup.class.getDeclaredField("card");
-                    cardField.setAccessible(true);
-                } catch (Exception ignored) {}
-            }
-            AbstractCard c = (AbstractCard) cardField.get(__instance);
-
-            if(CommonKeywordIconsField.useIcons.get(c)) {
+        public static void patch(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card, ArrayList<PowerTip> t) {
+            if(CommonKeywordIconsField.useIcons.get(___card)) {
                 workaroundSwitch = true;
             }
         }
@@ -329,12 +293,7 @@ public class CommonKeywordIconsPatches {
                 badge = StSLib.BADGE_EXHAUST;
             }
 
-            if(badge != null) {
-                float badge_w = badge.getWidth();
-                float badge_h = badge.getHeight();
-                sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
-                        0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
-            }
+            drawBadgeOnTip(x, y, sb, badge);
 
             if(powerTips.get(powerTips.size() - 1).equals(tip)) {
                 workaroundSwitch = false;
@@ -347,6 +306,15 @@ public class CommonKeywordIconsPatches {
                 Matcher finalMatcher = new Matcher.MethodCallMatcher(GlyphLayout.class, "setText");
                 return LineFinder.findInOrder(ctBehavior, finalMatcher);
             }
+        }
+    }
+
+    private static void drawBadgeOnTip(float x, float y, SpriteBatch sb, Texture badge) {
+        if(badge != null) {
+            float badge_w = badge.getWidth();
+            float badge_h = badge.getHeight();
+            sb.draw(badge, x + ((320.0F - badge_w/2 - 8f) * Settings.scale), y + (-16.0F * Settings.scale), 0, 0, badge_w, badge_h,
+                    0.5f * Settings.scale, 0.5f * Settings.scale, 0, 0, 0, (int)badge_w, (int)badge_h, false, false);
         }
     }
 
