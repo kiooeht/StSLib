@@ -9,7 +9,7 @@
     "NAMES": [
       "보존"
     ],
-    "DESCRIPTION": "턴이 끝날 때 버려지지 않습니다."
+    "DESCRIPTION": "턴 종료시 버려지지 않습니다."
   },
   {
     "NAMES": [
@@ -44,7 +44,9 @@
   {
     "PROPER_NAME": "임시 체력",
     "NAMES": [
-      "temporary hp",
+      "임시 체력",
+      "임시_체력",
+      "임시체력",
       "temporary_hp"
     ],
     "DESCRIPTION": "전투 종료시에 사라지는 임시 체력입니다."
@@ -58,7 +60,7 @@
   {
     "NAMES": [
       "환급",
-      "refunds"
+      "refund"
     ],
     "DESCRIPTION": "사용시 환급 수치만큼 소모한 에너지를 돌려받습니다."
   },
