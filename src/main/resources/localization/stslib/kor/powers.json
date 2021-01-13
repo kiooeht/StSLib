@@ -1,17 +1,17 @@
 {
   "stslib:Stunned": {
-    "NAME": "±âÀýÇÔ",
+    "NAME": "ê¸°ì ˆí•¨",
     "DESCRIPTIONS": [
-      "¾Æ¹«·± Çàµ¿µµ ÇÏÁö ¸øÇÕ´Ï´Ù. Áö¼Ó½Ã°£ #b",
-      " ÅÏ.",
-      " ÅÏ."
+      "ì•„ë¬´ëŸ° í–‰ë™ë„ í•˜ì§€ ëª»í•©ë‹ˆë‹¤. ì§€ì†ì‹œê°„ #b",
+      " í„´.",
+      " í„´."
     ]
   },
   "stslib:ExhaustiveNegationPower": {
-    "NAME": "¼Ò¸ê¼º ¹«½Ã",
+    "NAME": "ì†Œë©¸ì„± ë¬´ì‹œ",
     "DESCRIPTIONS": [
-      "´ÙÀ½ #b",
-      " È¸µ¿¾È ¼Ò¸ê¼º Ä«µåÀÇ »ç¿ë È½¼ö°¡ °¨¼ÒÇÏÁö ¾Ê½À´Ï´Ù."
+      "ë‹¤ìŒ #b",
+      " íšŒë™ì•ˆ ì†Œë©¸ì„± ì¹´ë“œì˜ ì‚¬ìš© íšŸìˆ˜ê°€ ê°ì†Œí•˜ì§€ ì•ŠìŠµë‹ˆë‹¤."
     ]
   }
 }
