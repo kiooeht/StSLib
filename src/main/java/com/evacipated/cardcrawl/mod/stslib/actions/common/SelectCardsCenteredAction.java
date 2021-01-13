@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class SelectCardsAction
+public class SelectCardsCenteredAction
         extends AbstractGameAction {
     private Consumer<List<AbstractCard>> callback;
     private String text;
@@ -42,7 +42,7 @@ public class SelectCardsAction
      *
      */
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, int amount, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
+    public SelectCardsCenteredAction(ArrayList<AbstractCard> group, int amount, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
         this.amount = amount;
         this.duration = this.startDuration = Settings.ACTION_DUR_XFAST;
         text = textForSelect;
@@ -53,19 +53,19 @@ public class SelectCardsAction
         // It's distinct() because if i don't it may cause the infamous "jiggle" when you see a grid of cards with a same object in different locations.
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
+    public SelectCardsCenteredAction(ArrayList<AbstractCard> group, String textForSelect, boolean anyNumber, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
         this(group, 1, textForSelect, anyNumber, cardFilter, callback);
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
+    public SelectCardsCenteredAction(ArrayList<AbstractCard> group, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
         this(group, 1, textForSelect, false, cardFilter, callback);
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, String textForSelect, Consumer<List<AbstractCard>> callback) {
+    public SelectCardsCenteredAction(ArrayList<AbstractCard> group, String textForSelect, Consumer<List<AbstractCard>> callback) {
         this(group, 1, textForSelect, false, c -> true, callback);
     }
 
-    public SelectCardsAction(ArrayList<AbstractCard> group, int amount, String textForSelect, Consumer<List<AbstractCard>> callback) {
+    public SelectCardsCenteredAction(ArrayList<AbstractCard> group, int amount, String textForSelect, Consumer<List<AbstractCard>> callback) {
         this(group, amount, textForSelect, false, c -> true, callback);
     }
 
@@ -83,11 +83,13 @@ public class SelectCardsAction
                 return;
             }
 
+			CenterGridCardSelectScreen.centerGridSelect = true;
             AbstractDungeon.gridSelectScreen.open(selectGroup, amount, anyNumber, text);
             tickDuration();
         }
 
         if (AbstractDungeon.gridSelectScreen.selectedCards.size() != 0) {
+            CenterGridCardSelectScreen.centerGridSelect = false;
             callback.accept(AbstractDungeon.gridSelectScreen.selectedCards);
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
             AbstractDungeon.player.hand.refreshHandLayout();
