@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.22.0 ####
 * Localization
   * Korean (Tsurumaki Maki + Celicath)
 * Actions
