@@ -1,77 +1,79 @@
 [
   {
     "NAMES": [
-      "ÆÄ±«"
+      "íŒŒê´´"
     ],
-    "DESCRIPTION": "ÀüÅõ°¡ ³¡³¯ ¶§ ±îÁö Á¦¿ÜµË´Ï´Ù. ¼Ò¸êµÈ Ä«µå´õ¹Ì¿¡ µé¾î°¡Áö #r¾Ê½À´Ï´Ù."
+    "DESCRIPTION": "ì „íˆ¬ê°€ ëë‚  ë•Œ ê¹Œì§€ ì œì™¸ë©ë‹ˆë‹¤. ì†Œë©¸ëœ ì¹´ë“œë”ë¯¸ì— ë“¤ì–´ê°€ì§€ #rì•ŠìŠµë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "º¸Á¸"
+      "ë³´ì¡´"
     ],
-    "DESCRIPTION": "ÅÏÀÌ ³¡³¯ ¶§ ¹ö·ÁÁöÁö ¾Ê½À´Ï´Ù."
+    "DESCRIPTION": "í„´ ì¢…ë£Œì‹œ ë²„ë ¤ì§€ì§€ ì•ŠìŠµë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "ÀÚµ¿»ç¿ë"
+      "ìžë™ì‚¬ìš©"
     ],
-    "DESCRIPTION": "»ÌÀ» ¶§ ÀÚµ¿À¸·Î »ç¿ëµË´Ï´Ù."
+    "DESCRIPTION": "ë½‘ì„ ë•Œ ìžë™ìœ¼ë¡œ ì‚¬ìš©ë©ë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "±Í¼Ó"
+      "ê·€ì†"
     ],
-    "DESCRIPTION": "µ¦¿¡¼­ Á¦°ÅÇÒ ¼ö ¾ø½À´Ï´Ù."
+    "DESCRIPTION": "ë±ì—ì„œ ì œê±°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "½º³×ÄÚ"
+      "ìŠ¤ë„¤ì½”"
     ],
-    "DESCRIPTION": "»ÌÀ» ¶§ ¹«ÀÛÀ§·Î ºñ¿ëÀÌ º¯È­ÇÕ´Ï´Ù."
+    "DESCRIPTION": "ë½‘ì„ ë•Œ ë¬´ìž‘ìœ„ë¡œ ë¹„ìš©ì´ ë³€í™”í•©ë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "¹«´ý"
+      "ë¬´ë¤"
     ],
-    "DESCRIPTION": "ÀüÅõ ½Ã ÀÌ Ä«µå¸¦ ¹ö¸° Ä«µå ´õ¹Ì¿¡ µÎ°í ½ÃÀÛÇÕ´Ï´Ù."
+    "DESCRIPTION": "ì „íˆ¬ ì‹œ ì´ ì¹´ë“œë¥¼ ë²„ë¦° ì¹´ë“œ ë”ë¯¸ì— ë‘ê³  ì‹œìž‘í•©ë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "ÀÏÈ¸¼º"
+      "ì¼íšŒì„±"
     ],
-    "DESCRIPTION": "»ç¿ë½Ã µ¦¿¡¼­ ÆÄ±«µÇ¸ç µ¦¿¡¼­µµ Á¦°ÅµË´Ï´Ù."
+    "DESCRIPTION": "ì‚¬ìš©ì‹œ íŒŒê´´ë˜ë©° ë±ì—ì„œë„ ì œê±°ë©ë‹ˆë‹¤."
   },
   {
-    "PROPER_NAME": "ÀÓ½Ã Ã¼·Â",
+    "PROPER_NAME": "ìž„ì‹œ ì²´ë ¥",
     "NAMES": [
-      "temporary hp",
+      "ìž„ì‹œ ì²´ë ¥",
+      "ìž„ì‹œ_ì²´ë ¥",
+      "ìž„ì‹œì²´ë ¥",
       "temporary_hp"
     ],
-    "DESCRIPTION": "ÀüÅõ Á¾·á½Ã¿¡ »ç¶óÁö´Â ÀÓ½Ã Ã¼·ÂÀÔ´Ï´Ù."
+    "DESCRIPTION": "ì „íˆ¬ ì¢…ë£Œì‹œì— ì‚¬ë¼ì§€ëŠ” ìž„ì‹œ ì²´ë ¥ìž…ë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "È¸¼ö"
+      "íšŒìˆ˜"
     ],
-    "DESCRIPTION": "Æ¯Á¤ Ä«µå ´õ¹Ì¿¡¼­ Æ¯Á¤ Ä«µå¸¦ ¼±ÅÃÇØ ¼Õ¿¡ °¡Á®¿É´Ï´Ù."
+    "DESCRIPTION": "íŠ¹ì • ì¹´ë“œ ë”ë¯¸ì—ì„œ íŠ¹ì • ì¹´ë“œë¥¼ ì„ íƒí•´ ì†ì— ê°€ì ¸ì˜µë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "È¯±Þ",
-      "refunds"
+      "í™˜ê¸‰",
+      "refund"
     ],
-    "DESCRIPTION": "»ç¿ë½Ã È¯±Þ ¼öÄ¡¸¸Å­ ¼Ò¸ðÇÑ ¿¡³ÊÁö¸¦ µ¹·Á¹Þ½À´Ï´Ù."
+    "DESCRIPTION": "ì‚¬ìš©ì‹œ í™˜ê¸‰ ìˆ˜ì¹˜ë§Œí¼ ì†Œëª¨í•œ ì—ë„ˆì§€ë¥¼ ëŒë ¤ë°›ìŠµë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "¼Ò¸ê¼º"
+      "ì†Œë©¸ì„±"
     ],
-    "DESCRIPTION": "ÀÏÁ¤ È½¼ö¸¦ »ç¿ëÇÏ¸é #y¼Ò¸ê ÇÕ´Ï´Ù."
+    "DESCRIPTION": "ì¼ì • íšŸìˆ˜ë¥¼ ì‚¬ìš©í•˜ë©´ #yì†Œë©¸ í•©ë‹ˆë‹¤."
   },
   {
     "NAMES": [
-      "°³Àü"
+      "ê°œì „"
     ],
-    "DESCRIPTION": "ÀüÅõ ½ÃÀÛ ½Ã ¸¶´Ù ¹ßµ¿ÇÕ´Ï´Ù."
+    "DESCRIPTION": "ì „íˆ¬ ì‹œìž‘ ì‹œ ë§ˆë‹¤ ë°œë™í•©ë‹ˆë‹¤."
   }
 ]
