@@ -1,7 +1,10 @@
 ## Changelog ##
 #### dev ####
 * Localization
-  * Korean
+  * Korean (Tsurumaki Maki + Celicath)
+* Actions
+  * `SelectCardsCenteredAction` (vex)
+  * `DamageCallbackAction` (vex)
 
 #### v1.21.3 ####
 * Localization
