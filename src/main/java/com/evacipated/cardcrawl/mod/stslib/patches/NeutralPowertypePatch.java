@@ -19,6 +19,7 @@ public class NeutralPowertypePatch {
                 for (int i = AbstractDungeon.effectList.size() - 1; i > -1 ; i--) {
                     if(AbstractDungeon.effectList.get(i) instanceof PowerDebuffEffect) {
                         AbstractDungeon.effectList.remove(i);
+                        break;
                     }
                 }
             }
