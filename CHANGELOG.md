@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Neutral Power type (erasels)
 
 #### v1.22.0 ####
 * Localization
