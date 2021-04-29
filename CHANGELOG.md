@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.23.0 ####
 * Neutral Power type (erasels)
 
 #### v1.22.0 ####
