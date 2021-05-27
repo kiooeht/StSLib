@@ -1,0 +1,80 @@
+[
+  {
+    "NAMES": [
+      "expurgation",
+      "expurgée",
+      "expurgé"
+    ],
+    "DESCRIPTION": "Retirée jusqu'à la fin du combat. Ne va #rPAS dans votre pile de cartes épuisées."
+  },
+  {
+    "NAMES": [
+      "retenue",
+      "retenez"
+    ],
+    "DESCRIPTION": "N'est pas défaussée à la fin de votre tour."
+  },
+  {
+    "NAMES": [
+      "automatiquement joué",
+      "automatiquement jouée"
+    ],
+    "DESCRIPTION": "Cette carte est joué automatiquement lorsque pigée."
+  },
+  {
+    "NAMES": [
+      "lien spirituel"
+    ],
+    "DESCRIPTION": "Ne peut pas être retiré du deck."
+  },
+  {
+    "NAMES": [
+      "geckobra"
+    ],
+    "DESCRIPTION": "Quand cette carte est pigée, son coût devient aléatoire."
+  },
+  {
+    "NAMES": [
+      "cimetière"
+    ],
+    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre pile de défausse."
+  },
+  {
+    "NAMES": [
+      "éphémère"
+    ],
+    "DESCRIPTION": "Cette carte est #yExpurgée et retirée du deck lorsque jouée."
+  },
+  {
+    "PROPER_NAME": "PV Temporaires",
+    "NAMES": [
+      "pv temporaires",
+      "pv_temporaires"
+    ],
+    "DESCRIPTION": "Les PV temporaires sont perdus à la fin du combat."
+  },
+  {
+    "NAMES": [
+      "recherche"
+    ],
+    "DESCRIPTION": "Choisissez une carte dans le paquet spécifié et ajoutez la à votre main."
+  },
+  {
+    "NAMES": [
+      "remboursement"
+    ],
+    "DESCRIPTION": "Gagnez autant d'énergie que le coût de la carte, jusqu'à concurrence de la valeur de remboursement."
+  },
+  {
+    "NAMES": [
+      "épuisable"
+    ],
+    "DESCRIPTION": "S'#yÉpuise après un certain nombre d'utilisations."
+  },
+  {
+    "NAMES": [
+      "Démarrage"
+    ],
+    "DESCRIPTION": "Se déclenche au début du combat."
+  }
+]
