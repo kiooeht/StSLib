@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix `MoveCardsAction` always saying "Add to Hand"
 
 #### v1.23.0 ####
 * Neutral Power type (erasels)
