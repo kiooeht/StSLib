@@ -1,6 +1,7 @@
 ## Changelog ##
 #### dev ####
 * Fix `MoveCardsAction` always saying "Add to Hand"
+* Fix normal branching upgrades being random instead (Mistress Alison)
 
 #### v1.23.0 ####
 * Neutral Power type (erasels)
