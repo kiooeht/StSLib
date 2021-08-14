@@ -1,6 +1,10 @@
 ## Changelog ##
 #### dev ####
 * Fix `MoveCardsAction` always saying "Add to Hand"
+  * Update localizations
+    * ZHS
+    * Korean
+    * Russian
 * Fix normal branching upgrades being random instead (Mistress Alison)
 
 #### v1.23.0 ####
