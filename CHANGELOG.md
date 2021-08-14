@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.23.1 ####
 * Fix `MoveCardsAction` always saying "Add to Hand"
   * Update localizations
     * ZHS
