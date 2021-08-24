@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Custom Targeting (Alchyr)
+  * Self or Enemy targeting
 
 #### v1.23.1 ####
 * Fix `MoveCardsAction` always saying "Add to Hand"
