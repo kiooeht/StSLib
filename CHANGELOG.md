@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v1.24.0 ####
 * Custom Targeting (Alchyr)
   * Self or Enemy targeting
 
