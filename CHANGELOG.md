@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix crash on non-targeted cards selected with keyboard (Alchyr)
 
 #### v1.24.0 ####
 * Custom Targeting (Alchyr)
