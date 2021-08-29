@@ -20,6 +20,7 @@ import com.evacipated.cardcrawl.mod.stslib.cards.targeting.TargetingHandler;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
+import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 
 import java.lang.reflect.Method;
@@ -170,9 +171,9 @@ public class CustomTargeting {
                             m.replace("if (" + CustomTargeting.class.getName() + ".targetingMap.containsKey(hoveredCard.target)) {" +
                                     "$1 = ((" + TargetingHandler.class.getName() + ") " + CustomTargeting.class.getName() + ".targetingMap.get(hoveredCard.target)).getDefaultTargetX();" +
                                     "$2 = " + Settings.class.getName() + ".HEIGHT - ((" + TargetingHandler.class.getName() + ") " + CustomTargeting.class.getName() + ".targetingMap.get(hoveredCard.target)).getDefaultTargetY();" +
+                                    "((" + TargetingHandler.class.getName() + ") " + CustomTargeting.class.getName() + ".targetingMap.get(hoveredCard.target)).setDefaultTarget();" +
                                     "}" +
-                                    "$_ = $proceed($1, $2);" +
-                                    "((" + TargetingHandler.class.getName() + ") " + CustomTargeting.class.getName() + ".targetingMap.get(hoveredCard.target)).setDefaultTarget();");
+                                    "$_ = $proceed($1, $2);");
                         }
 
                         ++count;
@@ -221,6 +222,35 @@ public class CustomTargeting {
                 return SpireReturn.Return(null);
             }
             return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractPlayer.class,
+            method = "renderTargetingUi"
+    )
+    public static class HighlightArrowColor {
+        @SpireInstrumentPatch
+        public static ExprEditor highlightOnTarget() {
+            //Rendering targeting arrow, change color if on a valid target
+            return new ExprEditor() {
+                boolean first = true;
+
+                @Override
+                public void edit(FieldAccess f) throws CannotCompileException {
+                    if (f.getFieldName().equals("hoveredMonster") && f.getClassName().equals(AbstractPlayer.class.getName()) && first) {
+                        first = false;
+                        f.replace("$_ = $proceed();" +
+                                "if (" + CustomTargeting.class.getName() + ".targetingMap.containsKey(hoveredCard.target)) {" +
+                                        "if (((" + TargetingHandler.class.getName() + ") " + CustomTargeting.class.getName() + ".targetingMap.get(hoveredCard.target)).hasTarget()) {" +
+                                        //"$_ = " + AbstractDungeon.class.getName() + ".getMonsters().monsters.isEmpty() ? null : " + AbstractDungeon.class.getName() + ".getMonsters().monsters.get(0);" +
+                                        "$_ = \"\";" +
+                                "}}"
+                        );
+                        //AbstractDungeon.getMonsters().monsters.isEmpty() ? null : AbstractDungeon.getMonsters().monsters.get(0)
+                    }
+                }
+            };
         }
     }
 
