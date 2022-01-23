@@ -132,10 +132,12 @@ public class BindingPatches {
                     }
                 }
             }
-            for (AbstractRelic r : AbstractDungeon.player.relics) {
-                if (r instanceof DamageModApplyingRelic && ((DamageModApplyingRelic) r).shouldPushMods(__instance, instigator, boundMods)) {
-                    boundMods.addAll(((DamageModApplyingRelic) r).modsToPush(__instance, instigator, boundMods));
-                    ((DamageModApplyingRelic) r).onAddedDamageModsToDamageInfo(__instance, instigator);
+            if (AbstractDungeon.player != null && AbstractDungeon.player == damageSource) {
+                for (AbstractRelic r : AbstractDungeon.player.relics) {
+                    if (r instanceof DamageModApplyingRelic && ((DamageModApplyingRelic) r).shouldPushMods(__instance, instigator, boundMods)) {
+                        boundMods.addAll(((DamageModApplyingRelic) r).modsToPush(__instance, instigator, boundMods));
+                        ((DamageModApplyingRelic) r).onAddedDamageModsToDamageInfo(__instance, instigator);
+                    }
                 }
             }
             DamageModifierManager.bindDamageMods(__instance, boundMods);
@@ -212,9 +214,11 @@ public class BindingPatches {
                     ((OnCreateBlockInstancePower) p).onCreateBlockInstance(blockSet, instigator);
                 }
             }
-            for (AbstractRelic r : AbstractDungeon.player.relics) {
-                if (r instanceof OnCreateBlockInstanceRelic) {
-                    ((OnCreateBlockInstanceRelic) r).onCreateBlockInstance(blockSet, instigator);
+            if (AbstractDungeon.player != null && AbstractDungeon.player == __instance) {
+                for (AbstractRelic r : AbstractDungeon.player.relics) {
+                    if (r instanceof OnCreateBlockInstanceRelic) {
+                        ((OnCreateBlockInstanceRelic) r).onCreateBlockInstance(blockSet, instigator);
+                    }
                 }
             }
             ArrayList<AbstractBlockModifier> blockTypes = new ArrayList<>();
