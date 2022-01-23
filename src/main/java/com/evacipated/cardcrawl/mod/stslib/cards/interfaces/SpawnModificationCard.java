@@ -18,12 +18,11 @@ public interface SpawnModificationCard {
 
     /**
      * If the card is rolled and passes its canSpawn check, you can return a new card instance that gets spawned instead.
-     * @param originalCard The card that was rolled.
      * @param currentRewardCards List of the cards that have already been rolled and accepted.
      * @return The instance of the card that will be checked against currentRewardCards to see whether it's already in there, if not, the card gets added to it.
      */
-    default AbstractCard replaceWith(AbstractCard originalCard, ArrayList<AbstractCard> currentRewardCards) {
-        return originalCard;
+    default AbstractCard replaceWith(ArrayList<AbstractCard> currentRewardCards) {
+        return (AbstractCard) this;
     }
 
     /**
