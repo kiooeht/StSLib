@@ -25,11 +25,12 @@ import javassist.expr.MethodCall;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.megacrit.cardcrawl.characters.AbstractPlayer.HOVER_CARD_Y_POSITION;
 
 public class CustomTargeting {
-    public static void registerCustomTargeting(AbstractCard.CardTarget customTarget, TargetingHandler targeting) {
+    public static void registerCustomTargeting(AbstractCard.CardTarget customTarget, TargetingHandler<?> targeting) {
         switch (customTarget) {
             case ALL:
             case NONE:
@@ -47,7 +48,49 @@ public class CustomTargeting {
         }
     }
 
-    public static final HashMap<AbstractCard.CardTarget, TargetingHandler> targetingMap = new HashMap<>();
+    public static final HashMap<AbstractCard.CardTarget, TargetingHandler<?>> targetingMap = new HashMap<>();
+
+    public static <T> void setCardTarget(AbstractCard c, T target) {
+        TargetingHandler<?> handler = targetingMap.get(c.target);
+        if (handler == null)
+            return;
+
+        TargetField.target.get(c).put(handler, target);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getCardTarget(AbstractCard c) {
+        TargetingHandler<?> handler = targetingMap.get(c.target);
+        if (handler == null)
+            return null;
+
+        try {
+            return (T) TargetField.target.get(c).getOrDefault(handler, null);
+        }
+        catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = SpirePatch.CLASS
+    )
+    public static class TargetField {
+        public static final SpireField<Map<TargetingHandler<?>, Object>> target = new SpireField<>(HashMap::new);
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "makeSameInstanceOf"
+    )
+    public static class CopyTarget {
+        @SpirePostfixPatch
+        public static AbstractCard copy(AbstractCard __result, AbstractCard __instance) {
+            TargetField.target.get(__result).putAll(TargetField.target.get(__instance));
+            return __result;
+        }
+    }
 
     private static Method playCard;
 
@@ -56,22 +99,14 @@ public class CustomTargeting {
             playCard = AbstractPlayer.class.getDeclaredMethod("playCard");
             playCard.setAccessible(true);
         }
-        catch (Exception e)
-        {
-            //logger.error("Failed to get method playCard of AbstractPlayer.");
-            //logger.error(e.getMessage());
-        }
+        catch (Exception ignored) { }
     }
     private static void tryPlayCard(AbstractPlayer p)
     {
         try {
             playCard.invoke(p);
         }
-        catch (Exception e)
-        {
-            //logger.error("Failed to invoke method playCard of AbstractPlayer.");
-            //logger.error(e.getMessage());
-        }
+        catch (Exception ignored) { }
     }
 
 
@@ -106,7 +141,7 @@ public class CustomTargeting {
         {
             //dragged into drop zone
             if (__instance.isHoveringDropZone && targetingMap.containsKey(__instance.hoveredCard.target)) {
-                TargetingHandler handler = targetingMap.get(__instance.hoveredCard.target);
+                TargetingHandler<?> handler = targetingMap.get(__instance.hoveredCard.target);
 
                 __instance.inSingleTargetMode = true;
                 ReflectionHacks.setPrivate(__instance, AbstractPlayer.class, "arrowX", (float) InputHelper.mX);
@@ -129,7 +164,7 @@ public class CustomTargeting {
         {
             //Same purpose as previous, just slightly different as isHoveringDropZone check is unnecessary
             if (targetingMap.containsKey(__instance.hoveredCard.target)) {
-                TargetingHandler handler = targetingMap.get(__instance.hoveredCard.target);
+                TargetingHandler<?> handler = targetingMap.get(__instance.hoveredCard.target);
 
                 __instance.inSingleTargetMode = true;
                 ReflectionHacks.setPrivate(__instance, AbstractPlayer.class, "arrowX", (float) InputHelper.mX);
@@ -295,7 +330,7 @@ public class CustomTargeting {
     }
 
     
-    private static void customTargeting(AbstractPlayer p, TargetingHandler targeting)
+    private static void customTargeting(AbstractPlayer p, TargetingHandler<?> targeting)
     {
         if (Settings.isTouchScreen && !((boolean)ReflectionHacks.getPrivate(p, AbstractPlayer.class, "isUsingClickDragControl")) && !InputHelper.isMouseDown) {
             Gdx.input.setCursorPosition((int) MathUtils.lerp((float)Gdx.input.getX(), (float)Settings.WIDTH / 2.0F, Gdx.graphics.getDeltaTime() * 10.0F), (int)MathUtils.lerp((float)Gdx.input.getY(), (float)Settings.HEIGHT * 1.1F, Gdx.graphics.getDeltaTime() * 4.0F));
