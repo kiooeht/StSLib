@@ -80,7 +80,7 @@ public class TipBoxCustomIcons {
     @SpirePatch(clz= FontHelper.class, method="renderSmartText", paramtypez = {SpriteBatch.class, BitmapFont.class, String.class, float.class, float.class, float.class, float.class, Color.class})
     public static class FontHelpFixes {
         @SpireInsertPatch(locator = Locator.class, localvars = {"word"})
-        public static void DrawIconsPls(SpriteBatch sb, BitmapFont font, String msg, float x, float y, float lineWidth, float lineSpacing, Color baseColor, @ByRef float[] ___curWidth, float ___curHeight, @ByRef String[] word) {
+        public static void DrawIconsPls(SpriteBatch sb, BitmapFont font, String msg, float x, float y, float lineWidth, float lineSpacing, Color baseColor, @ByRef float[] ___curWidth, @ByRef float[] ___curHeight, @ByRef String[] word) {
             if (word[0].length() > 0 && word[0].charAt(0) == '[') {
                 String key = word[0].trim();
                 if (key.endsWith(AbstractCustomIcon.CODE_ENDING)) {
@@ -88,8 +88,14 @@ public class TipBoxCustomIcons {
                 }
                 AbstractCustomIcon icon = CustomIconHelper.getIcon(key);
                 if (icon != null) {
-                    icon.render(sb, x+___curWidth[0], y+___curHeight, icon.region.getRegionWidth()/2F, -icon.region.getRegionHeight()/4F, Settings.scale, 0);
-                    ___curWidth[0] += CARD_ENERGY_IMG_WIDTH;
+                    if (___curWidth[0] + CARD_ENERGY_IMG_WIDTH > lineWidth) {
+                        ___curHeight[0] -= lineSpacing;
+                        icon.render(sb, x, y+___curHeight[0], icon.region.getRegionWidth()/2F, -icon.region.getRegionHeight()/4F, Settings.scale, 0);
+                        ___curWidth[0] = CARD_ENERGY_IMG_WIDTH;
+                    } else {
+                        icon.render(sb, x+___curWidth[0], y+___curHeight[0], icon.region.getRegionWidth()/2F, -icon.region.getRegionHeight()/4F, Settings.scale, 0);
+                        ___curWidth[0] += CARD_ENERGY_IMG_WIDTH;
+                    }
                     word[0] = "";
                 }
             }
