@@ -77,50 +77,6 @@ public class TipBoxCustomIcons {
         }
     }
 
-    //TODO need to fix relics
-    /*@SpirePatch2(clz= FontHelper.class, method="renderWrappedText", paramtypez = {SpriteBatch.class, BitmapFont.class, String.class, float.class, float.class, float.class, Color.class, float.class})
-    public static class MakeRelicsWork
-    {
-        @SpireInsertPatch(locator = Locator.class)
-        public static void IfThereIsAnIcon(SpriteBatch sb, BitmapFont font, @ByRef String[] msg, float x, float y, float width, Color c, float scale)
-        {
-            String[] words = msg[0].split(" ");
-            boolean modified = false;
-            StringBuilder stringThusFar = new StringBuilder();
-            float drawScale = font.getCapHeight()/24f;
-            for (int i = 0 ; i < words.length ; i++) {
-                if (words[i].length() > 0 && words[i].charAt(0) == '[') {
-                    String key = words[i].trim();
-                    if (key.endsWith(AbstractDamageTypeIcon.CODE_ENDING)) {
-                        key = key.replace("*d", "D").replace("*b", "B").replace("*m", "M");
-                    }
-                    AbstractDamageTypeIcon icon = DamageTypeIconHelper.getIcon(key);
-                    if (icon != null) {
-                        FontHelper.layout.setText(font, stringThusFar);
-                        float w = CARD_ENERGY_IMG_WIDTH + FontHelper.layout.width * Settings.scale;
-                        renderSmallIcon(sb, icon, x+w, y, drawScale);
-                        words[i] = "   ";
-                        modified = true;
-                    }
-                }
-                stringThusFar.append(words[i]).append(i < words.length - 1 ? " " : "");
-                if (modified) {
-                    msg[0] = stringThusFar.toString();
-                }
-            }
-        }
-
-        private static class Locator extends SpireInsertLocator
-        {
-            @Override
-            public int[] Locate(CtBehavior ctBehavior) throws Exception
-            {
-                Matcher matcher = new Matcher.MethodCallMatcher(GlyphLayout.class, "setText");
-                return LineFinder.findInOrder(ctBehavior, matcher);
-            }
-        }
-    }*/
-
     @SpirePatch(clz= FontHelper.class, method="renderSmartText", paramtypez = {SpriteBatch.class, BitmapFont.class, String.class, float.class, float.class, float.class, float.class, Color.class})
     public static class FontHelpFixes {
         @SpireInsertPatch(locator = Locator.class, localvars = {"word"})
