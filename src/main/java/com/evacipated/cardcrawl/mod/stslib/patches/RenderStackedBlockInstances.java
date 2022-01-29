@@ -4,6 +4,7 @@ import basemod.ClickableUIElement;
 import basemod.helpers.TooltipInfo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.evacipated.cardcrawl.mod.stslib.blockmods.BlockInstance;
@@ -65,7 +66,7 @@ public class RenderStackedBlockInstances {
         private static final float baseWidth = 100f * Settings.scale;
         private final AbstractCreature owner;
         public BlockStackElement(AbstractCreature owner) {
-            super(new TextureAtlas(Gdx.files.internal("powers/powers.atlas")).findRegion("48/" + ""), 0, 0, baseWidth, baseHeight);
+            super(new Texture("images/blank.png"), 0, 0, baseWidth, baseHeight);
             this.owner = owner;
         }
 
