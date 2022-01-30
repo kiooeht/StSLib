@@ -3,6 +3,13 @@
 * Automatically load localizations without needing to add new cases
 * Localization
   * French (Diamsword)
+* Add SpawnModificationCard interface (erasels)
+  * Allows cards to customize how and if they will spawn
+* Fix custom targeting to work with double play effects (Alchyr)
+  * THIS IS A BREAKING CHANGE, any mods that have created a custom targe type will need to be fixed
+* Custom icons for descriptions (Mistress Alison)
+* Damage modifiers (Mistress Alison)
+* Block modifiers (Mistress Alison)
 
 #### v1.24.1 ####
 * Fix crash on non-targeted cards selected with keyboard (Alchyr)
