@@ -66,8 +66,16 @@ public class StSLib implements
         String path = "localization/stslib/" + language + "/";
 
         Gson gson = new Gson();
-        String json = Gdx.files.internal(path + "keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
-        Keyword[] keywords = gson.fromJson(json, Keyword[].class);
+        Keyword[] keywords = null;
+        try {
+            String json = Gdx.files.internal(path + "keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
+            keywords = gson.fromJson(json, Keyword[].class);
+        } catch (GdxRuntimeException e) {
+            // Ignore file not found
+            if (!e.getMessage().startsWith("File not found:")) {
+                throw e;
+            }
+        }
 
         if (keywords != null) {
             for (Keyword keyword : keywords) {
@@ -87,22 +95,7 @@ public class StSLib implements
     @Override
     public void receiveEditKeywords()
     {
-        String language = "eng";
-        switch (Settings.language) {
-            case RUS:
-                language = "rus";
-                break;
-            case ZHS:
-                language = "zhs";
-                break;
-            case ZHT:
-                language = "zht";
-                break;
-            case KOR:
-                language = "kor";
-                break;
-        }
-
+        String language = Settings.language.name().toLowerCase();
         loadLangKeywords("eng");
         loadLangKeywords(language);
     }
@@ -111,32 +104,27 @@ public class StSLib implements
     {
         String path = "localization/stslib/" + language + "/";
 
-        BaseMod.loadCustomStringsFile(PowerStrings.class, path + "powers.json");
-        BaseMod.loadCustomStringsFile(RelicStrings.class, path + "relics.json");
+        tryLoadStringsFile(PowerStrings.class, path + "powers.json");
+        tryLoadStringsFile(RelicStrings.class, path + "relics.json");
+        tryLoadStringsFile(UIStrings.class, path + "ui.json");
+    }
+
+    private void tryLoadStringsFile(Class<?> stringType, String filepath)
+    {
         try {
-            BaseMod.loadCustomStringsFile(UIStrings.class, path + "ui.json");
-        } catch (GdxRuntimeException ignored) {}
+            BaseMod.loadCustomStringsFile(stringType, filepath);
+        } catch (GdxRuntimeException e) {
+            // Ignore file not found
+            if (!e.getMessage().startsWith("File not found:")) {
+                throw e;
+            }
+        }
     }
 
     @Override
     public void receiveEditStrings()
     {
-        String language = "eng";
-        switch (Settings.language) {
-            case RUS:
-                language = "rus";
-                break;
-            case ZHS:
-                language = "zhs";
-                break;
-            case ZHT:
-                language = "zht";
-                break;
-            case KOR:
-                language = "kor";
-                break;
-        }
-
+        String language = Settings.language.name().toLowerCase();
         loadLangStrings("eng");
         loadLangStrings(language);
     }
