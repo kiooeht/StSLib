@@ -3,9 +3,8 @@ package com.evacipated.cardcrawl.mod.stslib.cards.targeting;
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
-import com.evacipated.cardcrawl.modthespire.lib.SpireField;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -18,27 +17,15 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import java.util.ArrayList;
 
-public class SelfOrEnemyTargeting extends TargetingHandler {
+public class SelfOrEnemyTargeting extends TargetingHandler<AbstractCreature> {
     @SpireEnum
     public static AbstractCard.CardTarget SELF_OR_ENEMY;
 
-    @SpirePatch(
-            clz = AbstractCard.class,
-            method = SpirePatch.CLASS
-    )
-    public static class Field {
-        public static SpireField<AbstractCreature> target = new SpireField<>(()->null);
-    }
     public static AbstractCreature getTarget(AbstractCard card) {
-        return Field.target.get(card);
+        return CustomTargeting.getCardTarget(card);
     }
 
     private AbstractCreature hovered = null;
-
-    @Override
-    public void lockTarget(AbstractCard card) {
-        Field.target.set(card, hovered);
-    }
 
     @Override
     public boolean hasTarget() {
@@ -64,6 +51,11 @@ public class SelfOrEnemyTargeting extends TargetingHandler {
                 }
             }
         }
+    }
+
+    @Override
+    public AbstractCreature getHovered() {
+        return hovered;
     }
 
     @Override
