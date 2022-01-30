@@ -1,0 +1,78 @@
+[
+  {
+    "NAMES": [
+      "purge"
+    ],
+    "DESCRIPTION": "Supprimé jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
+  },
+  {
+    "NAMES": [
+      "retenir"
+    ],
+    "DESCRIPTION": "N'est pas défaussé à la fin de votre tour."
+  },
+  {
+    "NAMES": [
+      "autojoué"
+    ],
+    "DESCRIPTION": "Quand vous la piochez, cette carte se joue elle même automatiquement."
+  },
+  {
+    "NAMES": [
+      "lié"
+    ],
+    "DESCRIPTION": "Ne peux pas être retiré de votre deck."
+  },
+  {
+    "NAMES": [
+      "geckobra"
+    ],
+    "DESCRIPTION": "Quand vous la piochez, le coût de cette carte devient aléatoire."
+  },
+  {
+    "NAMES": [
+      "tombe"
+    ],
+    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse"
+  },
+  {
+    "NAMES": [
+      "éphémère"
+    ],
+    "DESCRIPTION": "Cette carte se #yPurge et est retirée du deck une fois utilisée."
+  },
+  {
+    "PROPER_NAME": "PV temporaires",
+    "NAMES": [
+      "PV temporaire",
+      "PV_temporaires",
+	"PV_temporaire"
+    ],
+    "DESCRIPTION": "Les PV temporaires disparaissent à la fin du combat."
+  },
+  {
+    "NAMES": [
+      "rapporter"
+    ],
+    "DESCRIPTION": "Choisissez une carte spécifique issue d'une pile spécifique et mettez là dans votre main."
+  },
+  {
+    "NAMES": [
+      "remboursement",
+      "remboursements"
+    ],
+    "DESCRIPTION": "Regagnez de l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
+  },
+  {
+    "NAMES": [
+      "epuisant"
+    ],
+    "DESCRIPTION": "#yS'Épuise après un certain nombre d'utilisations."
+  },
+  {
+    "NAMES": [
+      "démarrage"
+    ],
+    "DESCRIPTION": "S'active au début de chaque combat."
+  }
+]

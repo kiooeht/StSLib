@@ -1,6 +1,8 @@
 ## Changelog ##
 #### dev ####
 * Automatically load localizations without needing to add new cases
+* Localization
+  * French (Diamsword)
 
 #### v1.24.1 ####
 * Fix crash on non-targeted cards selected with keyboard (Alchyr)
