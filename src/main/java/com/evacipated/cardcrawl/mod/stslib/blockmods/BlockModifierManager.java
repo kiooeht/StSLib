@@ -200,7 +200,7 @@ public class BlockModifierManager {
         }
     }
 
-    //TODO not manipulating damage taken. This is a design choice, but revisit later.
+    //Not manipulating damage taken. This is a design choice, but revisit later.
     public static void onAttacked(AbstractCreature owner, DamageInfo info, int damageAmount) {
         for (BlockInstance b : blockInstances(owner)) {
             for (AbstractBlockModifier m : b.getBlockTypes()) {
@@ -209,7 +209,7 @@ public class BlockModifierManager {
         }
     }
 
-    //TODO not manipulating damage taken. This is a design choice, but revisit later.
+    //Not manipulating damage taken. This is a design choice, but revisit later.
     public static int onAttackedPostBlockReductions(AbstractCreature owner, DamageInfo info, int damageAmount) {
         for (BlockInstance b : blockInstances(owner)) {
             for (AbstractBlockModifier m : b.getBlockTypes()) {
