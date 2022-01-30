@@ -17,43 +17,10 @@ public class DamageModifierManager {
         public static final SpireField<Object> instigatingObject = new SpireField<>(() -> null);
     }
 
-    public static class DamageModifierFields {
-        @SpirePatch(clz = AbstractCard.class, method = SpirePatch.CLASS)
-        public static class CardField {
-            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-        }
-
-//        @SpirePatch(clz = AbstractCardModifier.class, method = SpirePatch.CLASS)
-//        public static class CardModField {
-//            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-//        }
-//
-//        @SpirePatch(clz = AbstractCreature.class, method = SpirePatch.CLASS)
-//        public static class CreatureField {
-//            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-//        }
-//
-//        @SpirePatch(clz = AbstractOrb.class, method = SpirePatch.CLASS)
-//        public static class OrbField {
-//            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-//        }
-//
-//        @SpirePatch(clz = AbstractPotion.class, method = SpirePatch.CLASS)
-//        public static class PotionField {
-//            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-//        }
-//
-//        @SpirePatch(clz = AbstractPower.class, method = SpirePatch.CLASS)
-//        public static class PowerField {
-//            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-//        }
-//
-//        @SpirePatch(clz = AbstractRelic.class, method = SpirePatch.CLASS)
-//        public static class RelicField {
-//            public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
-//        }
+    @SpirePatch(clz = AbstractCard.class, method = SpirePatch.CLASS)
+    public static class DamageModsField {
+        public static final SpireField<List<AbstractDamageModifier>> damageModifiers = new SpireField<>(ArrayList::new);
     }
-
 
     public static List<AbstractDamageModifier> getDamageMods(DamageInfo info) {
         return BoundDamageInfoFields.boundDamageMods.get(info);
@@ -106,31 +73,6 @@ public class DamageModifierManager {
     }
 
     public static List<AbstractDamageModifier> modifiers(AbstractCard card) {
-        return DamageModifierFields.CardField.damageModifiers.get(card);
+        return DamageModsField.damageModifiers.get(card);
     }
-
-//    public static List<AbstractDamageModifier> modifiers(AbstractCardModifier o) {
-//        return DamageModifierFields.CardModField.damageModifiers.get(o);
-//    }
-//
-//    public static List<AbstractDamageModifier> modifiers(AbstractCreature o) {
-//        return DamageModifierFields.CreatureField.damageModifiers.get(o);
-//    }
-//
-//    public static List<AbstractDamageModifier> modifiers(AbstractOrb o) {
-//        return DamageModifierFields.OrbField.damageModifiers.get(o);
-//    }
-//
-//    public static List<AbstractDamageModifier> modifiers(AbstractPotion o) {
-//        return DamageModifierFields.PotionField.damageModifiers.get(o);
-//    }
-//
-//    public static List<AbstractDamageModifier> modifiers(AbstractPower o) {
-//        return DamageModifierFields.PowerField.damageModifiers.get(o);
-//    }
-//
-//    public static List<AbstractDamageModifier> modifiers(AbstractRelic o) {
-//        return DamageModifierFields.RelicField.damageModifiers.get(o);
-//    }
-
 }
