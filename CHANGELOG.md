@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.0.0 ####
 * Automatically load localizations without needing to add new cases
 * Localization
   * French (Diamsword)
