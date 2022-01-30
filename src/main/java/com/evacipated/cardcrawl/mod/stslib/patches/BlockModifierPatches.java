@@ -268,10 +268,6 @@ public class BlockModifierPatches {
                 BlockModifierManager.onAttack(info.owner, info, damageAmount, __instance);
             }
         }
-        /*@SpireInsertPatch(locator = MonsterOnAttackedLocator.class, localvars = "damageAmount")
-        public static void onAttacked(AbstractMonster __instance, DamageInfo info, int damageAmount) {
-            BlockModifierManager.onAttacked(__instance, info, damageAmount);
-        }*/
     }
     @SpirePatch(clz = AbstractPlayer.class, method = "damage")
     public static class OnAttackPlayer {
@@ -281,10 +277,6 @@ public class BlockModifierPatches {
                 BlockModifierManager.onAttack(info.owner, info, damageAmount, __instance);
             }
         }
-        /*@SpireInsertPatch(locator = PlayerOnAttackedLocator.class, localvars = "damageAmount")
-        public static void onAttacked(AbstractPlayer __instance, DamageInfo info, int damageAmount) {
-            BlockModifierManager.onAttacked(__instance, info, damageAmount);
-        }*/
     }
 
     @SpirePatch(clz = AbstractPlayer.class, method = "draw", paramtypez = int.class)
