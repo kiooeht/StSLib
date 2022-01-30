@@ -92,7 +92,7 @@ public class BindingPatches {
         }
     }
 
-    @SpirePatch(clz = DamageInfo.class, method = "<ctor>", paramtypez = {AbstractCreature.class, int.class, DamageInfo.DamageType.class})
+    @SpirePatch(clz = DamageInfo.class, method = SpirePatch.CONSTRUCTOR, paramtypez = {AbstractCreature.class, int.class, DamageInfo.DamageType.class})
     private static class BindObjectToDamageInfo {
 
         private static final ArrayList<AbstractDamageModifier> boundMods = new ArrayList<>();
