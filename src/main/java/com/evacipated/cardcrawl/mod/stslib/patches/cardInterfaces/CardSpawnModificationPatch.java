@@ -20,7 +20,7 @@ public class CardSpawnModificationPatch {
                 return;
             }
 
-            c[0] = ((SpawnModificationCard) c[0]).replaceWith(c[0], retVal);
+            c[0] = ((SpawnModificationCard) c[0]).replaceWith(retVal);
         }
     }
 
