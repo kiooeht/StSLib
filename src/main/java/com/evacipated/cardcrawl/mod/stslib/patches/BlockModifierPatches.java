@@ -178,7 +178,7 @@ public class BlockModifierPatches {
         }
     }
 
-    @SpirePatch(clz = AbstractMonster.class, method = "calculateDamage")
+    @SpirePatch2(clz = AbstractMonster.class, method = "calculateDamage")
     public static class PlayerDamageReceivePatches {
         @SpireInsertPatch(locator = PlayerDamageReceiveLocator.class, localvars = {"tmp"})
         public static void receive(AbstractMonster __instance, @ByRef float[] tmp) {

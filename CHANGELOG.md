@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix incorrect truncation of monster damage calculations (kiooeht/modargo)
 
 #### v2.0.0 ####
 * Automatically load localizations without needing to add new cases
