@@ -6,14 +6,14 @@
   },
   "stslib:MoveCardsAction": {
     "TEXT": [
-      "Choisissez une carte à ajouter à votre %s.",
-      "Choisissez des cartes à ajouter à votre %s."
+      "Choisissez une carte à ajouter à %s.",
+      "Choisissez des cartes à ajouter à %s."
     ],
     "TEXT_DICT": {
-      "HAND": "Main",
-      "DRAW": "Pioche",
-      "DISCARD": "Défausse",
-      "EXHAUST": "pile de cartes #yÉpuisées"
+      "HAND": "votre Main",
+      "DRAW": "votre Pioche",
+      "DISCARD": "votre Défausse",
+      "EXHAUST": "vos cartes #yÉpuisées ce combat"
     }
   }
 }
