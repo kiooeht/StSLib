@@ -13,7 +13,7 @@
       "HAND": "Main",
       "DRAW": "Pioche",
       "DISCARD": "Défausse",
-      "EXHAUST": "pile de cartes épuisées"
+      "EXHAUST": "pile de cartes #yÉpuisées"
     }
   }
 }

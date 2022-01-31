@@ -3,13 +3,13 @@
     "NAMES": [
       "purge"
     ],
-    "DESCRIPTION": "Supprimé jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
+    "DESCRIPTION": "Retirée jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
   },
   {
     "NAMES": [
       "retenir"
     ],
-    "DESCRIPTION": "N'est pas défaussé à la fin de votre tour."
+    "DESCRIPTION": "N'est pas défaussée à la fin de votre tour."
   },
   {
     "NAMES": [
@@ -33,7 +33,7 @@
     "NAMES": [
       "tombe"
     ],
-    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse"
+    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse."
   },
   {
     "NAMES": [
@@ -46,7 +46,7 @@
     "NAMES": [
       "PV temporaire",
       "PV_temporaires",
-	"PV_temporaire"
+	    "PV_temporaire"
     ],
     "DESCRIPTION": "Les PV temporaires disparaissent à la fin du combat."
   },
@@ -61,7 +61,7 @@
       "remboursement",
       "remboursements"
     ],
-    "DESCRIPTION": "Regagnez de l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
+    "DESCRIPTION": "Regagnez l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
   },
   {
     "NAMES": [
