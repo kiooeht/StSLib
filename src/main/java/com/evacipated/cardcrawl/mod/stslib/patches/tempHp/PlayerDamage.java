@@ -1,5 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.tempHp;
 
+import com.evacipated.cardcrawl.mod.stslib.damagemods.AbstractDamageModifier;
+import com.evacipated.cardcrawl.mod.stslib.damagemods.DamageModifierManager;
 import com.evacipated.cardcrawl.mod.stslib.patches.core.AbstractCreature.TempHPField;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnLoseTempHpPower;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnLoseTempHpRelic;
@@ -11,7 +13,6 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.vfx.combat.DamageImpactLineEffect;
@@ -37,6 +38,12 @@ public class PlayerDamage
         hadTempHP = false;
         if (damageAmount[0] <= 0) {
             return;
+        }
+
+        for (AbstractDamageModifier mod : DamageModifierManager.getDamageMods(info)) {
+            if (mod.ignoresTempHP(__instance)) {
+                return;
+            }
         }
 
         int temporaryHealth = TempHPField.tempHp.get(__instance);

@@ -3,5 +3,17 @@
     "TEXT": [
       "View Alt Upgrade"
     ]
+  },
+  "stslib:MoveCardsAction": {
+    "TEXT": [
+      "Choose a Card to Add to Your %s.",
+      "Choose Cards to Add to Your %s."
+    ],
+    "TEXT_DICT": {
+      "HAND": "Hand",
+      "DRAW": "Draw Pile",
+      "DISCARD": "Discard Pile",
+      "EXHAUST": "Exhaust Pile"
+    }
   }
 }

@@ -1,80 +1,78 @@
 [
   {
     "NAMES": [
-      "expurgation",
-      "expurgée",
-      "expurgé"
+      "purge"
     ],
-    "DESCRIPTION": "Retirée jusqu'à la fin du combat. Ne va #rPAS dans votre pile de cartes épuisées."
+    "DESCRIPTION": "Supprimé jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
   },
   {
     "NAMES": [
-      "retenue",
-      "retenez"
+      "retenir"
     ],
-    "DESCRIPTION": "N'est pas défaussée à la fin de votre tour."
+    "DESCRIPTION": "N'est pas défaussé à la fin de votre tour."
   },
   {
     "NAMES": [
-      "automatiquement joué",
-      "automatiquement jouée"
+      "autojoué"
     ],
-    "DESCRIPTION": "Cette carte est joué automatiquement lorsque pigée."
+    "DESCRIPTION": "Quand vous la piochez, cette carte se joue elle même automatiquement."
   },
   {
     "NAMES": [
-      "lien spirituel"
+      "lié"
     ],
-    "DESCRIPTION": "Ne peut pas être retiré du deck."
+    "DESCRIPTION": "Ne peux pas être retirée de votre deck."
   },
   {
     "NAMES": [
       "geckobra"
     ],
-    "DESCRIPTION": "Quand cette carte est pigée, son coût devient aléatoire."
+    "DESCRIPTION": "Quand vous la piochez, le coût de cette carte devient aléatoire."
   },
   {
     "NAMES": [
-      "cimetière"
+      "tombe"
     ],
-    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre pile de défausse."
+    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse"
   },
   {
     "NAMES": [
       "éphémère"
     ],
-    "DESCRIPTION": "Cette carte est #yExpurgée et retirée du deck lorsque jouée."
+    "DESCRIPTION": "Cette carte se #yPurge et est retirée du deck une fois utilisée."
   },
   {
-    "PROPER_NAME": "PV Temporaires",
+    "PROPER_NAME": "PV temporaires",
     "NAMES": [
-      "pv temporaires",
-      "pv_temporaires"
+      "PV temporaire",
+      "PV_temporaires",
+	"PV_temporaire"
     ],
-    "DESCRIPTION": "Les PV temporaires sont perdus à la fin du combat."
-  },
-  {
-    "NAMES": [
-      "recherche"
-    ],
-    "DESCRIPTION": "Choisissez une carte dans le paquet spécifié et ajoutez la à votre main."
+    "DESCRIPTION": "Les PV temporaires disparaissent à la fin du combat."
   },
   {
     "NAMES": [
-      "remboursement"
+      "rapporter"
     ],
-    "DESCRIPTION": "Gagnez autant d'énergie que le coût de la carte, jusqu'à concurrence de la valeur de remboursement."
+    "DESCRIPTION": "Choisissez une carte spécifique issue d'une pile spécifique et mettez là dans votre main."
   },
   {
     "NAMES": [
-      "épuisable"
+      "remboursement",
+      "remboursements"
     ],
-    "DESCRIPTION": "S'#yÉpuise après un certain nombre d'utilisations."
+    "DESCRIPTION": "Regagnez de l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
   },
   {
     "NAMES": [
-      "Démarrage"
+      "epuisant"
     ],
-    "DESCRIPTION": "Se déclenche au début du combat."
+    "DESCRIPTION": "#yS'Épuise après un certain nombre d'utilisations."
+  },
+  {
+    "NAMES": [
+      "démarrage"
+    ],
+    "DESCRIPTION": "S'active au début de chaque combat."
   }
 ]
