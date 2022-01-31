@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.0.1 ####
 * Fix incorrect truncation of monster damage calculations (kiooeht/modargo)
 
 #### v2.0.0 ####
