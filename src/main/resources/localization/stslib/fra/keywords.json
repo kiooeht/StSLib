@@ -3,25 +3,31 @@
     "NAMES": [
       "purge"
     ],
-    "DESCRIPTION": "Supprimé jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
+    "DESCRIPTION": "Retirée jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
   },
   {
+    "PROPER_NAME": "Retenue",
     "NAMES": [
+      "retenue",
       "retenir"
     ],
-    "DESCRIPTION": "N'est pas défaussé à la fin de votre tour."
+    "DESCRIPTION": "N'est pas défaussée à la fin de votre tour."
   },
   {
+    "PROPER_NAME": "Auto-joué",
     "NAMES": [
-      "autojoué"
+      "auto-joué",
+      "auto-jouée"
     ],
-    "DESCRIPTION": "Quand vous la piochez, cette carte se joue elle même automatiquement."
+    "DESCRIPTION": "Quand vous piochez cette carte, jouez-la."
   },
   {
+    "PROPER_NAME": "Lié",
     "NAMES": [
-      "lié"
+      "lié",
+      "liée"
     ],
-    "DESCRIPTION": "Ne peux pas être retiré de votre deck."
+    "DESCRIPTION": "Ne peux pas être retirée de votre deck."
   },
   {
     "NAMES": [
@@ -33,7 +39,7 @@
     "NAMES": [
       "tombe"
     ],
-    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse"
+    "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse."
   },
   {
     "NAMES": [
@@ -44,9 +50,9 @@
   {
     "PROPER_NAME": "PV temporaires",
     "NAMES": [
-      "PV temporaire",
-      "PV_temporaires",
-	"PV_temporaire"
+      "pv temporaires",
+      "pv_temporaires",
+	    "pv_temporaire"
     ],
     "DESCRIPTION": "Les PV temporaires disparaissent à la fin du combat."
   },
@@ -57,15 +63,18 @@
     "DESCRIPTION": "Choisissez une carte spécifique issue d'une pile spécifique et mettez là dans votre main."
   },
   {
+    "PROPER_NAME": "Remboursement",
     "NAMES": [
       "remboursement",
       "remboursements"
     ],
-    "DESCRIPTION": "Regagnez de l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
+    "DESCRIPTION": "Regagnez l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
   },
   {
+    "PROPER_NAME": "Épuisant",
     "NAMES": [
-      "epuisant"
+      "épuisant",
+      "épuisante"
     ],
     "DESCRIPTION": "#yS'Épuise après un certain nombre d'utilisations."
   },
