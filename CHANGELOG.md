@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Update French localization (red5h4d0w)
 
 #### v2.0.1 ####
 * Fix incorrect truncation of monster damage calculations (kiooeht/modargo)
