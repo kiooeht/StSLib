@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.1.0 ####
 * Update French localization (red5h4d0w)
 
 #### v2.0.1 ####
