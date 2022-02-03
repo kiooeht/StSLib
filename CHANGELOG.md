@@ -1,6 +1,39 @@
 ## Changelog ##
 #### dev ####
 
+#### v2.1.0 ####
+* Update French localization (red5h4d0w)
+
+#### v2.0.1 ####
+* Fix incorrect truncation of monster damage calculations (kiooeht/modargo)
+
+#### v2.0.0 ####
+* Automatically load localizations without needing to add new cases
+* Localization
+  * French (Diamsword)
+* Add SpawnModificationCard interface (erasels)
+  * Allows cards to customize how and if they will spawn
+* Fix custom targeting to work with double play effects (Alchyr)
+  * THIS IS A BREAKING CHANGE, any mods that have created a custom targe type will need to be fixed
+* Custom icons for descriptions (Mistress Alison)
+* Damage modifiers (Mistress Alison)
+* Block modifiers (Mistress Alison)
+
+#### v1.24.1 ####
+* Fix crash on non-targeted cards selected with keyboard (Alchyr)
+
+#### v1.24.0 ####
+* Custom Targeting (Alchyr)
+  * Self or Enemy targeting
+
+#### v1.23.1 ####
+* Fix `MoveCardsAction` always saying "Add to Hand"
+  * Update localizations
+    * ZHS
+    * Korean
+    * Russian
+* Fix normal branching upgrades being random instead (Mistress Alison)
+
 #### v1.23.0 ####
 * Neutral Power type (erasels)
 

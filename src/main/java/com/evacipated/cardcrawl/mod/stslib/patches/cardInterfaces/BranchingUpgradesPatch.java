@@ -264,8 +264,12 @@ public class BranchingUpgradesPatch {
         )
         public static void Insert(GridCardSelectScreen __instance) {
             AbstractCard hoveredCard = getHoveredCard();
-            if (hoveredCard instanceof BranchingUpgradesCard && BranchSelectFields.isBranchUpgrading.get(__instance)) {
-                ((BranchingUpgradesCard) hoveredCard).setUpgradeType(BranchingUpgradesCard.UpgradeType.BRANCH_UPGRADE);
+            if (hoveredCard instanceof BranchingUpgradesCard) {
+                if (BranchSelectFields.isBranchUpgrading.get(__instance)) {
+                    ((BranchingUpgradesCard) hoveredCard).setUpgradeType(BranchingUpgradesCard.UpgradeType.BRANCH_UPGRADE);
+                } else {
+                    ((BranchingUpgradesCard) hoveredCard).setUpgradeType(BranchingUpgradesCard.UpgradeType.NORMAL_UPGRADE);
+                }
                 BranchSelectFields.isBranchUpgrading.set(__instance, false);
             }
         }

@@ -1,0 +1,17 @@
+{
+  "stslib:Stunned": {
+    "NAME": "Étourdi",
+    "DESCRIPTIONS": [
+      "N'agit' pour #b",
+      " tour.",
+      " tours."
+    ]
+  },
+  "stslib:ExhaustiveNegationPower": {
+    "NAME": "Annule Épuisant",
+    "DESCRIPTIONS": [
+      "Les prochaines #b",
+      " fois que vous jouez une carte #yÉpuisante, son compteur #yd'Épuisant ne va pas diminuer."
+    ]
+  }
+}

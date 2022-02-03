@@ -1,0 +1,19 @@
+{
+  "stslib:SingleCardViewPopup": {
+    "TEXT": [
+      "Voir l'Amélioration alternative"
+    ]
+  },
+  "stslib:MoveCardsAction": {
+    "TEXT": [
+      "Choisissez une carte à ajouter à %s.",
+      "Choisissez des cartes à ajouter à %s."
+    ],
+    "TEXT_DICT": {
+      "HAND": "votre Main",
+      "DRAW": "votre Pioche",
+      "DISCARD": "votre Défausse",
+      "EXHAUST": "vos cartes #yÉpuisées ce combat"
+    }
+  }
+}

@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 public class MoveCardsAction extends AbstractGameAction
 {
-    private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("AnyCardFromDeckToHandAction");
+    private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("stslib:MoveCardsAction");
     public static final String[] TEXT = uiStrings.TEXT;
     private AbstractPlayer p;
     private CardGroup source;
@@ -163,11 +163,7 @@ public class MoveCardsAction extends AbstractGameAction
                 tmp.sortAlphabetically(true);
                 tmp.sortByRarityPlusStatusCardType(true);
             }
-            if (amount == 1) {
-                AbstractDungeon.gridSelectScreen.open(tmp, amount, TEXT[0], false);
-            } else {
-                AbstractDungeon.gridSelectScreen.open(tmp, amount, TEXT[1], false);
-            }
+            AbstractDungeon.gridSelectScreen.open(tmp, amount, makeText(), false);
             tickDuration();
             return;
         }
@@ -198,5 +194,31 @@ public class MoveCardsAction extends AbstractGameAction
             }
         }
         tickDuration();
+    }
+
+    private String makeText()
+    {
+        String ret;
+        if (amount == 1) {
+            ret = TEXT[0];
+        } else {
+            ret = TEXT[1];
+        }
+
+        String location = null;
+        if (destination == p.hand) {
+            location = uiStrings.TEXT_DICT.get("HAND");
+        } else if (destination == p.drawPile) {
+            location = uiStrings.TEXT_DICT.get("DRAW");
+        } else if (destination == p.discardPile) {
+            location = uiStrings.TEXT_DICT.get("DISCARD");
+        } else if (destination == p.exhaustPile) {
+            location = uiStrings.TEXT_DICT.get("EXHAUST");
+        }
+        if (location == null) {
+            location = "<Unknown>";
+        }
+
+        return String.format(ret, location);
     }
 }

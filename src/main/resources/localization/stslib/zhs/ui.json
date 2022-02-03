@@ -3,5 +3,17 @@
     "TEXT": [
       "看升变版"
     ]
+  },
+  "stslib:MoveCardsAction": {
+    "TEXT": [
+      "选择一张牌加入你的 %s.",
+      "选择牌加入你的 %s."
+    ],
+    "TEXT_DICT": {
+      "HAND": "手牌",
+      "DRAW": "抽牌堆",
+      "DISCARD": "弃牌堆",
+      "EXHAUST": "消耗堆"
+    }
   }
 }
