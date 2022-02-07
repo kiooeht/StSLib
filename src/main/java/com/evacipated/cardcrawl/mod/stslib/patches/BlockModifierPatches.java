@@ -7,11 +7,7 @@ import com.evacipated.cardcrawl.mod.stslib.blockmods.AbstractBlockModifier;
 import com.evacipated.cardcrawl.mod.stslib.blockmods.BlockInstance;
 import com.evacipated.cardcrawl.mod.stslib.blockmods.BlockModifierManager;
 import com.evacipated.cardcrawl.mod.stslib.damagemods.DamageModifierManager;
-import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnReceivePowerPatch;
-import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.BetterOnApplyPowerPower;
-import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
 import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -21,7 +17,6 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import javassist.CtBehavior;
 
 public class BlockModifierPatches {
@@ -308,26 +303,6 @@ public class BlockModifierPatches {
         }
     }
 
-    @SpirePatch(clz = OnReceivePowerPatch.class, method = "CheckPower")
-    private static class ApplyAndReceivePowerStuff {
-        @SpireInsertPatch(locator = OnApplyPowerLocator.class, localvars = "apply")
-        public static void apply(AbstractGameAction action, AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply, @ByRef boolean[] apply) {
-            apply[0] = BlockModifierManager.onApplyPower(source, powerToApply, target, source);
-        }
-        @SpireInsertPatch(locator = OnApplyPowerStacksLocator.class)
-        public static void applyStacks(AbstractGameAction action, AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply) {
-            action.amount = BlockModifierManager.onApplyPowerStacks(source, powerToApply, target, source, action.amount);
-        }
-        @SpireInsertPatch(locator = OnReceivePowerLocator.class, localvars = "apply")
-        public static void receive(AbstractGameAction action, AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply, @ByRef boolean[] apply) {
-            apply[0] = BlockModifierManager.onReceivePower(target, powerToApply, target, source);
-        }
-        @SpireInsertPatch(locator = OnReceivePowerStacksLocator.class)
-        public static void receiveStacks(AbstractGameAction action, AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply) {
-            action.amount = BlockModifierManager.onReceivePowerStacks(target, powerToApply, target, source, action.amount);
-        }
-    }
-
     @SpirePatch(clz = GameActionManager.class, method = "getNextAction")
     public static class PreBlockLossCall {
         @SpireInsertPatch(locator = Locator.class)
@@ -555,42 +530,6 @@ public class BlockModifierPatches {
         @Override
         public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
             Matcher finalMatcher = new Matcher.FieldAccessMatcher(AbstractMonster.class, "powers");
-            return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
-        }
-    }
-
-    private static class OnApplyPowerLocator extends SpireInsertLocator {
-        @Override
-        public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher(BetterOnApplyPowerPower.class, "betterOnApplyPower");
-            int [] ret = LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
-            ret[0]++;
-            return ret;
-        }
-    }
-
-    private static class OnApplyPowerStacksLocator extends SpireInsertLocator {
-        @Override
-        public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher(BetterOnApplyPowerPower.class, "betterOnApplyPowerStacks");
-            return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
-        }
-    }
-
-    private static class OnReceivePowerLocator extends SpireInsertLocator {
-        @Override
-        public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher(OnReceivePowerPower.class, "onReceivePower");
-            int [] ret = LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
-            ret[0]++;
-            return ret;
-        }
-    }
-
-    private static class OnReceivePowerStacksLocator extends SpireInsertLocator {
-        @Override
-        public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
-            Matcher finalMatcher = new Matcher.MethodCallMatcher(OnReceivePowerPower.class, "onReceivePowerStacks");
             return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
         }
     }
