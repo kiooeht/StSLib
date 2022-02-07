@@ -1,5 +1,8 @@
 ## Changelog ##
 #### dev ####
+* Fix RewardCardInterface (erasels)
+* Optimize RewardCardInterface (erasels)
+* Fix OnApplyPowerPower and OnReceivePowerPower not working (Mistress Alison)
 
 #### v2.1.0 ####
 * Update French localization (red5h4d0w)
