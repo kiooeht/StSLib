@@ -4,23 +4,22 @@ import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCar
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import javassist.CtBehavior;
 
 import java.util.ArrayList;
 
 @SpirePatch2(clz = AbstractDungeon.class, method = "getRewardCards")
 public class CardSpawnModificationPatch {
-    //Patches into 1838 |  if (c.cardID.equals(card.cardID))
-    @SpireInsertPatch(locator = Locator.class, localvars = {"c", "containsDupe", "retVal"})
-    public static void patch(@ByRef AbstractCard[] c, @ByRef boolean[] containsDupe, ArrayList<AbstractCard> retVal) {
-        if(c[0] instanceof SpawnModificationCard) {
-            if(!((SpawnModificationCard) c[0]).canSpawn(retVal)) {
+    //Patches into 1837 |  for (AbstractCard c : retVal) {
+    @SpireInsertPatch(rloc = 45, localvars = {"card", "containsDupe", "retVal"})
+    public static void patch(@ByRef AbstractCard[] card, @ByRef boolean[] containsDupe, ArrayList<AbstractCard> retVal) {
+        if(card[0] instanceof SpawnModificationCard) {
+            if(!((SpawnModificationCard) card[0]).canSpawn(retVal)) {
                 containsDupe[0] = true;
                 return;
             }
 
-            c[0] = ((SpawnModificationCard) c[0]).replaceWith(retVal);
+            card[0] = ((SpawnModificationCard) card[0]).replaceWith(retVal);
         }
     }
 
