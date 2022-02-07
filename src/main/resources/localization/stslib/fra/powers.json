@@ -2,7 +2,7 @@
   "stslib:Stunned": {
     "NAME": "Étourdi",
     "DESCRIPTIONS": [
-      "Ne fait rien pour #b",
+      "N'agit' pour #b",
       " tour.",
       " tours."
     ]
@@ -11,7 +11,7 @@
     "NAME": "Annule Épuisant",
     "DESCRIPTIONS": [
       "Les prochaines #b",
-      " fois que vous jouez une carte Épuisant, le conteur d'Épuisant ne va pas réduire."
+      " fois que vous jouez une carte #yÉpuisante, son compteur #yd'Épuisant ne va pas diminuer."
     ]
   }
 }
