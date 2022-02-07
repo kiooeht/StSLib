@@ -1,6 +1,9 @@
 package com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces;
 
 import com.badlogic.gdx.Gdx;
+import com.evacipated.cardcrawl.mod.stslib.blockmods.AbstractBlockModifier;
+import com.evacipated.cardcrawl.mod.stslib.blockmods.BlockInstance;
+import com.evacipated.cardcrawl.mod.stslib.blockmods.BlockModifierManager;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.BetterOnApplyPowerPower;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnReceivePowerPower;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnAnyPowerAppliedRelic;
@@ -23,6 +26,21 @@ public class OnReceivePowerPatch
     static SpireReturn<Void> CheckPower(AbstractGameAction action, AbstractCreature target, AbstractCreature source, float[] duration, AbstractPower powerToApply)
     {
         if (source != null) {
+            for (BlockInstance b : BlockModifierManager.blockInstances(source)) {
+                for (AbstractBlockModifier m : b.getBlockTypes()) {
+                    // Allows changing the stackAmount
+                    action.amount = m.onApplyPowerStacks(powerToApply, target, source, action.amount);
+                    // Allows negating the power
+                    boolean apply = m.onApplyPower(powerToApply, target, source);
+                    if (!apply) {
+                        AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
+                        duration[0] -= Gdx.graphics.getDeltaTime();
+                        CardCrawlGame.sound.play("NULLIFY_SFX");
+                        return SpireReturn.Return(null);
+                    }
+                }
+            }
+
             for (AbstractPower power : source.powers) {
                 if (power instanceof BetterOnApplyPowerPower) {
                     // Allows changing the stackAmount
@@ -57,6 +75,21 @@ public class OnReceivePowerPatch
         }
 
         if (target != null) {
+            for (BlockInstance b : BlockModifierManager.blockInstances(target)) {
+                for (AbstractBlockModifier m : b.getBlockTypes()) {
+                    // Allows changing the stackAmount
+                    action.amount = m.onReceivePowerStacks(powerToApply, target, source, action.amount);
+                    // Allows negating the power
+                    boolean apply = m.onReceivePower(powerToApply, target, source);
+                    if (!apply) {
+                        AbstractDungeon.actionManager.addToTop(new TextAboveCreatureAction(target, ApplyPowerAction.TEXT[0]));
+                        duration[0] -= Gdx.graphics.getDeltaTime();
+                        CardCrawlGame.sound.play("NULLIFY_SFX");
+                        return SpireReturn.Return(null);
+                    }
+                }
+            }
+
             for (AbstractPower power : target.powers) {
                 if (power instanceof OnReceivePowerPower) {
                     // Allows changing the stackAmount
