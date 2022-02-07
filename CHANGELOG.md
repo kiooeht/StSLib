@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.1.1 ####
 * Fix RewardCardInterface (erasels)
 * Optimize RewardCardInterface (erasels)
 * Fix OnApplyPowerPower and OnReceivePowerPower not working (Mistress Alison)
