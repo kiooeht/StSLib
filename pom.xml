@@ -15,25 +15,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.evacipated.cardcrawl</groupId>
-            <artifactId>ModTheSpire</artifactId>
-            <version>${ModTheSpire.version}</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/../lib/ModTheSpire.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>basemod</groupId>
-            <artifactId>basemod</artifactId>
-            <version>5.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/../lib/BaseMod.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>com.megacrit.cardcrawl</groupId>
             <artifactId>slaythespire</artifactId>
             <version>${SlayTheSpire.version}</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../lib/desktop-1.0.jar</systemPath>
+            <systemPath>C:/Program Files (x86)/Steam/steamapps/common/SlayTheSpire/desktop-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.evacipated.cardcrawl</groupId>
+            <artifactId>modthespire</artifactId>
+            <version>${ModTheSpire.version}</version>
+            <scope>system</scope>
+            <systemPath>C:/Program Files (x86)/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>basemod</groupId>
+            <artifactId>basemod</artifactId>
+            <version>5.29.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Program Files (x86)/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -64,8 +64,8 @@
                         <phase>package</phase>
                         <configuration>
                             <target>
-                                <copy file="target/StSLib.jar" tofile="../lib/StSLib.jar"/>
-                                <copy file="target/StSLib.jar" tofile="../_ModTheSpire/mods/StSLib.jar"/>
+                                <copy file="target/${project.artifactId}.jar"
+                                      tofile="C:/Program Files (x86)/Steam/steamapps/common/SlayTheSpire/mods/${project.artifactId}.jar"/>
                             </target>
                         </configuration>
                         <goals>

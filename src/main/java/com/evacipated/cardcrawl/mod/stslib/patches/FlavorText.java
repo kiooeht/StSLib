@@ -1,14 +1,13 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
 import basemod.patches.com.megacrit.cardcrawl.helpers.TipHelper.FakeKeywords;
-import basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.TitleFontSize;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.google.gson.annotations.SerializedName;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -20,13 +19,12 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.LocalizedStrings;
 import javassist.*;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.TitleFontSize.fontFile;
 
-public class LoreTooltips {
-    private static BitmapFont loreFont = LoreTooltips.prepFont(22.0f, false);
+public class FlavorText {
+    private static final BitmapFont flavorFont = FlavorText.prepFont(22.0f, false);
 
     private static final String TIP_TOP_STRING = "images/stslib/ui/tipTop.png";
     private static final String TIP_MID_STRING = "images/stslib/ui/tipMid.png";
@@ -47,32 +45,18 @@ public class LoreTooltips {
                                                float ___TIP_DESC_LINE_SPACING, float ___BODY_TEXT_WIDTH,
                                                float ___BOX_EDGE_H, float ___SHADOW_DIST_X, float ___SHADOW_DIST_Y,
                                                float ___BOX_W, float ___BOX_BODY_H, float ___TEXT_OFFSET_X,
-                                               Color ___BASE_COLOR, AbstractCard ___card) {
-            Color loreColor;
+                                               AbstractCard ___card) {
+            Color boxColor;
             Color textColor;
             String s;
-            try {
-                Field field1 = AbstractCard.class.getField("lore");
-                Field field2 = AbstractCard.class.getField("loreColor");
-                Field field3 = AbstractCard.class.getField("loreTextColor");
-                s = (String) field1.get(___card);
-                loreColor = (Color) field2.get(___card);
-                textColor = (Color) field3.get(___card);
-                if (loreColor == null || s == null)
-                    return;
-                // While this tries to make the color visible the best practice is to just define the textColor yourself.
-                if (textColor == null) {
-                    if (loreColor.g + loreColor.b + loreColor.r < 1.5f)
-                        textColor = ___BASE_COLOR;
-                    else
-                        textColor = Color.BLACK.cpy();
-                }
-            }
-            catch (Exception e) {
-                return;
-            }
 
-            float h = -FontHelper.getSmartHeight(loreFont, s, ___BODY_TEXT_WIDTH, ___TIP_DESC_LINE_SPACING)
+            s = AbstractCardFlavorFields.flavor.get(___card);
+            boxColor = AbstractCardFlavorFields.boxColor.get(___card);
+            textColor = AbstractCardFlavorFields.textColor.get(___card);
+            if (boxColor == null || s == null || s.equals("") || textColor == null)
+                return;
+
+            float h = -FontHelper.getSmartHeight(flavorFont, s, ___BODY_TEXT_WIDTH, ___TIP_DESC_LINE_SPACING)
                     - 40.0F * Settings.scale;
 
             if (TIP_BOT == null || TIP_MID == null || TIP_TOP == null)
@@ -80,14 +64,16 @@ public class LoreTooltips {
 
             sb.setColor(Settings.TOP_PANEL_SHADOW_COLOR);
             sb.draw(ImageMaster.KEYWORD_TOP, x + ___SHADOW_DIST_X, y[0] - ___SHADOW_DIST_Y, ___BOX_W, ___BOX_EDGE_H);
-            sb.draw(ImageMaster.KEYWORD_BODY, x + ___SHADOW_DIST_X, y[0] - h - ___BOX_EDGE_H - ___SHADOW_DIST_Y, ___BOX_W, h + ___BOX_EDGE_H);
-            sb.draw(ImageMaster.KEYWORD_BOT, x + ___SHADOW_DIST_X, y[0] - h - ___BOX_BODY_H - ___SHADOW_DIST_Y, ___BOX_W, ___BOX_EDGE_H);
-            sb.setColor(loreColor.cpy());
+            sb.draw(ImageMaster.KEYWORD_BODY, x + ___SHADOW_DIST_X, y[0] - h - ___BOX_EDGE_H - ___SHADOW_DIST_Y,
+                    ___BOX_W, h + ___BOX_EDGE_H);
+            sb.draw(ImageMaster.KEYWORD_BOT, x + ___SHADOW_DIST_X, y[0] - h - ___BOX_BODY_H - ___SHADOW_DIST_Y,
+                    ___BOX_W, ___BOX_EDGE_H);
+            sb.setColor(boxColor.cpy());
             sb.draw(TIP_TOP, x, y[0], ___BOX_W, ___BOX_EDGE_H);
             sb.draw(TIP_MID, x, y[0] - h - ___BOX_EDGE_H, ___BOX_W, h + ___BOX_EDGE_H);
             sb.draw(TIP_BOT, x, y[0] - h - ___BOX_BODY_H, ___BOX_W, ___BOX_EDGE_H);
 
-            FontHelper.renderSmartText(sb, loreFont, s,x + ___TEXT_OFFSET_X,
+            FontHelper.renderSmartText(sb, flavorFont, s,x + ___TEXT_OFFSET_X,
                     y[0] + 13.0F * Settings.scale, ___BODY_TEXT_WIDTH, ___TIP_DESC_LINE_SPACING,
                     textColor);
 
@@ -104,22 +90,16 @@ public class LoreTooltips {
             locator = Locator.class,
             localvars = {"sumTooltipHeight"}
         )
-        public static SpireReturn insertPatch(float x, SpriteBatch sb, AbstractCard ___card,
-                                              float ___BODY_TEXT_WIDTH, float ___TIP_DESC_LINE_SPACING, float ___BOX_EDGE_H,
-                                              @ByRef float[] sumTooltipHeight) {
-            String s;
-            try {
-                Field field1 = AbstractCard.class.getField("lore");
-                s = (String) field1.get(___card);
-            }
-            catch (Exception e) {
-                return SpireReturn.Continue();
-            }
+        public static void insertPatch(float x, SpriteBatch sb, AbstractCard ___card,
+                                       float ___BODY_TEXT_WIDTH, float ___TIP_DESC_LINE_SPACING,
+                                       float ___BOX_EDGE_H, @ByRef float[] sumTooltipHeight) {
+            String s = AbstractCardFlavorFields.flavor.get(___card);
+            if (s == null || s.equals(""))
+                return;
 
-            float textHeight = -FontHelper.getSmartHeight(loreFont, s, ___BODY_TEXT_WIDTH, ___TIP_DESC_LINE_SPACING)
+            float textHeight = -FontHelper.getSmartHeight(flavorFont, s, ___BODY_TEXT_WIDTH, ___TIP_DESC_LINE_SPACING)
                     - 40.0F * Settings.scale;
             sumTooltipHeight[0] += textHeight + ___BOX_EDGE_H * 3.15F;
-            return SpireReturn.Continue();
         }
         private static class Locator extends SpireInsertLocator {
             private Locator() {}
@@ -130,18 +110,23 @@ public class LoreTooltips {
         }
     }
 
-    @SpirePatch2(
+    @SpirePatch(
             clz = CardStrings.class,
-            method = SpirePatch.CONSTRUCTOR
+            method = SpirePatch.CLASS
     )
-    public static class CardStringsLoreVarPatch {
-        @SpireRawPatch
-        public static void rawPatch(CtBehavior ctBehavior) throws NotFoundException, CannotCompileException {
-            CtClass cardStringsCtClass = ctBehavior.getDeclaringClass().getClassPool().get(CardStrings.class.getName());
-            String fieldSource = "public String LORE;";
-            CtField field = CtField.make(fieldSource, cardStringsCtClass);
-            cardStringsCtClass.addField(field);
-        }
+    public static class CardStringsFlavorField {
+        @SerializedName("FLAVOR")
+        public static SpireField<String> FLAVOR = new SpireField<>(() -> "");
+    }
+
+    @SpirePatch2(
+            clz = AbstractCard.class,
+            method = SpirePatch.CLASS
+    )
+    public static class AbstractCardFlavorFields {
+        public static SpireField<String> flavor = new SpireField<>(() -> null);
+        public static SpireField<Color> boxColor = new SpireField<>(Color.WHITE::cpy);
+        public static SpireField<Color> textColor = new SpireField<>(Color.BLACK::cpy);
     }
 
     @SpirePatch2(
@@ -151,81 +136,15 @@ public class LoreTooltips {
                     AbstractCard.CardType.class, AbstractCard.CardColor.class, AbstractCard.CardRarity.class,
                     AbstractCard.CardTarget.class, DamageInfo.DamageType.class}
     )
-    public static class AbstractCardLoreFields {
-        @SpireRawPatch
-        public static void rawPatch(CtBehavior ctBehavior) throws NotFoundException, CannotCompileException {
-            CtClass abstractCardClass = ctBehavior.getDeclaringClass().getClassPool().get(AbstractCard.class.getName());
-            String fieldSource1 = "public String lore = null;";
-            String fieldSource2 = "public com.badlogic.gdx.graphics.Color loreColor = com.badlogic.gdx.graphics.Color.WHITE.cpy();";
-            String fieldSource3 = "public com.badlogic.gdx.graphics.Color loreTextColor = null;";
-            CtField field1 = CtField.make(fieldSource1, abstractCardClass);
-            CtField field2 = CtField.make(fieldSource2, abstractCardClass);
-            CtField field3 = CtField.make(fieldSource3, abstractCardClass);
-            abstractCardClass.addField(field1);
-            abstractCardClass.addField(field2);
-            abstractCardClass.addField(field3);
-        }
+    public static class FlavorIntoCardStrings {
         @SpirePostfixPatch
         public static void postfix(AbstractCard __instance) {
             CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(__instance.cardID);
-            setLore(__instance, cardStrings);
-        }
-    }
+            if (cardStrings == null || CardStringsFlavorField.FLAVOR.get(cardStrings) == null)
+                return;
 
-    public static String getLore(CardStrings cardStrings) {
-        try {
-            Field field2 = CardStrings.class.getField("LORE");
-            return (String) field2.get(cardStrings);
+            AbstractCardFlavorFields.flavor.set(__instance, CardStringsFlavorField.FLAVOR.get(cardStrings));
         }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-    // returns false if the operation fails, true otherwise
-    public static boolean setLore(AbstractCard card, String lore) {
-        try {
-            Field field = AbstractCard.class.getField("lore");
-            field.set(card, lore);
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean setLore(AbstractCard card, CardStrings cardStrings) {
-        try {
-            Field field1 = AbstractCard.class.getField("lore");
-            Field field2 = CardStrings.class.getField("LORE");
-            field1.set(card, field2.get(cardStrings));
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean setLoreColor(AbstractCard card, Color loreColor) {
-        try {
-            Field field = AbstractCard.class.getField("loreColor");
-            field.set(card, loreColor);
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean setLoreTextColor(AbstractCard card, Color loreTextColor) {
-        try {
-            Field field = AbstractCard.class.getField("loreTextColor");
-            field.set(card, loreTextColor);
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
     }
 
     // We want tipBodyFont but without shadows basically
