@@ -1,6 +1,10 @@
 ## Changelog ##
 #### dev ####
 
+#### v2.2.0 ####
+* Fix LoseBlockAction not removing block containers (Mistress Alison)
+* Card flavor text (Bryan)
+
 #### v2.1.1 ####
 * Fix RewardCardInterface (erasels)
 * Optimize RewardCardInterface (erasels)

@@ -23,6 +23,37 @@ public class BlockModifierPatches {
 
     public static BlockInstance specificInstanceToReduce = null;
 
+    @SpirePatch(clz = AbstractCreature.class, method = "loseBlock", paramtypez = {int.class, boolean.class})
+    public static class OnDirectlyLoseBlock {
+        @SpirePostfixPatch
+        public static void fixContainers(AbstractCreature __instance, int amount, boolean noAnimation) {
+            if (!(OnPlayerLoseBlockToggle.isEnabled && __instance instanceof AbstractPlayer) && amount > 0) {
+                int delta = 0;
+                int removedAmount;
+                for (BlockInstance b : BlockModifierManager.blockInstances(__instance)) {
+                    delta += b.getBlockAmount();
+                }
+                delta -= __instance.currentBlock;
+                if (delta > 0) {
+                    for (BlockInstance b : BlockModifierManager.blockInstances(__instance)) {
+                        removedAmount = Math.min(b.getBlockAmount(), delta);
+                        b.setBlockAmount(b.getBlockAmount() - removedAmount);
+                        delta -= removedAmount;
+                        if (b.getBlockAmount() <= 0) {
+                            for (AbstractBlockModifier m : b.getBlockTypes()) {
+                                m.onRemove(false, null, delta);
+                            }
+                        }
+                        if (delta <= 0) {
+                            break;
+                        }
+                    }
+                    BlockModifierManager.removeEmptyBlockInstances(__instance);
+                }
+            }
+        }
+    }
+
     @SpirePatch(clz = ModifyPlayerLoseBlock.class, method = "Prefix")
     public static class ModifyStartOfTurnBlockLossPatch {
         @SpirePostfixPatch
