@@ -184,6 +184,30 @@ public class FlavorText {
 
     @SpirePatch2(
             clz = SingleCardViewPopup.class,
+            method = "renderTips"
+    )
+    public static class PassEmptyTooltips {
+        @SpireInsertPatch(
+                locator = Locator.class,
+                localvars = {"t"}
+        )
+        public static void Insert(ArrayList<PowerTip> t) {
+            if (t.isEmpty())
+                TipHelper.queuePowerTips((float)Settings.WIDTH / 2.0F + 340.0F * Settings.scale, 420.0F * Settings.scale, t);
+        }
+        private static class Locator extends SpireInsertLocator {
+            private Locator() {}
+
+            @Override
+            public int[] Locate(CtBehavior behavior) throws Exception {
+                Matcher matcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "cardsToPreview");
+                return LineFinder.findInOrder(behavior, matcher);
+            }
+        }
+    }
+
+    @SpirePatch2(
+            clz = SingleCardViewPopup.class,
             method = "open",
             paramtypez = { AbstractCard.class, CardGroup.class }
     )
