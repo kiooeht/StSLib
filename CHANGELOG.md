@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Fix flavor text not appearing in SingleCardView (Bryan)
+* Colored damage numbers (Bryan)
 
 #### v2.2.0 ####
 * Fix LoseBlockAction not removing block containers (Mistress Alison)
