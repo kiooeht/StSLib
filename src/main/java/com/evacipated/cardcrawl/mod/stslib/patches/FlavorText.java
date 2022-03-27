@@ -305,7 +305,8 @@ public class FlavorText {
                 locator = Locator.class
         )
         public static void Insert(AbstractPotion __instance) {
-            FlavorText.potion = __instance;
+            if (!(boolean)ReflectionHacks.getPrivateStatic(TipHelper.class, "renderedTipThisFrame"))
+                FlavorText.potion = __instance;
         }
         private static class Locator extends SpireInsertLocator {
             @Override
@@ -326,7 +327,8 @@ public class FlavorText {
                 localvars = {"p"}
         )
         public static void Insert(TopPanel __instance, AbstractPotion p) {
-            potion = p;
+            if (!(boolean)ReflectionHacks.getPrivateStatic(TipHelper.class, "renderedTipThisFrame"))
+                potion = p;
         }
         private static class Locator extends SpireInsertLocator {
             @Override
@@ -346,7 +348,8 @@ public class FlavorText {
                 locator = Locator.class
         )
         public static void Insert(RewardItem __instance) {
-            item = __instance;
+            if (!(boolean)ReflectionHacks.getPrivateStatic(TipHelper.class, "renderedTipThisFrame"))
+                item = __instance;
         }
         private static class Locator extends SpireInsertLocator {
             @Override
