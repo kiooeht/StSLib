@@ -21,7 +21,11 @@ import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.LocalizedStrings;
+import com.megacrit.cardcrawl.localization.PotionStrings;
+import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
+import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import javassist.*;
 
 import java.util.ArrayList;
@@ -40,11 +44,70 @@ public class FlavorText {
     public static Texture TIP_BOT;
 
     public static AbstractCard card;
+    public static AbstractPotion potion;
+    public static RewardItem item;
+
+    private static float BODY_TEXT_WIDTH;
+    private static float TIP_DESC_LINE_SPACING;
+    private static float SHADOW_DIST_X;
+    private static float SHADOW_DIST_Y;
+    private static float BOX_EDGE_H;
+    private static float BOX_BODY_H;
+    private static float BOX_W;
+    private static float TEXT_OFFSET_X;
 
     public enum boxType {
         WHITE,
         TRADITIONAL,
         CUSTOM
+    }
+
+    private static void setConstants() {
+        BODY_TEXT_WIDTH = ReflectionHacks.getPrivate(null, TipHelper.class, "BODY_TEXT_WIDTH");
+        TIP_DESC_LINE_SPACING = ReflectionHacks.getPrivate(null, TipHelper.class, "TIP_DESC_LINE_SPACING");
+        SHADOW_DIST_X = ReflectionHacks.getPrivate(null, TipHelper.class, "SHADOW_DIST_X");
+        SHADOW_DIST_Y = ReflectionHacks.getPrivate(null, TipHelper.class, "SHADOW_DIST_Y");
+        BOX_EDGE_H = ReflectionHacks.getPrivate(null, TipHelper.class, "BOX_EDGE_H");
+        BOX_BODY_H = ReflectionHacks.getPrivate(null, TipHelper.class, "BOX_BODY_H");
+        BOX_W = ReflectionHacks.getPrivate(null, TipHelper.class, "BOX_W");
+        TEXT_OFFSET_X = ReflectionHacks.getPrivate(null, TipHelper.class, "TEXT_OFFSET_X");
+    }
+
+    private static float addFlavorText(float x, float y, SpriteBatch sb, AbstractPotion potion) {
+        if (potion == null)
+            return y;
+
+        Color boxColor;
+        Color textColor;
+        String s;
+
+        s = PotionFlavorFields.flavor.get(potion);
+        boxColor = PotionFlavorFields.boxColor.get(potion);
+        textColor = PotionFlavorFields.textColor.get(potion);
+
+        if (TIP_BOT == null || TIP_MID == null || TIP_TOP == null)
+            setTextures();
+
+        Texture topTexture = TIP_TOP;
+        Texture midTexture = TIP_MID;
+        Texture botTexture = TIP_BOT;
+
+        if (PotionFlavorFields.flavorBoxType.get(potion) == boxType.TRADITIONAL) {
+            topTexture = ImageMaster.KEYWORD_TOP;
+            midTexture = ImageMaster.KEYWORD_BODY;
+            botTexture = ImageMaster.KEYWORD_BOT;
+        }
+        else if (PotionFlavorFields.flavorBoxType.get(potion) == boxType.CUSTOM &&
+                PotionFlavorFields.boxTop.get(potion) != null &&
+                PotionFlavorFields.boxMid.get(potion) != null &&
+                PotionFlavorFields.boxBot.get(potion) != null)
+        {
+            topTexture = PotionFlavorFields.boxTop.get(potion);
+            midTexture = PotionFlavorFields.boxMid.get(potion);
+            botTexture = PotionFlavorFields.boxBot.get(potion);
+        }
+
+        return addFlavorText(x, y, sb, s, boxColor, textColor, topTexture, midTexture, botTexture);
     }
 
     private static float addFlavorText(float x, float y, SpriteBatch sb, AbstractCard card) {
@@ -58,20 +121,6 @@ public class FlavorText {
         s = AbstractCardFlavorFields.flavor.get(card);
         boxColor = AbstractCardFlavorFields.boxColor.get(card);
         textColor = AbstractCardFlavorFields.textColor.get(card);
-        if (boxColor == null || s == null || s.equals("") || textColor == null)
-            return y;
-
-        float BODY_TEXT_WIDTH = ReflectionHacks.getPrivate(null, TipHelper.class, "BODY_TEXT_WIDTH");
-        float TIP_DESC_LINE_SPACING = ReflectionHacks.getPrivate(null, TipHelper.class, "TIP_DESC_LINE_SPACING");
-        float SHADOW_DIST_X = ReflectionHacks.getPrivate(null, TipHelper.class, "SHADOW_DIST_X");
-        float SHADOW_DIST_Y = ReflectionHacks.getPrivate(null, TipHelper.class, "SHADOW_DIST_Y");
-        float BOX_EDGE_H = ReflectionHacks.getPrivate(null, TipHelper.class, "BOX_EDGE_H");
-        float BOX_BODY_H = ReflectionHacks.getPrivate(null, TipHelper.class, "BOX_BODY_H");
-        float BOX_W = ReflectionHacks.getPrivate(null, TipHelper.class, "BOX_W");
-        float TEXT_OFFSET_X = ReflectionHacks.getPrivate(null, TipHelper.class, "TEXT_OFFSET_X");
-
-        float h = -FontHelper.getSmartHeight(flavorFont, s, BODY_TEXT_WIDTH, TIP_DESC_LINE_SPACING)
-                - 40.0F * Settings.scale;
 
         if (TIP_BOT == null || TIP_MID == null || TIP_TOP == null)
             setTextures();
@@ -94,6 +143,20 @@ public class FlavorText {
             midTexture = AbstractCardFlavorFields.boxMid.get(card);
             botTexture = AbstractCardFlavorFields.boxBot.get(card);
         }
+
+        return addFlavorText(x, y, sb, s, boxColor, textColor, topTexture, midTexture, botTexture);
+    }
+
+    private static float addFlavorText(float x, float y, SpriteBatch sb, String s, Color boxColor, Color textColor,
+                                       Texture topTexture, Texture midTexture, Texture botTexture) {
+        if (BODY_TEXT_WIDTH == 0)
+            setConstants();
+
+        if (boxColor == null || s == null || s.equals("") || textColor == null)
+            return y;
+
+        float h = -FontHelper.getSmartHeight(flavorFont, s, BODY_TEXT_WIDTH, TIP_DESC_LINE_SPACING)
+                - 40.0F * Settings.scale;
 
         sb.setColor(Settings.TOP_PANEL_SHADOW_COLOR);
         sb.draw(ImageMaster.KEYWORD_TOP, x + SHADOW_DIST_X, y - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
@@ -230,13 +293,106 @@ public class FlavorText {
     }
 
     @SpirePatch2(
+            clz = AbstractPotion.class,
+            method = "labRender"
+    )
+    @SpirePatch2(
+            clz = AbstractPotion.class,
+            method = "shopRender"
+    )
+    public static class PassPotionTooltips {
+        @SpireInsertPatch(
+                locator = Locator.class
+        )
+        public static void Insert(AbstractPotion __instance) {
+            FlavorText.potion = __instance;
+        }
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior behavior) throws Exception {
+                Matcher matcher = new Matcher.MethodCallMatcher(TipHelper.class, "queuePowerTips");
+                return LineFinder.findInOrder(behavior, matcher);
+            }
+        }
+    }
+
+    @SpirePatch2(
+            clz = TopPanel.class,
+            method = "renderPotionTips"
+    )
+    public static class PassPotionPanelTooltips {
+        @SpireInsertPatch(
+                locator = Locator.class,
+                localvars = {"p"}
+        )
+        public static void Insert(TopPanel __instance, AbstractPotion p) {
+            potion = p;
+        }
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior behavior) throws Exception {
+                Matcher matcher = new Matcher.MethodCallMatcher(TipHelper.class, "queuePowerTips");
+                return LineFinder.findInOrder(behavior, matcher);
+            }
+        }
+    }
+
+    @SpirePatch2(
+            clz = RewardItem.class,
+            method = "update"
+    )
+    public static class PassPotionRewardTooltips {
+        @SpireInsertPatch(
+                locator = Locator.class
+        )
+        public static void Insert(RewardItem __instance) {
+            item = __instance;
+        }
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior behavior) throws Exception {
+                Matcher matcher = new Matcher.MethodCallMatcher(TipHelper.class, "queuePowerTips");
+                return LineFinder.findInOrder(behavior, matcher);
+            }
+        }
+    }
+
+    @SpirePatch2(
             clz = TipHelper.class,
             method = "renderPowerTips"
     )
-    public static class TipHelperRenderFlavorSCV {
+    public static class TipHelperRenderFlavorPowerTips {
+        @SpirePrefixPatch
+        public static void Prefix(@ByRef float[] y, ArrayList<PowerTip> powerTips) {
+            if (potion == null || !potion.hb.hovered)
+                return;
+            if (BODY_TEXT_WIDTH == 0)
+                setConstants();
+
+            float altY = TipHelper.calculateToAvoidOffscreen(powerTips, 0f);
+            String flavorText = PotionFlavorFields.flavor.get(potion);
+            if (flavorText != null && !flavorText.equals(""))
+                altY += FontHelper.getSmartHeight(flavorFont, flavorText, BODY_TEXT_WIDTH, TIP_DESC_LINE_SPACING)
+                        + 40.0F * Settings.scale;
+            y[0] = Math.max(altY, y[0]);
+        }
+
         @SpirePostfixPatch
-        public static void TipHelperRenderFlavor(float x, @ByRef float[] y, SpriteBatch sb) {
-            y[0] = addFlavorText(x, y[0], sb, card);
+        public static void Postfix(float x, @ByRef float[] y, SpriteBatch sb) {
+            if (card != null)
+                y[0] = addFlavorText(x, y[0], sb, card);
+            else if (potion != null) {
+                if (potion.hb.hovered)
+                    y[0] = addFlavorText(x, y[0], sb, potion);
+                else
+                    potion = null;
+            }
+            else if (item != null) {
+                if (item.hb.hovered && item.type == RewardItem.RewardType.POTION)
+                    y[0] = addFlavorText(x, y[0], sb, item.potion);
+                else
+                    item = null;
+            }
         }
     }
 
@@ -246,7 +402,16 @@ public class FlavorText {
     )
     public static class CardStringsFlavorField {
         @SerializedName("FLAVOR")
-        public static SpireField<String> FLAVOR = new SpireField<>(() -> "");
+        public static SpireField<String> cardFlavor = new SpireField<>(() -> "");
+    }
+
+    @SpirePatch(
+            clz = PotionStrings.class,
+            method = SpirePatch.CLASS
+    )
+    public static class PotionStringsFlavorField {
+        @SerializedName("FLAVOR")
+        public static SpireField<String> potionFlavor = new SpireField<>(() -> "");
     }
 
     @SpirePatch2(
@@ -254,6 +419,20 @@ public class FlavorText {
             method = SpirePatch.CLASS
     )
     public static class AbstractCardFlavorFields {
+        public static SpireField<String> flavor = new SpireField<>(() -> null);
+        public static SpireField<Color> boxColor = new SpireField<>(Color.WHITE::cpy);
+        public static SpireField<Color> textColor = new SpireField<>(Color.BLACK::cpy);
+        public static SpireField<boxType> flavorBoxType = new SpireField<>(() -> boxType.WHITE);
+        public static SpireField<Texture> boxTop = new SpireField<>(() -> null);
+        public static SpireField<Texture> boxMid = new SpireField<>(() -> null);
+        public static SpireField<Texture> boxBot = new SpireField<>(() -> null);
+    }
+
+    @SpirePatch2(
+            clz = AbstractPotion.class,
+            method = SpirePatch.CLASS
+    )
+    public static class PotionFlavorFields {
         public static SpireField<String> flavor = new SpireField<>(() -> null);
         public static SpireField<Color> boxColor = new SpireField<>(Color.WHITE::cpy);
         public static SpireField<Color> textColor = new SpireField<>(Color.BLACK::cpy);
@@ -274,10 +453,33 @@ public class FlavorText {
         @SpirePostfixPatch
         public static void postfix(AbstractCard __instance) {
             CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(__instance.cardID);
-            if (cardStrings == null || CardStringsFlavorField.FLAVOR.get(cardStrings) == null)
+            if (cardStrings == null || CardStringsFlavorField.cardFlavor.get(cardStrings) == null)
                 return;
 
-            AbstractCardFlavorFields.flavor.set(__instance, CardStringsFlavorField.FLAVOR.get(cardStrings));
+            AbstractCardFlavorFields.flavor.set(__instance, CardStringsFlavorField.cardFlavor.get(cardStrings));
+        }
+    }
+
+    @SpirePatch2(
+            clz = AbstractPotion.class,
+            method = SpirePatch.CONSTRUCTOR,
+            paramtypez = {String.class, String.class, AbstractPotion.PotionRarity.class, AbstractPotion.PotionSize.class,
+                    AbstractPotion.PotionColor.class}
+    )
+    @SpirePatch2(
+            clz = AbstractPotion.class,
+            method = SpirePatch.CONSTRUCTOR,
+            paramtypez = {String.class, String.class, AbstractPotion.PotionRarity.class, AbstractPotion.PotionSize.class,
+                    AbstractPotion.PotionEffect.class, Color.class, Color.class, Color.class}
+    )
+    public static class FlavorIntoPotionStrings {
+        @SpirePostfixPatch
+        public static void postfix(AbstractPotion __instance) {
+            PotionStrings potionStrings = CardCrawlGame.languagePack.getPotionString(__instance.ID);
+            if (potionStrings == null || PotionStringsFlavorField.potionFlavor.get(potionStrings) == null)
+                return;
+
+            PotionFlavorFields.flavor.set(__instance, PotionStringsFlavorField.potionFlavor.get(potionStrings));
         }
     }
 
