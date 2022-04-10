@@ -23,7 +23,6 @@ import com.megacrit.cardcrawl.localization.PotionStrings;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.*;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 
@@ -252,7 +251,7 @@ public class FlavorText {
             method = "renderPowerTips"
     )
     public static class TipHelperRenderFlavor {
-        // This also fixes an ui issue where the power tips are too long, but is less often a problem
+        // This also fixes a ui issue where the power tips are too long, but is less often a problem
         // When you don't have flavor tips
         @SpirePrefixPatch
         public static void Prefix(@ByRef float[] y, ArrayList<PowerTip> powerTips) {
