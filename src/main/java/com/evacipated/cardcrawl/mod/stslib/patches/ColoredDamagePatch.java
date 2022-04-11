@@ -18,6 +18,7 @@ public class ColoredDamagePatch {
     public static Color currentColor = null;
     public static FadeSpeed currentSpeed = FadeSpeed.NONE;
     public static boolean rainbow = false;
+    public static AbstractGameAction action = null;
 
     public enum FadeSpeed {
         NONE,
@@ -48,7 +49,8 @@ public class ColoredDamagePatch {
     public static class DamageActionColorField {
         public static SpireField<Color> damageColor = new SpireField<>(() -> null);
         public static SpireField<FadeSpeed> fadeSpeed = new SpireField<>(() -> null);
-        public static SpireField<Boolean> rainbow = new SpireField<Boolean>(() -> false);
+        public static SpireField<Boolean> rainbow = new SpireField<>(() -> false);
+        public static SpireField<AbstractGameAction> action = new SpireField<>(() -> null);
     }
 
     @SpirePatch2( clz = DamageAction.class, method = "update" )
@@ -64,6 +66,7 @@ public class ColoredDamagePatch {
             ColoredDamagePatch.currentColor = DamageActionColorField.damageColor.get(__instance);
             ColoredDamagePatch.currentSpeed = DamageActionColorField.fadeSpeed.get(__instance);
             ColoredDamagePatch.rainbow = DamageActionColorField.rainbow.get(__instance);
+            DamageActionColorField.action.get(__instance);
         }
         private static class Locator extends SpireInsertLocator {
             private Locator() {}
@@ -85,6 +88,7 @@ public class ColoredDamagePatch {
             ColoredDamagePatch.currentColor = DamageActionColorField.damageColor.get(__instance);
             ColoredDamagePatch.currentSpeed = DamageActionColorField.fadeSpeed.get(__instance);
             ColoredDamagePatch.rainbow = DamageActionColorField.rainbow.get(__instance);
+            ColoredDamagePatch.action = DamageActionColorField.action.get(__instance);
         }
         private static class Locator extends SpireInsertLocator {
             private Locator() {}
@@ -115,7 +119,7 @@ public class ColoredDamagePatch {
     public static class MakeColor {
         @SpirePostfixPatch
         public static void Postfix(DamageNumberEffect __instance) {
-            if (currentColor != null) {
+            if (currentColor != null && AbstractDungeon.actionManager.currentAction != action) {
                 ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", currentColor.cpy());
                 DamageNumberColorField.damageColor.set(__instance, currentColor.cpy());
             }
@@ -124,14 +128,15 @@ public class ColoredDamagePatch {
                 DamageNumberColorField.damageColor.set(__instance, color.cpy());
             }
 
-            if (currentSpeed != null)
+            if (currentSpeed != null && AbstractDungeon.actionManager.currentAction != action)
                 DamageNumberColorField.fadeSpeed.set(__instance, currentSpeed);
             else
                 DamageNumberColorField.fadeSpeed.set(__instance, FadeSpeed.FAST);
 
             DamageNumberColorField.timerOffset.set(__instance, AbstractDungeon.miscRng.random(0, 5000));
 
-            DamageNumberColorField.rainbow.set(__instance, rainbow);
+            if (AbstractDungeon.actionManager.currentAction != action)
+                DamageNumberColorField.rainbow.set(__instance, rainbow);
         }
     }
 
