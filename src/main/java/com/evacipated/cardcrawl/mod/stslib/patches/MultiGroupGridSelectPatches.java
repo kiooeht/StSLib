@@ -8,11 +8,14 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import javassist.CtBehavior;
 
 import java.util.ArrayList;
+
+import static com.megacrit.cardcrawl.ui.buttons.PeekButton.isPeeking;
 
 public class MultiGroupGridSelectPatches {
     private static final float TITLE_SPACING = 90 * Settings.scale;
@@ -59,9 +62,11 @@ public class MultiGroupGridSelectPatches {
 
                         cards.get(cardIndex).target_x = ___drawStartX + (float)mod * ___padX;
                         cards.get(cardIndex).target_y = ___drawStartY + ___currentDiffY - (float)lineNum * ___padY - groupOffset;
+                        cards.get(cardIndex).targetAngle = 0;
                         cards.get(cardIndex).fadingOut = false;
-                        if (groupIndex.getKey() != CardGroup.CardGroupType.HAND)
-                            cards.get(cardIndex).update();
+                        if (groupIndex.getKey() != CardGroup.CardGroupType.HAND) {
+                            cards.get(cardIndex).update(); //Avoid updating cards in the hand twice, which makes them scroll faster than the other cards.
+                        }
                         cards.get(cardIndex).updateHoverLogic();
 
                         ___hoveredCard[0] = null;
@@ -149,7 +154,6 @@ public class MultiGroupGridSelectPatches {
         }
     }
 
-
     @SpirePatch(
             clz = GridCardSelectScreen.class,
             method = "calculateScrollBounds"
@@ -180,6 +184,32 @@ public class MultiGroupGridSelectPatches {
             }
 
             return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = GridCardSelectScreen.class,
+            method = "update"
+    )
+    public static class HandCardPeekPositions {
+        @SpirePrefixPatch
+        public static void resetPositions(GridCardSelectScreen __instance) {
+            if (isPeeking) {
+                ArrayList<Pair<CardGroup.CardGroupType, Integer>> groupIndexes = Fields.groupIndexes.get(__instance.targetGroup);
+
+                if (groupIndexes != null) {
+                    for (Pair<CardGroup.CardGroupType, Integer> group : groupIndexes) {
+                        if (group.getKey() == CardGroup.CardGroupType.HAND) {
+                            AbstractDungeon.player.hand.refreshHandLayout();
+                            for (AbstractCard c : AbstractDungeon.player.hand.group) {
+                                if (!__instance.selectedCards.contains(c))
+                                    c.stopGlowing();
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
 }
