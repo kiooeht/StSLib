@@ -35,13 +35,17 @@ public class MultiGroupGridSelectPatches {
         @SpirePrefixPatch
         public static SpireReturn<?> altPos(GridCardSelectScreen __instance, float ___drawStartX, float ___drawStartY, float ___currentDiffY, float ___padX, float ___padY, @ByRef AbstractCard[] ___hoveredCard) {
             ArrayList<Pair<CardGroup.CardGroupType, Integer>> groupIndexes = Fields.groupIndexes.get(__instance.targetGroup);
-            DisplayGroupTitles.titles.clear();
             if (groupIndexes != null) {
-                int lineNum = 0;
+                if (DisplayGroupTitles.titles.size() != groupIndexes.size()) {
+                    DisplayGroupTitles.titles.clear();
+                }
+
+                int lineNum = 0, group = 0;
                 ArrayList<AbstractCard> cards = __instance.targetGroup.group;
 
                 int cardIndex = 0;
                 float groupOffset = 0;
+
                 for (Pair<CardGroup.CardGroupType, Integer> groupIndex : groupIndexes) {
                     groupOffset += TITLE_SPACING;
 
@@ -72,12 +76,18 @@ public class MultiGroupGridSelectPatches {
                         ++i;
                     }
 
-                    DisplayGroupTitles.titles.add(new GroupTitle(groupIndex.getKey(), TITLE_X, cards.get(firstGroupCardIndex).current_y + TITLE_Y));
+                    while (DisplayGroupTitles.titles.size() <= group)
+                        DisplayGroupTitles.titles.add(new GroupTitle());
+                    DisplayGroupTitles.titles.get(group).set(groupIndex.getKey(), TITLE_X, cards.get(firstGroupCardIndex).current_y + TITLE_Y);
 
                     ++lineNum;
+                    ++group;
                 }
 
                 return SpireReturn.Return();
+            }
+            else {
+                DisplayGroupTitles.titles.clear();
             }
 
             return SpireReturn.Continue();
@@ -112,10 +122,10 @@ public class MultiGroupGridSelectPatches {
     }
 
     private static class GroupTitle {
-        public String title;
-        public float x, y;
+        public String title = "";
+        public float x = 0, y = 0;
 
-        public GroupTitle(CardGroup.CardGroupType type, float x, float y){
+        public void set(CardGroup.CardGroupType type, float x, float y){
             switch (type) {
                 case HAND:
                     title = MultiGroupMoveAction.HAND;
