@@ -94,6 +94,11 @@ public class ColoredDamagePatch {
         @SpirePostfixPatch
         public static void Postfix(DamageNumberEffect __instance) {
             Color color = DamageNumberColorField.damageColor.get(__instance);
+            FadeSpeed speed = DamageNumberColorField.fadeSpeed.get(__instance);
+
+            if (color == null || speed == null)
+                return;
+
             Color color2 = ReflectionHacks.getPrivate(__instance, AbstractGameEffect.class, "color");
 
             if (DamageNumberColorField.rainbow.get(__instance)) {
@@ -111,7 +116,6 @@ public class ColoredDamagePatch {
                 return;
             }
 
-            FadeSpeed speed = DamageNumberColorField.fadeSpeed.get(__instance);
             float timeMult = enumToSpeed(speed);
 
             float delta = Gdx.graphics.getDeltaTime() * timeMult;
