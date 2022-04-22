@@ -6,20 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.combat.DamageNumberEffect;
-import javassist.CtBehavior;
 
 public class ColoredDamagePatch {
-    public static Color currentColor = null;
-    public static FadeSpeed currentSpeed = FadeSpeed.NONE;
-    public static boolean rainbow = false;
-    public static AbstractGameAction action = null;
-
     public enum FadeSpeed {
         NONE,
         SLOW,
@@ -50,55 +41,6 @@ public class ColoredDamagePatch {
         public static SpireField<Color> damageColor = new SpireField<>(() -> null);
         public static SpireField<FadeSpeed> fadeSpeed = new SpireField<>(() -> null);
         public static SpireField<Boolean> rainbow = new SpireField<>(() -> false);
-        public static SpireField<AbstractGameAction> action = new SpireField<>(() -> null);
-    }
-
-    @SpirePatch2( clz = DamageAction.class, method = "update" )
-    @SpirePatch2( clz = LoseHPAction.class, method = "update" )
-    @SpirePatch2( clz = DarkOrbEvokeAction.class, method = "update" )
-    @SpirePatch2( clz = PummelDamageAction.class, method = "update" )
-    @SpirePatch2( clz = InstantKillAction.class, method = "update" )
-    public static class AbstractCreatureUpdate {
-        @SpireInsertPatch (
-                locator = Locator.class
-        )
-        public static void Insert(AbstractGameAction __instance) {
-            ColoredDamagePatch.currentColor = DamageActionColorField.damageColor.get(__instance);
-            ColoredDamagePatch.currentSpeed = DamageActionColorField.fadeSpeed.get(__instance);
-            ColoredDamagePatch.rainbow = DamageActionColorField.rainbow.get(__instance);
-            DamageActionColorField.action.get(__instance);
-        }
-        private static class Locator extends SpireInsertLocator {
-            private Locator() {}
-
-            @Override
-            public int[] Locate(CtBehavior behavior) throws Exception {
-                Matcher matcher = new Matcher.MethodCallMatcher(AbstractCreature.class, "damage");
-                return LineFinder.findAllInOrder(behavior, matcher);
-            }
-        }
-    }
-
-    @SpirePatch2( clz = DamageAllEnemiesAction.class, method = "update" )
-    public static class AbstractMonsterUpdate {
-        @SpireInsertPatch (
-                locator = Locator.class
-        )
-        public static void Insert(DamageAllEnemiesAction __instance) {
-            ColoredDamagePatch.currentColor = DamageActionColorField.damageColor.get(__instance);
-            ColoredDamagePatch.currentSpeed = DamageActionColorField.fadeSpeed.get(__instance);
-            ColoredDamagePatch.rainbow = DamageActionColorField.rainbow.get(__instance);
-            ColoredDamagePatch.action = DamageActionColorField.action.get(__instance);
-        }
-        private static class Locator extends SpireInsertLocator {
-            private Locator() {}
-
-            @Override
-            public int[] Locate(CtBehavior behavior) throws Exception {
-                Matcher matcher = new Matcher.MethodCallMatcher(AbstractMonster.class, "damage");
-                return LineFinder.findAllInOrder(behavior, matcher);
-            }
-        }
     }
 
     @SpirePatch2(
@@ -119,24 +61,28 @@ public class ColoredDamagePatch {
     public static class MakeColor {
         @SpirePostfixPatch
         public static void Postfix(DamageNumberEffect __instance) {
-            if (currentColor != null && AbstractDungeon.actionManager.currentAction != action) {
-                ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", currentColor.cpy());
-                DamageNumberColorField.damageColor.set(__instance, currentColor.cpy());
+            AbstractGameAction action = AbstractDungeon.actionManager.currentAction;
+            if (action == null)
+                return;
+            Color actionColor = DamageActionColorField.damageColor.get(action);
+            FadeSpeed actionSpeed = DamageActionColorField.fadeSpeed.get(action);
+            boolean actionRainbow = DamageActionColorField.rainbow.get(action);
+            if (actionColor != null) {
+                ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", actionColor.cpy());
+                DamageNumberColorField.damageColor.set(__instance, actionColor.cpy());
             }
             else {
                 Color color = ReflectionHacks.getPrivate(__instance, AbstractGameEffect.class, "color");
                 DamageNumberColorField.damageColor.set(__instance, color.cpy());
             }
 
-            if (currentSpeed != null && AbstractDungeon.actionManager.currentAction != action)
-                DamageNumberColorField.fadeSpeed.set(__instance, currentSpeed);
+            if (actionSpeed != null)
+                DamageNumberColorField.fadeSpeed.set(__instance, actionSpeed);
             else
                 DamageNumberColorField.fadeSpeed.set(__instance, FadeSpeed.FAST);
 
             DamageNumberColorField.timerOffset.set(__instance, AbstractDungeon.miscRng.random(0, 5000));
-
-            if (AbstractDungeon.actionManager.currentAction != action)
-                DamageNumberColorField.rainbow.set(__instance, rainbow);
+            DamageNumberColorField.rainbow.set(__instance, actionRainbow);
         }
     }
 
