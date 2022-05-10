@@ -2,6 +2,8 @@
 #### dev ####
 * Fix flavor text not appearing in SingleCardView (Bryan)
 * Colored damage numbers (Bryan)
+* Potion flavor text (Bryan)
+* Multi-group card selection/move actions (Alchyr)
 
 #### v2.2.0 ####
 * Fix LoseBlockAction not removing block containers (Mistress Alison)
