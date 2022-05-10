@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.3.0 ####
 * Fix flavor text not appearing in SingleCardView (Bryan)
 * Colored damage numbers (Bryan)
 * Potion flavor text (Bryan)
