@@ -15,18 +15,18 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @SpireInitializer
 public class StSLib implements
@@ -155,6 +155,12 @@ public class StSLib implements
                 return c;
             }
         }
+        return null;
+    }
+
+    public static RewardItem generateCardReward(List<AbstractCard> rewardCards, boolean shiny) {
+        //This is patched to call an added constructor of RewardItem.
+        //rewardCards will be the cards in the reward, and shiny causes the reward to be gold colored (like a boss reward)
         return null;
     }
 
