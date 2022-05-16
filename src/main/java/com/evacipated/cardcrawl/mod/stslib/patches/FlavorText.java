@@ -2,6 +2,7 @@ package com.evacipated.cardcrawl.mod.stslib.patches;
 
 import basemod.ReflectionHacks;
 import basemod.patches.com.megacrit.cardcrawl.helpers.TipHelper.FakeKeywords;
+import basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.ScrollingTooltips;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.google.gson.annotations.SerializedName;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
@@ -38,6 +40,8 @@ public class FlavorText {
     public static Texture TIP_TOP;
     public static Texture TIP_MID;
     public static Texture TIP_BOT;
+
+    private static AbstractCard scvCard = null;
 
     private static float BODY_TEXT_WIDTH;
     private static float TIP_DESC_LINE_SPACING;
@@ -255,6 +259,8 @@ public class FlavorText {
         // When you don't have flavor tips
         @SpirePrefixPatch
         public static void Prefix(@ByRef float[] y, ArrayList<PowerTip> powerTips) {
+            if (scvCard != null)
+                return;
             float altY = TipHelper.calculateToAvoidOffscreen(powerTips, 0);
             y[0] = Math.max(altY, y[0]);
         }
@@ -378,6 +384,58 @@ public class FlavorText {
             public int[] Locate(CtBehavior behavior) throws Exception {
                 Matcher matcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "IMG_HEIGHT");
                 return LineFinder.findInOrder(behavior, matcher);
+            }
+        }
+    }
+
+    @SpirePatch2(
+            clz = SingleCardViewPopup.class,
+            method = "open",
+            paramtypez = { AbstractCard.class, CardGroup.class }
+    )
+    public static class CatchOpen {
+        @SpirePrefixPatch
+        public static void prefix(AbstractCard card) {
+            FlavorText.scvCard = card;
+        }
+    }
+
+    @SpirePatch2(
+            clz = SingleCardViewPopup.class,
+            method = "close"
+    )
+    public static class CatchClose {
+        @SpirePrefixPatch
+        public static void prefix() {
+            FlavorText.scvCard = null;
+        }
+    }
+
+    @SpirePatch2(
+            clz = ScrollingTooltips.class,
+            method = "powerTipsHeight"
+    )
+    public static class PatchInPatchTwoElectricBoogaloo {
+        public static class TipHelperRenderFlavorPatch {
+            @SpirePostfixPatch
+            public static float postfix(float __result, ArrayList<PowerTip> powerTips) {
+                if (scvCard == null)
+                    return __result;
+                String s = AbstractCardFlavorFields.flavor.get(scvCard);
+                if (s == null || s.equals(""))
+                    return __result;
+
+                float BOX_EDGE_H = ReflectionHacks.getPrivate(null, ScrollingTooltips.class,
+                        "BOX_EDGE_H");
+                float BODY_TEXT_WIDTH = ReflectionHacks.getPrivate(null, ScrollingTooltips.class,
+                        "BODY_TEXT_WIDTH");
+                float TIP_DESC_LINE_SPACING = ReflectionHacks.getPrivate(null, ScrollingTooltips.class,
+                        "TIP_DESC_LINE_SPACING");
+
+                float textHeight = -FontHelper.getSmartHeight(flavorFont, s, BODY_TEXT_WIDTH, TIP_DESC_LINE_SPACING)
+                        - 40.0F * Settings.scale;
+                __result += textHeight + BOX_EDGE_H * 3.15F;
+                return __result;
             }
         }
     }
