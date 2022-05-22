@@ -24,8 +24,9 @@ import com.megacrit.cardcrawl.localization.LocalizedStrings;
 import com.megacrit.cardcrawl.localization.PotionStrings;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
-import javassist.*;
+import javassist.CtBehavior;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.TitleFontSize.fontFile;
@@ -42,6 +43,7 @@ public class FlavorText {
     public static Texture TIP_BOT;
 
     private static AbstractCard scvCard = null;
+    private static AbstractCard regularCard = null;
 
     private static float BODY_TEXT_WIDTH;
     private static float TIP_DESC_LINE_SPACING;
@@ -104,7 +106,6 @@ public class FlavorText {
             method = SpirePatch.CLASS
     )
     public static class PowerTipFlavorFields {
-        // public static SpireField<String> flavor = new SpireField<>(() -> null);
         public static SpireField<Color> boxColor = new SpireField<>(Color.WHITE::cpy);
         public static SpireField<Color> textColor = new SpireField<>(Color.BLACK::cpy);
         public static SpireField<boxType> flavorBoxType = new SpireField<>(() -> boxType.WHITE);
@@ -119,7 +120,7 @@ public class FlavorText {
     )
     public static class CardStringsFlavorField {
         @SerializedName("FLAVOR")
-        public static SpireField<String> flavor = new SpireField<>(() -> "");
+        public static SpireField<String> flavor = new SpireField<>(() -> null);
     }
 
     @SpirePatch(
@@ -128,7 +129,7 @@ public class FlavorText {
     )
     public static class PotionStringsFlavorField {
         @SerializedName("FLAVOR")
-        public static SpireField<String> flavor = new SpireField<>(() -> "");
+        public static SpireField<String> flavor = new SpireField<>(() -> null);
     }
 
     @SpirePatch2(
@@ -166,30 +167,10 @@ public class FlavorText {
         public static void postfix(AbstractPotion __instance) {
             PotionStrings potionStrings = CardCrawlGame.languagePack.getPotionString(__instance.ID);
             if (potionStrings == null || PotionStringsFlavorField.flavor.get(potionStrings) == null ||
-            PotionStringsFlavorField.flavor.get(potionStrings).equals(""))
+                    PotionStringsFlavorField.flavor.get(potionStrings).equals(""))
                 return;
 
             PotionFlavorFields.flavor.set(__instance, PotionStringsFlavorField.flavor.get(potionStrings));
-        }
-    }
-
-    @SpirePatch2(
-            clz = TipHelper.class,
-            method = "renderKeywords"
-    )
-    public static class TipHelperRenderFlavorPatch{
-        @SpirePostfixPatch
-        public static void TipHelperRenderFlavor(float x, @ByRef float[] y, SpriteBatch sb, AbstractCard ___card) {
-            if (___card != null) {
-                PowerTip tip = new PowerTip(HEADER_STRING, AbstractCardFlavorFields.flavor.get(___card));
-                PowerTipFlavorFields.textColor.set(tip, AbstractCardFlavorFields.textColor.get(___card));
-                PowerTipFlavorFields.boxColor.set(tip, AbstractCardFlavorFields.boxColor.get(___card));
-                PowerTipFlavorFields.flavorBoxType.set(tip, AbstractCardFlavorFields.flavorBoxType.get(___card));
-                PowerTipFlavorFields.boxBot.set(tip, AbstractCardFlavorFields.boxBot.get(___card));
-                PowerTipFlavorFields.boxMid.set(tip, AbstractCardFlavorFields.boxMid.get(___card));
-                PowerTipFlavorFields.boxTop.set(tip, AbstractCardFlavorFields.boxTop.get(___card));
-                y[0] = addFlavorText(x, y[0], sb, tip);
-            }
         }
     }
 
@@ -234,7 +215,8 @@ public class FlavorText {
     public static class PassPotionTooltip {
         @SpirePrefixPatch
         public static void Prefix(AbstractPotion __instance) {
-            if (PotionFlavorFields.flavor.get(__instance) == null || PotionFlavorFields.flavor.get(__instance).equals(""))
+            if (PotionFlavorFields.flavor.get(__instance) == null || PotionFlavorFields.flavor.get(__instance) == null ||
+                    PotionFlavorFields.flavor.get(__instance).equals(""))
                 return;
             for (PowerTip tip : __instance.tips)
                 if (tip.header.equals(HEADER_STRING))
@@ -254,13 +236,30 @@ public class FlavorText {
             clz = TipHelper.class,
             method = "renderPowerTips"
     )
-    public static class TipHelperRenderFlavor {
+    public static class TipHelperRenderPowerTips {
         // This also fixes a ui issue where the power tips are too long, but is less often a problem
         // When you don't have flavor tips
         @SpirePrefixPatch
         public static void Prefix(@ByRef float[] y, ArrayList<PowerTip> powerTips) {
-            if (scvCard != null)
+            if (scvCard != null) {
+                PowerTip tipFlavor = null;
+
+                for (PowerTip tip : powerTips) {
+                    if (tip.header.equals(HEADER_STRING)) {
+                        if (tip != powerTips.get(powerTips.size() - 1))
+                            tipFlavor = tip;
+                        break;
+                    }
+                }
+
+                if (tipFlavor != null) {
+                    powerTips.remove(tipFlavor);
+                    powerTips.add(tipFlavor);
+                }
+
                 return;
+            }
+
             float altY = TipHelper.calculateToAvoidOffscreen(powerTips, 0);
             y[0] = Math.max(altY, y[0]);
         }
@@ -270,7 +269,7 @@ public class FlavorText {
                 localvars = "tip"
         )
         public static void Insert(float x, float y, SpriteBatch sb, PowerTip tip) {
-            addFlavorText(x, y, sb, tip);
+            addFlavorTip(x, y, sb, tip);
         }
         private static class Locator extends SpireInsertLocator {
             @Override
@@ -295,7 +294,7 @@ public class FlavorText {
         }
     }
 
-    private static float addFlavorText(float x, float y, SpriteBatch sb, PowerTip tip) {
+    private static float addFlavorTip(float x, float y, SpriteBatch sb, PowerTip tip) {
         if (tip == null || tip.body == null || tip.body.equals(""))
             return y;
 
@@ -354,7 +353,6 @@ public class FlavorText {
                 textColor);
 
         y -= h + BOX_EDGE_H * 3.15F;
-
         return y;
     }
 
@@ -384,6 +382,36 @@ public class FlavorText {
             public int[] Locate(CtBehavior behavior) throws Exception {
                 Matcher matcher = new Matcher.FieldAccessMatcher(AbstractCard.class, "IMG_HEIGHT");
                 return LineFinder.findInOrder(behavior, matcher);
+            }
+        }
+    }
+    @SpirePatch2(
+            clz = FakeKeywords.class,
+            method = "Postfix"
+    )
+    public static class FlavorAfterCustomTooltips {
+        @SpirePostfixPatch
+        public static void Postifx(float x, @ByRef float[] y, SpriteBatch sb, ArrayList<String> keywords) {
+
+            try {
+                Field cardField = TipHelper.class.getDeclaredField("card");
+                cardField.setAccessible(true);
+                AbstractCard card = (AbstractCard)cardField.get((Object)null);
+
+                String flavor = AbstractCardFlavorFields.flavor.get(card);
+                if (flavor == null || flavor.equals(""))
+                    return;
+                PowerTip tip = new PowerTip(HEADER_STRING, flavor);
+                PowerTipFlavorFields.textColor.set(tip, AbstractCardFlavorFields.textColor.get(card));
+                PowerTipFlavorFields.boxColor.set(tip, AbstractCardFlavorFields.boxColor.get(card));
+                PowerTipFlavorFields.flavorBoxType.set(tip, AbstractCardFlavorFields.flavorBoxType.get(card));
+                PowerTipFlavorFields.boxBot.set(tip, AbstractCardFlavorFields.boxBot.get(card));
+                PowerTipFlavorFields.boxMid.set(tip, AbstractCardFlavorFields.boxMid.get(card));
+                PowerTipFlavorFields.boxTop.set(tip, AbstractCardFlavorFields.boxTop.get(card));
+
+                y[0] = addFlavorTip(x, y[0], sb, tip);
+            } catch (IllegalAccessException | NoSuchFieldException var13) {
+                var13.printStackTrace();
             }
         }
     }
@@ -421,7 +449,9 @@ public class FlavorText {
             public static float postfix(float __result, ArrayList<PowerTip> powerTips) {
                 if (scvCard == null)
                     return __result;
+
                 String s = AbstractCardFlavorFields.flavor.get(scvCard);
+
                 if (s == null || s.equals(""))
                     return __result;
 
