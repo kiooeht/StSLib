@@ -1,9 +1,12 @@
 package com.evacipated.cardcrawl.mod.stslib.icons;
 
+import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.ShrinkLongDescription;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.core.Settings;
 
 public abstract class AbstractCustomIcon {
     public static final int RENDER_CONSTANT = 24;
@@ -32,6 +35,10 @@ public abstract class AbstractCustomIcon {
         return (float) RENDER_CONSTANT / getImgSize();
     }
 
+    public float getCardRenderScale(AbstractCard card) {
+        return getRenderScale() * ShrinkLongDescription.Scale.descriptionScale.get(card);
+    }
+
     public void render(SpriteBatch sb, float drawX, float drawY, float offsetX, float offsetY, float scale, float angle) {
         Color backup = sb.getColor();
         sb.setColor(new Color(1.0F, 1.0F, 1.0F, backup.a));
@@ -40,5 +47,33 @@ public abstract class AbstractCustomIcon {
                 (float) region.packedWidth, (float) region.packedHeight,
                 scale * getRenderScale(), scale * getRenderScale(), angle);
         sb.setColor(backup);
+    }
+
+    public void renderOnCard(SpriteBatch sb, AbstractCard card, float x, float y) {
+        x /= getRenderScale();
+        y /= getRenderScale();
+        Color backup = sb.getColor();
+        sb.setColor(new Color(1.0F, 1.0F, 1.0F, backup.a));
+        sb.draw(region.getTexture(), card.current_x + x + region.offsetX, card.current_y + y + region.offsetY,
+                -x - region.offsetX, -y - region.offsetY,
+                (float)region.packedWidth, (float)region.packedHeight,
+                card.drawScale * Settings.scale * getRenderScale() * ShrinkLongDescription.Scale.descriptionScale.get(card), card.drawScale * Settings.scale * getRenderScale() * ShrinkLongDescription.Scale.descriptionScale.get(card),
+                card.angle, region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(), false, false);
+        sb.setColor(backup);
+
+    }
+
+    public void renderOnSCV(SpriteBatch sb, AbstractCard card, float x, float y, float current_x, float current_y, float scale) {
+        x /= getRenderScale();
+        y /= getRenderScale();
+        Color backup = sb.getColor();
+        sb.setColor(new Color(1.0F, 1.0F, 1.0F, backup.a));
+        sb.draw(region.getTexture(), current_x + x + region.offsetX, current_y + y + region.offsetY,
+                -x - region.offsetX, -y - region.offsetY,
+                (float)region.packedWidth, (float)region.packedHeight,
+                scale * Settings.scale * getRenderScale() * ShrinkLongDescription.Scale.descriptionScale.get(card), scale * Settings.scale * getRenderScale() * ShrinkLongDescription.Scale.descriptionScale.get(card),
+                card.angle, region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(), false, false);
+        sb.setColor(backup);
+
     }
 }
