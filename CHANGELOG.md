@@ -1,5 +1,9 @@
 ## Changelog ##
 #### dev ####
+* Add utility method to generate RewardItem with arbitrary cards (Alchyr)
+* Fix scrolling tooltip position in SCV (Bryan)
+* Added clickable relics that have UI elements (Bryan)
+* Update custom icons to use new render code (Mistress Alison)
 
 #### v2.3.0 ####
 * Fix flavor text not appearing in SingleCardView (Bryan)
