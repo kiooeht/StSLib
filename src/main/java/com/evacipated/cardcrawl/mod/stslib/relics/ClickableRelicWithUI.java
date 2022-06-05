@@ -1,6 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib.relics;
 
 import basemod.AutoAdd;
+import basemod.BaseMod;
 import basemod.ClickableUIElement;
 import basemod.ReflectionHacks;
 import basemod.abstracts.CustomRelic;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.evacipated.cardcrawl.mod.stslib.vfx.combat.FlashClickRelicEffect;
-import com.google.gson.reflect.TypeToken;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.core.Settings;
@@ -22,10 +22,8 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
-import java.lang.reflect.Type;
-
 @AutoAdd.Ignore
-public abstract class ClickableRelicWithUI extends CustomRelic implements CustomSavable<Boolean> {
+public abstract class ClickableRelicWithUI extends CustomRelic {
     private RelicClickable element;
 
     // Constructor of ClickableUIElement scales its inputs with Settings.scale
@@ -103,23 +101,6 @@ public abstract class ClickableRelicWithUI extends CustomRelic implements Custom
         element.update();
     }
 
-    @Override
-    public Boolean onSave() {
-        return firstBattle;
-    }
-
-    @Override
-    public void onLoad(Boolean foo) {
-        if (foo != null)
-            firstBattle = foo;
-    }
-
-    @Override
-    public Type savedType()
-    {
-        return new TypeToken<Boolean>(){}.getType();
-    }
-
     public RelicClickable getElement() {return element;}
 
     public abstract void buttonPress();
@@ -129,6 +110,19 @@ public abstract class ClickableRelicWithUI extends CustomRelic implements Custom
 
         public RelicClickable(Texture texture) {
             super(texture, CE_X, CE_Y + order * Y_INCREMENT, CE_W, CE_H);
+            BaseMod.addSaveField(relicId, new CustomSavable<Boolean>() {
+                @Override
+                public void onLoad(Boolean savedValue)
+                {
+                    firstBattle = savedValue;
+                }
+
+                @Override
+                public Boolean onSave()
+                {
+                    return firstBattle;
+                }
+            });
         }
 
         @Override
