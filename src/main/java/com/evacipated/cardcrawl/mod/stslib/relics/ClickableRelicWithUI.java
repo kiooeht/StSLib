@@ -32,7 +32,6 @@ public abstract class ClickableRelicWithUI extends CustomRelic {
     private static final float CE_W = 64f;
     private static final float CE_H = 48f;
     private static final float Y_INCREMENT = 56f;
-    private int order = 0;
 
     public static final String vertexLightShader = "attribute vec4 a_position;\n"
             + "attribute vec4 a_color;\n"
@@ -77,15 +76,13 @@ public abstract class ClickableRelicWithUI extends CustomRelic {
 
     protected boolean firstBattle = true;
 
+    public void alignRelic(int order) {
+        element.setY(CE_Y + Y_INCREMENT*order);
+    }
+
     public ClickableRelicWithUI(String ID, AbstractRelic.RelicTier tier, AbstractRelic.LandingSound sound,
                                 Texture relicTexture, Texture elementTexture) {
         super(ID, relicTexture, tier, sound);
-        if (AbstractDungeon.player != null) {
-            for (AbstractRelic relic : AbstractDungeon.player.relics) {
-                if (relic instanceof ClickableRelicWithUI)
-                    order++;
-            }
-        }
         element = new RelicClickable(elementTexture);
     }
 
@@ -109,7 +106,16 @@ public abstract class ClickableRelicWithUI extends CustomRelic {
         public boolean elementGrayscale = false;
 
         public RelicClickable(Texture texture) {
-            super(texture, CE_X, CE_Y + order * Y_INCREMENT, CE_W, CE_H);
+            super(texture, CE_X, CE_Y, CE_W, CE_H);
+            int order = 0;
+            if (AbstractDungeon.player != null) {
+                for (AbstractRelic relic : AbstractDungeon.player.relics) {
+                    if (relic instanceof ClickableRelicWithUI && relic != ClickableRelicWithUI.this)
+                        order++;
+                }
+            }
+            setY(CE_Y + order*Y_INCREMENT);
+
             BaseMod.addSaveField(relicId, new CustomSavable<Boolean>() {
                 @Override
                 public void onLoad(Boolean savedValue)
@@ -183,10 +189,10 @@ public abstract class ClickableRelicWithUI extends CustomRelic {
                 getElement().render(sb, Color.WHITE.cpy());
             else {
                 sb.setColor(Color.WHITE.cpy());
-                ShaderProgram oldShade = sb.getShader();
-                sb.setShader(shade);
+                //ShaderProgram oldShade = sb.getShader();
+                //sb.setShader(shade);
                 element.render(sb);
-                sb.setShader(oldShade);
+                //sb.setShader(oldShade);
             }
         }
     }
