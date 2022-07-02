@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
-import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelicWithUI;
+import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
@@ -16,18 +16,18 @@ public class FlashClickRelicEffect extends AbstractGameEffect {
     private Texture img;
     private TextureAtlas.AtlasRegion region;
     private float scale;
-    private ClickableRelicWithUI relic;
-    private static final float DURATION = 2.5f;
+    private static final float DURATION = 1.5f;
+    private ClickableForRelic clicky;
 
-    public FlashClickRelicEffect(ClickableRelicWithUI relic) {
-        img = ReflectionHacks.getPrivate(relic.getElement(), ClickableUIElement.class, "image");
-        region = ReflectionHacks.getPrivate(relic.getElement(), ClickableUIElement.class, "region");
+    public FlashClickRelicEffect(ClickableForRelic clicky) {
+        this.clicky = clicky;
+        img = ReflectionHacks.getPrivate(clicky, ClickableUIElement.class, "image");
+        region = ReflectionHacks.getPrivate(clicky, ClickableUIElement.class, "region");
 
         startingDuration = DURATION;
         duration = startingDuration;
         renderBehind = false;
 
-        this.relic = relic;
         scale = Settings.scale;
         color = new Color(1.0F, 1.0F, 1.0F, 0.5F);
     }
@@ -35,9 +35,9 @@ public class FlashClickRelicEffect extends AbstractGameEffect {
     @Override
     public void update() {
         if (duration == startingDuration)
-            relic.flash();
+            clicky.getRelic().flash();
         duration -= Gdx.graphics.getDeltaTime();
-        scale = Interpolation.exp5Out.apply(5.0F * Settings.scale, Settings.scale, (startingDuration - duration) / 2.5F);
+        scale = Interpolation.exp5Out.apply(3.0F * Settings.scale, Settings.scale, (startingDuration - duration) / DURATION);
 
         if (duration < 0.0F) {
             isDone = true;
@@ -46,8 +46,8 @@ public class FlashClickRelicEffect extends AbstractGameEffect {
     }
 
     public void render(SpriteBatch sb) {
-        float x = ReflectionHacks.getPrivate(relic.getElement(), ClickableUIElement.class, "x");
-        float y = ReflectionHacks.getPrivate(relic.getElement(), ClickableUIElement.class, "y");
+        float x = ReflectionHacks.getPrivate(clicky, ClickableUIElement.class, "x");
+        float y = ReflectionHacks.getPrivate(clicky, ClickableUIElement.class, "y");
         sb.setColor(color);
         sb.setBlendFunction(770, 1);
         if (region != null) {

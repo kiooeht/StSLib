@@ -9,7 +9,7 @@ import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.SelfOrEnemyTargeting;
 import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
-import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelicWithUI;
+import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
@@ -22,12 +22,12 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpireInitializer
@@ -175,10 +175,13 @@ public class StSLib implements
         }
 
         int order = 0;
-        for (AbstractRelic relic : AbstractDungeon.player.relics)
-            if (relic instanceof ClickableRelicWithUI) {
-                ((ClickableRelicWithUI) relic).alignRelic(order);
-                order++;
-            }
+        ClickableForRelic.updateClickableList();
+        ArrayList<ClickableForRelic> clickList = ClickableForRelic.getClickableList();
+        for (ClickableForRelic clicky: clickList) {
+            clicky.setY(ClickableForRelic.CE_Y + order * ClickableForRelic.Y_INCREMENT);
+            order++;
+            if (clicky.firstBattle)
+                clicky.firstBattleFlash();
+        }
     }
 }
