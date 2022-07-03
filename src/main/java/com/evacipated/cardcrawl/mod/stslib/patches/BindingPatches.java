@@ -14,6 +14,7 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.AttackDamageRandomEnemyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -262,6 +263,16 @@ public class BindingPatches {
         @SpirePostfixPatch
         public static void enableAfter(AbstractCreature __instance) {
             canPassInstigator = true;
+        }
+    }
+
+    @SpirePatch(clz = AttackDamageRandomEnemyAction.class, method = SpirePatch.CONSTRUCTOR, paramtypez = {AbstractCard.class, AbstractGameAction.AttackEffect.class})
+    public static class LetAttackDamageRandomEnemyActionWorkWithDamageMods {
+        @SpirePostfixPatch
+        public static void setSource(AttackDamageRandomEnemyAction __instance) {
+            if (cardInUse != null) {
+                __instance.source = AbstractDungeon.player;
+            }
         }
     }
 
