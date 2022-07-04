@@ -4,7 +4,10 @@ import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
@@ -19,7 +22,7 @@ public class ColoredDamagePatch {
         FAST
     }
 
-    public static float enumToSpeed(FadeSpeed speed) {
+    protected static float enumToSpeed(FadeSpeed speed) {
         if (speed == FadeSpeed.NONE)
             return 0f;
         if (speed == FadeSpeed.SLOW)
@@ -58,7 +61,7 @@ public class ColoredDamagePatch {
             clz = DamageNumberEffect.class,
             method = SpirePatch.CONSTRUCTOR
     )
-    public static class MakeColor {
+    protected static class MakeColor {
         @SpirePostfixPatch
         public static void Postfix(DamageNumberEffect __instance) {
             AbstractGameAction action = AbstractDungeon.actionManager.currentAction;
@@ -81,7 +84,10 @@ public class ColoredDamagePatch {
             else
                 DamageNumberColorField.fadeSpeed.set(__instance, FadeSpeed.FAST);
 
-            DamageNumberColorField.timerOffset.set(__instance, AbstractDungeon.miscRng.random(0, 5000));
+            if (actionRainbow) {
+                int timerOffset = (int) (MathUtils.random.nextFloat()*5000);
+                DamageNumberColorField.timerOffset.set(__instance, timerOffset);
+            }
             DamageNumberColorField.rainbow.set(__instance, actionRainbow);
         }
     }
@@ -90,7 +96,7 @@ public class ColoredDamagePatch {
             clz = DamageNumberEffect.class,
             method = "update"
     )
-    public static class MakeColor2 {
+    protected static class MakeColor2 {
         @SpirePostfixPatch
         public static void Postfix(DamageNumberEffect __instance) {
             Color color = DamageNumberColorField.damageColor.get(__instance);
