@@ -7,7 +7,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 
 // Thanks to Alison for how to patch this in for proper update timing
-public class RelicWithUIPatch {
+public class RelicWithButtonPatch {
     @SpirePatch2(clz = CustomEnergyOrb.class, method = "renderOrb")
     public static class RenderElementAfterOrb {
         @SpirePostfixPatch

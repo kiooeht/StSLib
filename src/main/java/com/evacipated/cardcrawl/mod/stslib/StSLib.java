@@ -178,7 +178,7 @@ public class StSLib implements
         ClickableForRelic.updateClickableList();
         ArrayList<ClickableForRelic> clickList = ClickableForRelic.getClickableList();
         for (ClickableForRelic clicky: clickList) {
-            clicky.setY(ClickableForRelic.CE_Y + order * ClickableForRelic.Y_INCREMENT);
+            clicky.setY((ClickableForRelic.CE_Y + order * ClickableForRelic.Y_INCREMENT)*Settings.yScale);
             order++;
             if (clicky.firstBattle)
                 clicky.firstBattleFlash();

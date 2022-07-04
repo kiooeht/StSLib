@@ -1,7 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib.relics;
 
 import basemod.ClickableUIElement;
-import com.badlogic.gdx.Gdx;
+import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -14,19 +14,21 @@ import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.ui.panels.EnergyPanel;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 import java.util.ArrayList;
 
+import static com.megacrit.cardcrawl.core.Settings.xScale;
+
 public class ClickableForRelic extends ClickableUIElement {
-    public static final float CE_X = 64.0F;
-    public static final float CE_Y = 132.0F*Settings.yScale/Settings.scale;
+    public static final float CE_Y = 132.0F;
     public static final float CE_W = 64f;
     public static final float CE_H = 48f;
     public static final float Y_INCREMENT = 56f;
 
     private AbstractRelic relic;
-    private ClickableRelicWithUI relicUI;
+    private RelicWithButton relicUI;
 
     private static ArrayList<ClickableForRelic> clickableList;
 
@@ -73,9 +75,8 @@ public class ClickableForRelic extends ClickableUIElement {
 
     private boolean grayscale;
     public boolean firstBattle;
-    private float hoverTimer;
 
-    public ClickableForRelic(ClickableRelicWithUI relicUI, float x, float y, float width, float height) {
+    public ClickableForRelic(RelicWithButton relicUI, float x, float y, float width, float height) {
         super(relicUI.getTexture(), x, y, width, height);
             this.relicUI = relicUI;
             if (relicUI instanceof AbstractRelic)
@@ -83,7 +84,6 @@ public class ClickableForRelic extends ClickableUIElement {
 
             firstBattle = true;
             grayscale = relicUI.isButtonDisabled();
-            hoverTimer = 0f;
     }
 
     protected void addToBot(AbstractGameAction action) {
@@ -94,12 +94,10 @@ public class ClickableForRelic extends ClickableUIElement {
     protected void onHover() {
         if (relic == null)
             return;
-        hoverTimer += Gdx.graphics.getDeltaTime();
-        if (hoverTimer > 0.2f) {
-            float y = TipHelper.calculateToAvoidOffscreen(relicUI.getHoverTips(), InputHelper.mY);
-            TipHelper.queuePowerTips((float) InputHelper.mX + 60.0F * Settings.scale, InputHelper.mY + y,
-                    relicUI.getHoverTips());
-        }
+
+        float y = TipHelper.calculateToAvoidOffscreen(relicUI.getHoverTips(), InputHelper.mY);
+        TipHelper.queuePowerTips((float) InputHelper.mX + 60.0F * Settings.scale, InputHelper.mY + y,
+                relicUI.getHoverTips());
     }
 
     @Override
@@ -130,9 +128,7 @@ public class ClickableForRelic extends ClickableUIElement {
     }
 
     @Override
-    protected void onUnhover() {
-        hoverTimer = 0f;
-    }
+    protected void onUnhover() { }
 
     @Override
     public void update() {
@@ -140,9 +136,10 @@ public class ClickableForRelic extends ClickableUIElement {
             return;
         if (relic == null)
             return;
-        float deltaX = AbstractDungeon.overlayMenu.energyPanel.show_x -
-                AbstractDungeon.overlayMenu.energyPanel.current_x;
-        setX(CE_X*Settings.scale - deltaX);
+        int orbWidth = ReflectionHacks.getPrivate(AbstractDungeon.overlayMenu.energyPanel,
+                EnergyPanel.class, "RAW_W");
+        float orbWidthFloat = orbWidth*1f;
+        setX(AbstractDungeon.overlayMenu.energyPanel.current_x - (orbWidthFloat*0.4f + CE_W/2f)*xScale);
         grayscale = relicUI.isButtonDisabled();
         super.update();
     }
@@ -187,7 +184,7 @@ public class ClickableForRelic extends ClickableUIElement {
             return;
 
         for (AbstractRelic relic : AbstractDungeon.player.relics) {
-            if (relic instanceof ClickableRelicWithUI) {
+            if (relic instanceof RelicWithButton) {
                 boolean existingClicky = false;
                 for (ClickableForRelic clicky : clickableList) {
                     if (clicky.relic == relic) {
@@ -196,8 +193,8 @@ public class ClickableForRelic extends ClickableUIElement {
                     }
                 }
                 if (!existingClicky) {
-                    ClickableForRelic newClicky = new ClickableForRelic((ClickableRelicWithUI) relic,
-                            ClickableForRelic.CE_X, ClickableForRelic.CE_Y + (1 + clickableList.size()) * Y_INCREMENT,
+                    ClickableForRelic newClicky = new ClickableForRelic((RelicWithButton) relic,
+                            0f, ClickableForRelic.CE_Y + (1 + clickableList.size()) * Y_INCREMENT,
                             ClickableForRelic.CE_W, ClickableForRelic.CE_H);
                     clickableList.add(newClicky);
                 }

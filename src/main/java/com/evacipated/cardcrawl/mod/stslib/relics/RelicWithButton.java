@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.helpers.PowerTip;
 import java.util.ArrayList;
 
 @AutoAdd.Ignore
-public interface ClickableRelicWithUI {
+public interface RelicWithButton {
     Texture getTexture();
 
     void onButtonPress();
