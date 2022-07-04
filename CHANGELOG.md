@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.4.0 ####
 * Add utility method to generate RewardItem with arbitrary cards (Alchyr)
 * Fix scrolling tooltip position in SCV (Bryan)
 * Added `RelicWithButton` (Bryan)
