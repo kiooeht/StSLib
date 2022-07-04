@@ -2,6 +2,7 @@ package com.evacipated.cardcrawl.mod.stslib.relics;
 
 import basemod.ClickableUIElement;
 import basemod.ReflectionHacks;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -33,46 +34,10 @@ public class ClickableForRelic extends ClickableUIElement
 
     private static ArrayList<ClickableForRelic> clickableList;
 
-    private static final String vertexLightShader = "attribute vec4 a_position;\n"
-            + "attribute vec4 a_color;\n"
-            + "attribute vec2 a_texCoord0;\n"
-            + "uniform mat4 u_projTrans;\n"
-            + "varying vec4 v_color;\n"
-            + "varying vec2 v_texCoords;\n"
-            + "\n"
-            + "void main()\n"
-            + "{\n"
-            + "   v_color = a_color;\n"
-            + "   v_color.r = v_color.r * 1.15;\n"
-            + "   v_color.g = v_color.g * 1.15;\n"
-            + "   v_color.b = v_color.b * 1.15;\n"
-            + "   v_texCoords = a_texCoord0;\n"
-            + "   v_color.a = pow(v_color.a * (255.0/254.0) + 0.5, 1.709);\n"
-            + "   gl_Position =  u_projTrans * a_position;\n"
-            + "}\n";
-
-    private static final String fragmentLightShader =
-            "#ifdef GL_ES\n" +
-                    "#define LOWP lowp\n" +
-                    "   precision mediump float;\n" +
-                    "#else\n" +
-                    "   #define LOWP\n" +
-                    "#endif\n" +
-
-                    "varying LOWP vec4 v_color;\n" +
-                    "varying vec2 v_texCoords;\n" +
-
-                    "uniform sampler2D u_texture;\n" +
-
-                    "void main()\n" +
-                    "{\n" +
-                    "   gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
-                    "   gl_FragColor.r = gl_FragColor.r * 1.15;\n" +
-                    "   gl_FragColor.g = gl_FragColor.g * 1.15;\n" +
-                    "   gl_FragColor.b = gl_FragColor.b * 1.15;\n" +
-                    "}\n";
-
-    private static final ShaderProgram shade = new ShaderProgram(vertexLightShader, fragmentLightShader);
+    private static final ShaderProgram shade = new ShaderProgram(
+            Gdx.files.internal("shaders/stslib/light.vs"),
+            Gdx.files.internal("shaders/stslib/light.fs")
+    );
 
     private boolean grayscale;
     public boolean firstBattle;
