@@ -180,8 +180,9 @@ public class StSLib implements
         for (ClickableForRelic clicky: clickList) {
             clicky.setY((ClickableForRelic.CE_Y + order * ClickableForRelic.Y_INCREMENT)*Settings.yScale);
             order++;
-            if (clicky.firstBattle)
+            if (clicky.firstBattle) {
                 clicky.firstBattleFlash();
+            }
         }
     }
 }

@@ -21,7 +21,8 @@ import java.util.ArrayList;
 
 import static com.megacrit.cardcrawl.core.Settings.xScale;
 
-public class ClickableForRelic extends ClickableUIElement {
+public class ClickableForRelic extends ClickableUIElement
+{
     public static final float CE_Y = 132.0F;
     public static final float CE_W = 64f;
     public static final float CE_H = 48f;
@@ -76,34 +77,45 @@ public class ClickableForRelic extends ClickableUIElement {
     private boolean grayscale;
     public boolean firstBattle;
 
-    public ClickableForRelic(RelicWithButton relicUI, float x, float y, float width, float height) {
+    public ClickableForRelic(RelicWithButton relicUI, float x, float y, float width, float height)
+    {
         super(relicUI.getTexture(), x, y, width, height);
-            this.relicUI = relicUI;
-            if (relicUI instanceof AbstractRelic)
-            relic = (AbstractRelic) relicUI;
 
-            firstBattle = true;
-            grayscale = relicUI.isButtonDisabled();
+        this.relicUI = relicUI;
+        if (relicUI instanceof AbstractRelic) {
+            relic = (AbstractRelic) relicUI;
+        }
+
+        firstBattle = true;
+        grayscale = relicUI.isButtonDisabled();
     }
 
-    protected void addToBot(AbstractGameAction action) {
+    protected void addToBot(AbstractGameAction action)
+    {
         AbstractDungeon.actionManager.addToBottom(action);
     }
 
     @Override
-    protected void onHover() {
-        if (relic == null)
+    protected void onHover()
+    {
+        if (relic == null) {
             return;
+        }
 
         float y = TipHelper.calculateToAvoidOffscreen(relicUI.getHoverTips(), InputHelper.mY);
-        TipHelper.queuePowerTips((float) InputHelper.mX + 60.0F * Settings.scale, InputHelper.mY + y,
-                relicUI.getHoverTips());
+        TipHelper.queuePowerTips(
+                (float) InputHelper.mX + 60.0F * Settings.scale,
+                InputHelper.mY + y,
+                relicUI.getHoverTips()
+        );
     }
 
     @Override
-    protected void onClick() {
-        if (relic == null)
+    protected void onClick()
+    {
+        if (relic == null) {
             return;
+        }
         if (!AbstractDungeon.actionManager.turnHasEnded && !AbstractDungeon.isScreenUp &&
                 AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT &&
                 !AbstractDungeon.actionManager.usingCard &&
@@ -112,15 +124,20 @@ public class ClickableForRelic extends ClickableUIElement {
         }
     }
 
-    public void firstBattleFlash() {
-        if (relic == null)
+    public void firstBattleFlash()
+    {
+        if (relic == null) {
             return;
+        }
         AbstractGameEffect effect = new FlashClickRelicEffect(this);
-        addToBot(new AbstractGameAction() {
+        addToBot(new AbstractGameAction()
+        {
             @Override
-            public void update() {
-                if (duration == startDuration)
+            public void update()
+            {
+                if (duration == startDuration) {
                     firstBattle = false;
+                }
                 isDone = true;
             }
         });
@@ -128,32 +145,35 @@ public class ClickableForRelic extends ClickableUIElement {
     }
 
     @Override
-    protected void onUnhover() { }
+    protected void onUnhover()
+    {
+    }
 
     @Override
-    public void update() {
-        if (AbstractDungeon.overlayMenu == null || AbstractDungeon.overlayMenu.energyPanel == null)
+    public void update()
+    {
+        if (AbstractDungeon.overlayMenu == null || AbstractDungeon.overlayMenu.energyPanel == null || relic == null) {
             return;
-        if (relic == null)
-            return;
-        int orbWidth = ReflectionHacks.getPrivate(AbstractDungeon.overlayMenu.energyPanel,
-                EnergyPanel.class, "RAW_W");
-        float orbWidthFloat = orbWidth*1f;
-        setX(AbstractDungeon.overlayMenu.energyPanel.current_x - (orbWidthFloat*0.4f + CE_W/2f)*xScale);
+        }
+        int orbWidth = ReflectionHacks.getPrivate(AbstractDungeon.overlayMenu.energyPanel, EnergyPanel.class, "RAW_W");
+        float orbWidthFloat = orbWidth * 1f;
+        setX(AbstractDungeon.overlayMenu.energyPanel.current_x - (orbWidthFloat * 0.4f + CE_W / 2f) * xScale);
         grayscale = relicUI.isButtonDisabled();
         super.update();
     }
 
     @Override
-    public void render(SpriteBatch sb) {
-        if (firstBattle)
+    public void render(SpriteBatch sb)
+    {
+        if (firstBattle) {
             return;
-        if (grayscale)
+        }
+        if (grayscale) {
             super.render(sb, Color.GRAY.cpy());
-        else {
-            if (!hitbox.hovered)
+        } else {
+            if (!hitbox.hovered) {
                 render(sb, Color.WHITE.cpy());
-            else {
+            } else {
                 ShaderProgram oldShade = sb.getShader();
                 sb.setShader(shade);
                 super.render(sb, Color.WHITE.cpy());
@@ -162,26 +182,29 @@ public class ClickableForRelic extends ClickableUIElement {
         }
     }
 
-    public static ArrayList<ClickableForRelic> getClickableList() {
-        if (clickableList == null)
+    public static ArrayList<ClickableForRelic> getClickableList()
+    {
+        if (clickableList == null) {
             clickableList = new ArrayList<>();
+        }
 
         return clickableList;
     }
 
-    public static void updateClickableList() {
-        if (clickableList == null)
+    public static void updateClickableList()
+    {
+        if (clickableList == null) {
             clickableList = new ArrayList<>();
+        }
 
         clickableList.removeIf(clicky -> clicky.getRelic() == null);
 
-        if (AbstractDungeon.player != null)
+        if (AbstractDungeon.player != null) {
             clickableList.removeIf(clicky -> !AbstractDungeon.player.relics.contains(clicky.relic));
-        else
+        } else {
             clickableList.clear();
-
-        if (AbstractDungeon.player == null)
             return;
+        }
 
         for (AbstractRelic relic : AbstractDungeon.player.relics) {
             if (relic instanceof RelicWithButton) {
@@ -193,14 +216,21 @@ public class ClickableForRelic extends ClickableUIElement {
                     }
                 }
                 if (!existingClicky) {
-                    ClickableForRelic newClicky = new ClickableForRelic((RelicWithButton) relic,
-                            0f, ClickableForRelic.CE_Y + (1 + clickableList.size()) * Y_INCREMENT,
-                            ClickableForRelic.CE_W, ClickableForRelic.CE_H);
+                    ClickableForRelic newClicky = new ClickableForRelic(
+                            (RelicWithButton) relic,
+                            0f,
+                            ClickableForRelic.CE_Y + (1 + clickableList.size()) * Y_INCREMENT,
+                            ClickableForRelic.CE_W,
+                            ClickableForRelic.CE_H
+                    );
                     clickableList.add(newClicky);
                 }
             }
         }
     }
 
-    public AbstractRelic getRelic() {return relic;}
+    public AbstractRelic getRelic()
+    {
+        return relic;
+    }
 }
