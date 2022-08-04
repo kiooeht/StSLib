@@ -35,6 +35,12 @@ public class BlockModifierPatches {
                 }
                 delta -= __instance.currentBlock;
                 if (delta > 0) {
+                    int backupIndex = -1;
+                    if (specificInstanceToReduce != null) {
+                        backupIndex = BlockModifierManager.blockInstances(__instance).indexOf(specificInstanceToReduce);
+                        BlockModifierManager.blockInstances(__instance).remove(backupIndex);
+                        BlockModifierManager.blockInstances(__instance).add(0, specificInstanceToReduce);
+                    }
                     for (BlockInstance b : BlockModifierManager.blockInstances(__instance)) {
                         removedAmount = Math.min(b.getBlockAmount(), delta);
                         b.setBlockAmount(b.getBlockAmount() - removedAmount);
@@ -48,8 +54,13 @@ public class BlockModifierPatches {
                             break;
                         }
                     }
+                    if (specificInstanceToReduce != null) {
+                        BlockModifierManager.blockInstances(__instance).remove(0);
+                        BlockModifierManager.blockInstances(__instance).add(backupIndex, specificInstanceToReduce);
+                    }
                     BlockModifierManager.removeEmptyBlockInstances(__instance);
                 }
+                specificInstanceToReduce = null;
             }
         }
     }
@@ -94,13 +105,7 @@ public class BlockModifierPatches {
                 int tmp = damageAmount[0];
                 int removedAmount;
                 boolean isStartTurnLostBlock = OnPlayerLoseBlockToggle.isEnabled;
-                int backupIndex = -1;
                 int reduction = 0;
-                if (specificInstanceToReduce != null) {
-                    backupIndex = BlockModifierManager.blockInstances(__instance).indexOf(specificInstanceToReduce);
-                    BlockModifierManager.blockInstances(__instance).remove(backupIndex);
-                    BlockModifierManager.blockInstances(__instance).add(0, specificInstanceToReduce);
-                }
                 if (!isStartTurnLostBlock && !RetainMonsterBlockPatches.monsterStartOfTurn) {
                     for (BlockInstance b : BlockModifierManager.blockInstances(__instance)) {
                         removedAmount = Math.min(tmp, b.getBlockAmount());
@@ -123,11 +128,6 @@ public class BlockModifierPatches {
                             break;
                         }
                     }
-                }
-                if (specificInstanceToReduce != null) {
-                    BlockModifierManager.blockInstances(__instance).remove(0);
-                    BlockModifierManager.blockInstances(__instance).add(backupIndex, specificInstanceToReduce);
-                    specificInstanceToReduce = null;
                 }
                 BlockModifierManager.removeEmptyBlockInstances(__instance);
                 damageAmount[0] -= reduction;
