@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix crash with Block Mods if removeSpecificBlock or reduceSpecificBlock are called (Mistress Alison)
 
 #### v2.4.0 ####
 * Add utility method to generate RewardItem with arbitrary cards (Alchyr)
