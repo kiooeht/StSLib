@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.4.1 ####
 * Fix crash with Block Mods if removeSpecificBlock or reduceSpecificBlock are called (Mistress Alison)
 
 #### v2.4.0 ####
