@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Fix Stun leaving base intent damage unchanged
+  * Caused cards like Spot Weakness to sometimes incorrectly identify enemies as attacking when they're stunned
 
 #### v2.4.1 ####
 * Fix crash with Block Mods if removeSpecificBlock or reduceSpecificBlock are called (Mistress Alison)
