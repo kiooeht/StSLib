@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.4.2 ####
 * Fix Stun leaving base intent damage unchanged
   * Caused cards like Spot Weakness to sometimes incorrectly identify enemies as attacking when they're stunned
 * Fix RelicWithButton not working on base game characters
