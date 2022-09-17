@@ -78,7 +78,8 @@ public class StunMonsterPower extends AbstractPower
                         Field f = AbstractMonster.class.getDeclaredField("move");
                         f.setAccessible(true);
                         move = (EnemyMoveInfo) f.get(owner);
-                        move.intent = AbstractMonster.Intent.STUN;
+                        EnemyMoveInfo stunMove = new EnemyMoveInfo(moveByte, AbstractMonster.Intent.STUN, -1, 0, false);
+                        f.set(owner, stunMove);
                         ((AbstractMonster) owner).createIntent();
                     } catch (IllegalAccessException | NoSuchFieldException e) {
                         e.printStackTrace();
