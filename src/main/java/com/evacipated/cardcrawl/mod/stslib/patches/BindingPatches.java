@@ -162,6 +162,11 @@ public class BindingPatches {
                     pushedMods.addAll(((DamageModApplyingPower) p).modsToPush(null, __instance, pushedMods));
                 }
             }
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r instanceof DamageModApplyingRelic && ((DamageModApplyingRelic) r).shouldPushMods(null, __instance, pushedMods)) {
+                    pushedMods.addAll(((DamageModApplyingRelic) r).modsToPush(null, __instance, pushedMods));
+                }
+            }
             pushedMods.removeAll(inherentMods);
             inherentMods.clear();
             DamageModifierManager.addModifiers(__instance, pushedMods);

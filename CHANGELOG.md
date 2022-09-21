@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix `DamageModApplyingRelic` not affecting cards
 
 #### v2.4.2 ####
 * Fix Stun leaving base intent damage unchanged
