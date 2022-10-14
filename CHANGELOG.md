@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.5.0 ####
 * Fix `DamageModApplyingRelic` not affecting cards
 * Make `BindObjectToDamageInfo` patch public so it can be patched like it says
 * Powers
