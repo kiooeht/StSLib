@@ -94,7 +94,7 @@ public class BindingPatches {
     }
 
     @SpirePatch(clz = DamageInfo.class, method = SpirePatch.CONSTRUCTOR, paramtypez = {AbstractCreature.class, int.class, DamageInfo.DamageType.class})
-    private static class BindObjectToDamageInfo {
+    public static class BindObjectToDamageInfo {
 
         private static final ArrayList<AbstractDamageModifier> boundMods = new ArrayList<>();
 
@@ -160,6 +160,11 @@ public class BindingPatches {
             for (AbstractPower p : AbstractDungeon.player.powers) {
                 if (p instanceof DamageModApplyingPower && ((DamageModApplyingPower) p).shouldPushMods(null, __instance, pushedMods)) {
                     pushedMods.addAll(((DamageModApplyingPower) p).modsToPush(null, __instance, pushedMods));
+                }
+            }
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r instanceof DamageModApplyingRelic && ((DamageModApplyingRelic) r).shouldPushMods(null, __instance, pushedMods)) {
+                    pushedMods.addAll(((DamageModApplyingRelic) r).modsToPush(null, __instance, pushedMods));
                 }
             }
             pushedMods.removeAll(inherentMods);
