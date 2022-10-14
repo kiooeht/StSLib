@@ -2,6 +2,10 @@
 #### dev ####
 * Fix `DamageModApplyingRelic` not affecting cards
 * Make `BindObjectToDamageInfo` patch public so it can be patched like it says
+* Powers
+  * `OnDrawPileShufflePower` (Vex)
+* Cards
+  * `OnObtainCard` (Vex)
 
 #### v2.4.2 ####
 * Fix Stun leaving base intent damage unchanged
