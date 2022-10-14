@@ -35,6 +35,23 @@ public class DamageModifierPatches {
         }
     }
 
+    @SpirePatch(clz = AbstractCard.class, method = "applyPowers")
+    public static class ModifyDamage2 {
+        @SpireInsertPatch(locator = DamageLocator.class, localvars = "tmp")
+        public static void single(AbstractCard __instance, @ByRef float[] tmp) {
+            for (AbstractDamageModifier mod : DamageModifierManager.modifiers(__instance)) {
+                tmp[0] = mod.atDamageGive(tmp[0], __instance.damageTypeForTurn, null, __instance);
+            }
+        }
+
+        @SpireInsertPatch(locator = MultiDamageLocator.class, localvars = {"tmp","i"})
+        public static void multi(AbstractCard __instance, float[] tmp, int i) {
+            for (AbstractDamageModifier mod : DamageModifierManager.modifiers(__instance)) {
+                tmp[i] = mod.atDamageGive(tmp[i], __instance.damageTypeForTurn, null, __instance);
+            }
+        }
+    }
+
     @SpirePatch(clz = AbstractCard.class, method = "calculateCardDamage")
     public static class ModifyDamageFinal {
         @SpireInsertPatch(locator = DamageFinalLocator.class, localvars = "tmp")
@@ -48,6 +65,23 @@ public class DamageModifierPatches {
         public static void multi(AbstractCard __instance, AbstractMonster mo, float[] tmp, int i, ArrayList<AbstractMonster> m) {
             for (AbstractDamageModifier mod : DamageModifierManager.modifiers(__instance)) {
                 tmp[i] = mod.atDamageFinalGive(tmp[i], __instance.damageTypeForTurn, m.get(i), __instance);
+            }
+        }
+    }
+
+    @SpirePatch(clz = AbstractCard.class, method = "applyPowers")
+    public static class ModifyDamageFinal2 {
+        @SpireInsertPatch(locator = DamageFinalLocator.class, localvars = "tmp")
+        public static void single(AbstractCard __instance, @ByRef float[] tmp) {
+            for (AbstractDamageModifier mod : DamageModifierManager.modifiers(__instance)) {
+                tmp[0] = mod.atDamageFinalGive(tmp[0], __instance.damageTypeForTurn, null, __instance);
+            }
+        }
+
+        @SpireInsertPatch(locator = MultiDamageFinalLocator.class, localvars = {"tmp","i"})
+        public static void multi(AbstractCard __instance, float[] tmp, int i) {
+            for (AbstractDamageModifier mod : DamageModifierManager.modifiers(__instance)) {
+                tmp[i] = mod.atDamageFinalGive(tmp[i], __instance.damageTypeForTurn, null, __instance);
             }
         }
     }

@@ -147,6 +147,7 @@ public class BindingPatches {
         }
     }
 
+    @SpirePatch(clz = AbstractCard.class, method = "applyPowers")
     @SpirePatch(clz = AbstractCard.class, method = "calculateCardDamage")
     public static class AddTempModifiers {
 
