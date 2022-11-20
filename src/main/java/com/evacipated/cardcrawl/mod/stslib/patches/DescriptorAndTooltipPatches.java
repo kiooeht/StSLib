@@ -9,6 +9,8 @@ import com.evacipated.cardcrawl.mod.stslib.blockmods.AbstractBlockModifier;
 import com.evacipated.cardcrawl.mod.stslib.blockmods.BlockModifierManager;
 import com.evacipated.cardcrawl.mod.stslib.damagemods.AbstractDamageModifier;
 import com.evacipated.cardcrawl.mod.stslib.damagemods.DamageModifierManager;
+import com.evacipated.cardcrawl.mod.stslib.icons.AbstractCustomIcon;
+import com.evacipated.cardcrawl.mod.stslib.icons.CustomIconHelper;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.DamageModApplyingPower;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -38,6 +40,11 @@ public class DescriptorAndTooltipPatches {
                     tooltips[0].addAll(mod.getCustomTooltips());
                 }
             }
+            for (AbstractCustomIcon icon : CustomIconHelper.iconsOnCard(___card)) {
+                if (icon.getCustomTooltips() != null) {
+                    tooltips[0].addAll(icon.getCustomTooltips());
+                }
+            }
             if (AbstractDungeon.player != null && RenderElementsOnCardPatches.validLocation(___card)) {
                 for (AbstractPower p : AbstractDungeon.player.powers) {
                     if (p instanceof DamageModApplyingPower && ((DamageModApplyingPower) p).shouldPushMods(null, ___card, DamageModifierManager.modifiers(___card))) {
@@ -50,6 +57,7 @@ public class DescriptorAndTooltipPatches {
                 }
             }
         }
+
         private static class Locator1 extends SpireInsertLocator {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
@@ -69,6 +77,11 @@ public class DescriptorAndTooltipPatches {
             for (AbstractBlockModifier mod : BlockModifierManager.modifiers(___card)) {
                 tooltips[0].addAll(mod.getCustomTooltips());
             }
+            for (AbstractCustomIcon icon : CustomIconHelper.iconsOnCard(___card)) {
+                if (icon.getCustomTooltips() != null) {
+                    tooltips[0].addAll(icon.getCustomTooltips());
+                }
+            }
             if (AbstractDungeon.player != null && RenderElementsOnCardPatches.validLocation(___card)) {
                 for (AbstractPower p : AbstractDungeon.player.powers) {
                     if (p instanceof DamageModApplyingPower && ((DamageModApplyingPower) p).shouldPushMods(null, ___card, DamageModifierManager.modifiers(___card))) {
@@ -81,6 +94,7 @@ public class DescriptorAndTooltipPatches {
                 }
             }
         }
+
         private static class Locator2 extends SpireInsertLocator {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
@@ -88,7 +102,7 @@ public class DescriptorAndTooltipPatches {
                 int[] tmp = LineFinder.findAllInOrder(ctMethodToPatch, finalMatcher);
                 int[] ret = new int[1];
                 for (int value : tmp) {
-                    ret[0] = value-1;
+                    ret[0] = value - 1;
                 }
                 return ret;
             }
@@ -109,6 +123,13 @@ public class DescriptorAndTooltipPatches {
             for (AbstractBlockModifier mod : BlockModifierManager.modifiers(acard)) {
                 if (mod.getCustomTooltips() != null) {
                     for (TooltipInfo tip : mod.getCustomTooltips()) {
+                        t[0].add(tip.toPowerTip());
+                    }
+                }
+            }
+            for (AbstractCustomIcon icon : CustomIconHelper.iconsOnCard(acard)) {
+                if (icon.getCustomTooltips() != null) {
+                    for (TooltipInfo tip : icon.getCustomTooltips()) {
                         t[0].add(tip.toPowerTip());
                     }
                 }
@@ -144,6 +165,7 @@ public class DescriptorAndTooltipPatches {
                 }
             }
         }
+
         private static class Locator extends SpireInsertLocator {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
@@ -168,6 +190,7 @@ public class DescriptorAndTooltipPatches {
                 }
             }
         }
+
         private static class Locator extends SpireInsertLocator {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
@@ -192,6 +215,7 @@ public class DescriptorAndTooltipPatches {
                 }
             }
         }
+
         private static class Locator extends SpireInsertLocator {
             @Override
             public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {

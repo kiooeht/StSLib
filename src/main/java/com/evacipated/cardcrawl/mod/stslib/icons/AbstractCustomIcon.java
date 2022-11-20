@@ -1,5 +1,6 @@
 package com.evacipated.cardcrawl.mod.stslib.icons;
 
+import basemod.helpers.TooltipInfo;
 import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.ShrinkLongDescription;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractCustomIcon {
     public static final int RENDER_CONSTANT = 24;
@@ -37,6 +41,10 @@ public abstract class AbstractCustomIcon {
 
     public float getCardRenderScale(AbstractCard card) {
         return getRenderScale() * ShrinkLongDescription.Scale.descriptionScale.get(card);
+    }
+
+    public List<TooltipInfo> getCustomTooltips() {
+        return new ArrayList<>();
     }
 
     public void render(SpriteBatch sb, float drawX, float drawY, float offsetX, float offsetY, float scale, float angle) {
