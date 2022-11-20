@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.evacipated.cardcrawl.mod.stslib.Keyword;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
 
@@ -44,6 +45,10 @@ public abstract class AbstractCustomIcon {
     }
 
     public List<TooltipInfo> getCustomTooltips() {
+        return new ArrayList<>();
+    }
+
+    public List<String> keywordLinks() {
         return new ArrayList<>();
     }
 

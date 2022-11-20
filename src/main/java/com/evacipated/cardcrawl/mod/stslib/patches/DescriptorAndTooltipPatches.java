@@ -1,5 +1,6 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
+import basemod.BaseMod;
 import basemod.abstracts.CustomCard;
 import basemod.helpers.TooltipInfo;
 import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.RenderCardDescriptors;
@@ -41,6 +42,13 @@ public class DescriptorAndTooltipPatches {
                 }
             }
             for (AbstractCustomIcon icon : CustomIconHelper.iconsOnCard(___card)) {
+                if (icon.keywordLinks() != null) {
+                    for (String s : icon.keywordLinks()) {
+                        if (!___card.rawDescription.toLowerCase().contains(s)) {
+                            tooltips[0].add(new TooltipInfo(BaseMod.getKeywordTitle(s), BaseMod.getKeywordDescription(s)));
+                        }
+                    }
+                }
                 if (icon.getCustomTooltips() != null) {
                     tooltips[0].addAll(icon.getCustomTooltips());
                 }
@@ -78,6 +86,13 @@ public class DescriptorAndTooltipPatches {
                 tooltips[0].addAll(mod.getCustomTooltips());
             }
             for (AbstractCustomIcon icon : CustomIconHelper.iconsOnCard(___card)) {
+                if (icon.keywordLinks() != null) {
+                    for (String s : icon.keywordLinks()) {
+                        if (!___card.rawDescription.toLowerCase().contains(s)) {
+                            tooltips[0].add(new TooltipInfo(BaseMod.getKeywordTitle(s), BaseMod.getKeywordDescription(s)));
+                        }
+                    }
+                }
                 if (icon.getCustomTooltips() != null) {
                     tooltips[0].addAll(icon.getCustomTooltips());
                 }
@@ -128,6 +143,13 @@ public class DescriptorAndTooltipPatches {
                 }
             }
             for (AbstractCustomIcon icon : CustomIconHelper.iconsOnCard(acard)) {
+                if (icon.keywordLinks() != null) {
+                    for (String s : icon.keywordLinks()) {
+                        if (!acard.rawDescription.toLowerCase().contains(s)) {
+                            t[0].add(new TooltipInfo(BaseMod.getKeywordTitle(s), BaseMod.getKeywordDescription(s)).toPowerTip());
+                        }
+                    }
+                }
                 if (icon.getCustomTooltips() != null) {
                     for (TooltipInfo tip : icon.getCustomTooltips()) {
                         t[0].add(tip.toPowerTip());
