@@ -84,7 +84,7 @@ public class CardRewardSkipButton extends ClickableUIElement {
 
         float textX = x + relic.getTexture().getWidth()/2f;
         float textY = y + relic.getTexture().getHeight()/2f;
-        FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, label, textX, textY, Color.WHITE, 0.8F);
+        FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, label, textX, textY, Color.WHITE, 1F);
         renderHitbox(sb);
     }
 

@@ -14,7 +14,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.screens.CardRewardScreen;
-import sun.security.util.AuthResources_zh_CN;
 
 import java.util.ArrayList;
 
@@ -69,7 +68,6 @@ public class CardRewardSkipButtonPatches {
                         ButtonsField.buttons.get(__instance).add(button);
                     }
                 }
-                BaseMod.logger.info("======== Adding" + ButtonsField.buttons.get(__instance).size() + " buttons");
                 positionButtons(ButtonsField.buttons.get(__instance));
             }
         }
