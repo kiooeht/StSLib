@@ -113,7 +113,6 @@ public class MultiUpgradeTree {
             }
         }
         //Prep the cards into the array
-        //MultiUpgradePatches.MultiSelectFields.previewCards.get(__instance).clear();
         cardList.clear();
         takenList.clear();
         lockedList.clear();
@@ -125,7 +124,7 @@ public class MultiUpgradeTree {
         root.move(-1, 0);
         cardGraph.addVertex(root);
         for (UpgradeData u : ((MultiUpgradeCard) c).getUpgrades()) {
-            AbstractCard copy;// = c.makeStatEquivalentCopy();
+            AbstractCard copy;
             if (u.applied) {
                 copy = makeSimpleCopy(c);
             } else {
@@ -136,8 +135,6 @@ public class MultiUpgradeTree {
             MultiUpgradePatches.MultiUpgradeFields.upgradeIndex.set(copy, u.index); //Gets set back to -1 when completed, so we need to set it again
 
             cardList.add(copy);
-
-            //MultiUpgradePatches.MultiSelectFields.previewCards.get(__instance).add(node);
 
             if (u.applied) {
                 takenList.add(copy);
@@ -158,16 +155,8 @@ public class MultiUpgradeTree {
         }
         for (UpgradeData u : ((MultiUpgradeCard) c).getUpgrades()) {
             if (u.exclusions.size() > 0) {
-                //only add the line for the exclusions with the largest index that is less than the index of the upgrade with the exclusions
                 for (int i : u.exclusions) {
                     cardGraph.addExclusion(cardGraph.vertices.get(u.index+1), cardGraph.vertices.get(i+1));
-                            /*int largestE = 0;
-                            for (int e : ((MultiUpgradeCard) c).getUpgrades(c).get(i).exclusions)
-                                if (e > largestE && e < u.index)
-                                    largestE = e;
-                            if (i == largestE)
-                                cardGraph.addExclusion(v, cardGraph.vertices.get(i));*/
-                    //cardGraph.addExclusion(v, cardGraph.vertices.get(i+1));
                 }
             }
         }
@@ -222,12 +211,10 @@ public class MultiUpgradeTree {
         down -= 260F;
 
         if (left < 0) {
-            //minX = left - 200F * Settings.scale;
             maxX = -left + 200F * Settings.scale;
             allowX = true;
         }
         if (right > Settings.WIDTH) {
-            //maxX = right - Settings.WIDTH + 200F * Settings.scale;
             minX = Settings.WIDTH - right - 200F * Settings.scale;
             allowX = true;
         }
@@ -249,22 +236,14 @@ public class MultiUpgradeTree {
         AbstractCard c = mainCard;
         float dx = deltaX;
         float dy = deltaY;
-        //cardList.clear();
-        //TODO reorganize this
+
         c.target_x = (float)Settings.WIDTH * 1/3F + dx;
         c.target_y = (float)Settings.HEIGHT / 2F + dy;
         c.drawScale = renderScale;
-        //c.target_x = (float)Settings.WIDTH * 0.5F + dx;
-        //c.target_y = (float)Settings.HEIGHT * 0.75F - 50.0F * Settings.scale + dy;
         c.render(sb);
-        //c.updateHoverLogic();
 
-        //cardList.addAll(MultiUpgradePatches.MultiSelectFields.previewCards.get(__instance));
-        int lineNum = 0;
-        int count = 0;
         for (CardVertex v : cardGraph.vertices) {
             if (v.x != -1) {
-                //TODO transparency stuff
                 if (v.card.hb.hovered) {
                     v.card.drawScale = renderScale;
                 } else {
@@ -277,7 +256,6 @@ public class MultiUpgradeTree {
                     sb.end();
                     sb.setShader(Grayscale.program);
                     sb.begin();
-                    //card.setLocked();
                 } else if (takenList.contains(v.card)) {
                     sb.end();
                     sb.setShader(Greenify.program);
@@ -285,7 +263,6 @@ public class MultiUpgradeTree {
                 }
                 v.card.render(sb);
                 ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
-                //v.card.updateHoverLogic();
                 v.card.renderCardTip(sb);
             }
         }
@@ -324,7 +301,6 @@ public class MultiUpgradeTree {
 
                 Vector2 vec2 = (new Vector2((child.card.current_x),child.card.current_y)).sub(new Vector2((v.card.current_x), v.card.current_y));
                 float length = vec2.len();
-                int mod = 0;
                 for (float i = 0; i < length; i += LINE_SPACING) {
                     vec2.clamp(length - i, length - i);
                     Texture texture = child.strict ? upgradeAndLine : ImageMaster.MAP_DOT_1;

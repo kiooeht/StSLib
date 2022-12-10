@@ -238,21 +238,6 @@ public class MultiUpgradePatches {
         }
     }
 
-/*    @SpirePatch2(clz = AbstractCard.class, method = "hover")
-    public static class StopJitteringPlz {
-        @SpirePrefixPatch
-        public static SpireReturn<?> plz(AbstractCard __instance, @ByRef boolean[] ___hovered) {
-            AbstractCard hovered = BranchingUpgradesPatch.getHoveredCard();
-            if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.GRID && AbstractDungeon.gridSelectScreen.forUpgrade && AbstractDungeon.gridSelectScreen.confirmScreenUp && hovered instanceof MultiUpgradeCard) {
-                if (!___hovered[0]) {
-                    ___hovered[0] = true;
-                }
-                return SpireReturn.Return();
-            }
-            return SpireReturn.Continue();
-        }
-    }*/
-
     @SpirePatch(clz = GridCardSelectScreen.class, method = "render")
     public static class HideGhostCard {
         @SpireInstrumentPatch
@@ -314,7 +299,6 @@ public class MultiUpgradePatches {
                 String tipMsg = ReflectionHacks.getPrivate(__instance, GridCardSelectScreen.class, "tipMsg");
                 if (!__instance.isJustForConfirming || targetGroup.size() > 5) {
                     FontHelper.renderDeckViewTip(sb, tipMsg, 96.0F * Settings.scale, Settings.CREAM_COLOR);
-                    //FontHelper.renderDeckViewTip(sb, tipMsg, Settings.HEIGHT / 2F - 25F * Settings.scale, Settings.CREAM_COLOR);
                 }
                 return SpireReturn.Return(null);
             } else {
@@ -341,7 +325,6 @@ public class MultiUpgradePatches {
         }
     }
 
-    //TODO may not be needed if we defaults to first upgrade available
     @SpirePatch(clz = GridCardSelectScreen.class, method = "update")
     public static class ForceNormalUpgrade {
         @SpireInsertPatch(locator = Locator.class)
