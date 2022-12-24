@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.6.0 ####
 * Fix damage mod atDamageGive (Mistress Alison)
 * Add MultiUpgradeCard for tech tree style upgrades (Mistress Alison)
 * Add support for custom tooltips linked to card text icons (Vex)
