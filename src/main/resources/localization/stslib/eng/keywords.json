@@ -1,0 +1,8 @@
+[
+  {
+    "NAMES": [
+      "persist"
+    ],
+    "DESCRIPTION": "Only discards after a certain number of uses each turn."
+  }
+]

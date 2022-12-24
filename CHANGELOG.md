@@ -3,7 +3,14 @@
 * Fix damage mod atDamageGive (Mistress Alison)
 * Add MultiUpgradeCard for tech tree style upgrades (Mistress Alison)
 * Add support for custom tooltips linked to card text icons (Vex)
-* Add CardRewardSkipButtonRelic (Pandemonium)
+* Keywords
+  * Persist
+* Powers
+  * OnPersistPower
+* Relics
+  * OnPersistRelic
+  * CardRewardSkipButtonRelic (Pandemonium)
+
 
 #### v2.5.0 ####
 * Fix `DamageModApplyingRelic` not affecting cards
