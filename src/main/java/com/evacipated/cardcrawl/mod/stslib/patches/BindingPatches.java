@@ -147,14 +147,15 @@ public class BindingPatches {
         }
     }
 
-    @SpirePatch(clz = AbstractCard.class, method = "calculateCardDamage")
+    @SpirePatch2(clz = AbstractCard.class, method = "applyPowers")
+    @SpirePatch2(clz = AbstractCard.class, method = "calculateCardDamage")
     public static class AddTempModifiers {
 
         private static final ArrayList<AbstractDamageModifier> pushedMods = new ArrayList<>();
         private static final ArrayList<AbstractDamageModifier> inherentMods = new ArrayList<>();
 
         @SpirePrefixPatch()
-        public static void addMods(AbstractCard __instance, AbstractMonster mo) {
+        public static void addMods(AbstractCard __instance) {
             inherentMods.addAll(DamageModifierManager.modifiers(__instance));
             pushedMods.addAll(inherentMods);
             for (AbstractPower p : AbstractDungeon.player.powers) {
@@ -173,7 +174,7 @@ public class BindingPatches {
         }
 
         @SpirePostfixPatch()
-        public static void removeMods(AbstractCard __instance, AbstractMonster mo) {
+        public static void removeMods(AbstractCard __instance) {
             DamageModifierManager.removeModifiers(__instance, pushedMods);
             pushedMods.clear();
         }
