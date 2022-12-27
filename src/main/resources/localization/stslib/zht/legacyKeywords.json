@@ -1,5 +1,6 @@
 ﻿[
   {
+    "ID": "purge",
     "NAMES": [
       "purge",
       "抹除"
@@ -7,6 +8,7 @@
     "DESCRIPTION": "戰鬥結束前從牌組中暫時移除，並 #r不會 放入消耗區"
   },
   {
+    "ID": "retain",
     "NAMES": [
       "retain",
       "保留"
@@ -14,6 +16,7 @@
     "DESCRIPTION": "保留的牌不會在回合結束時被放入棄牌堆"
   },
   {
+    "ID": "autoplay",
     "NAMES": [
       "autoplay",
       "自動打出",
@@ -22,6 +25,7 @@
     "DESCRIPTION": "這張牌在抽到時會自動打出"
   },
   {
+    "ID": "soulbound",
     "NAMES": [
       "soulbound",
       "靈魂綁定",
@@ -30,6 +34,7 @@
     "DESCRIPTION": "不能從牌組中移除"
   },
   {
+    "ID": "snecko",
     "NAMES": [
       "snecko",
       "異蛇",
@@ -38,6 +43,7 @@
     "DESCRIPTION": "抽到這張牌時，隨機改變耗能"
   },
   {
+    "ID": "grave",
     "NAMES": [
       "grave",
       "墓地"
@@ -45,6 +51,7 @@
     "DESCRIPTION": "每場戰鬥開始時，將這張牌放入棄牌堆"
   },
   {
+    "ID": "fleeting",
     "NAMES": [
       "fleeting",
       "即逝"
@@ -52,6 +59,7 @@
     "DESCRIPTION": "這張牌是 #y抹除 並在打出後從牌組中移除"
   },
   {
+    "ID": "temporary_hp",
     "PROPER_NAME": "暫時性生命",
     "NAMES": [
       "temporary hp",
@@ -62,6 +70,7 @@
     "DESCRIPTION": "在戰鬥結束後，失去暫時性生命"
   },
   {
+    "ID": "fetch",
     "NAMES": [
       "fetch",
       "取出"
@@ -69,6 +78,7 @@
     "DESCRIPTION": "從特定牌堆中抽出特定牌，並將其放到手牌"
   },
   {
+    "ID": "refund",
     "NAMES": [
       "refund",
       "refunds",
@@ -78,6 +88,7 @@
     "DESCRIPTION": "打出時返還能量，最多返還至 回饋 的數值"
   },
   {
+    "ID": "exhaustive",
     "NAMES": [
       "exhaustive",
       "消耗性"
@@ -85,6 +96,7 @@
     "DESCRIPTION": "打出一定次數後才 #y消耗"
   },
   {
+    "ID": "startup",
     "NAMES": [
       "startup",
       "起動",

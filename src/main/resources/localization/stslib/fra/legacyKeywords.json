@@ -1,11 +1,13 @@
 [
   {
+    "ID": "purge",
     "NAMES": [
       "purge"
     ],
     "DESCRIPTION": "Retirée jusqu'à la fin du combat. Ne va #rPAS dans vos cartes épuisées."
   },
   {
+    "ID": "retain",
     "PROPER_NAME": "Retenue",
     "NAMES": [
       "retenue",
@@ -14,6 +16,7 @@
     "DESCRIPTION": "N'est pas défaussée à la fin de votre tour."
   },
   {
+    "ID": "autoplay",
     "PROPER_NAME": "Auto-joué",
     "NAMES": [
       "auto-joué",
@@ -22,6 +25,7 @@
     "DESCRIPTION": "Quand vous piochez cette carte, jouez-la."
   },
   {
+    "ID": "soulbound",
     "PROPER_NAME": "Lié",
     "NAMES": [
       "lié",
@@ -30,24 +34,28 @@
     "DESCRIPTION": "Ne peux pas être retirée de votre deck."
   },
   {
+    "ID": "snecko",
     "NAMES": [
       "geckobra"
     ],
     "DESCRIPTION": "Quand vous la piochez, le coût de cette carte devient aléatoire."
   },
   {
+    "ID": "grave",
     "NAMES": [
       "tombe"
     ],
     "DESCRIPTION": "Commencez chaque combat avec cette carte dans votre défausse."
   },
   {
+    "ID": "fleeting",
     "NAMES": [
       "éphémère"
     ],
     "DESCRIPTION": "Cette carte se #yPurge et est retirée du deck une fois utilisée."
   },
   {
+    "ID": "temporary_hp",
     "PROPER_NAME": "PV temporaires",
     "NAMES": [
       "pv temporaires",
@@ -57,12 +65,14 @@
     "DESCRIPTION": "Les PV temporaires disparaissent à la fin du combat."
   },
   {
+    "ID": "fetch",
     "NAMES": [
       "rapporter"
     ],
     "DESCRIPTION": "Choisissez une carte spécifique issue d'une pile spécifique et mettez là dans votre main."
   },
   {
+    "ID": "refund",
     "PROPER_NAME": "Remboursement",
     "NAMES": [
       "remboursement",
@@ -71,6 +81,7 @@
     "DESCRIPTION": "Regagnez l'énergie dépensée pour la carte, allant jusqu'à la valeur de remboursement."
   },
   {
+    "ID": "exhaustive",
     "PROPER_NAME": "Épuisant",
     "NAMES": [
       "épuisant",
@@ -79,6 +90,7 @@
     "DESCRIPTION": "#yS'Épuise après un certain nombre d'utilisations."
   },
   {
+    "ID": "startup",
     "NAMES": [
       "démarrage"
     ],

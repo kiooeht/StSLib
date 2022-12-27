@@ -86,7 +86,7 @@ public class StSLib implements
                 BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
                 BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
 
-                if(keyword.NAMES.length > 0 && keyword.NAMES[0].equalsIgnoreCase("purge")) {
+                if(keyword.NAMES.length > 0 && keyword.ID.equalsIgnoreCase("purge")) {
                     if(keyword.NAMES.length > 1) {
                         CommonKeywordIconsPatches.purgeName = keyword.NAMES[1];
                     } else {
