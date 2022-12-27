@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Add keyword ID (erasels)
+* Fix purge name for keyword icons (erasels)
 
 #### v2.6.0 ####
 * Fix damage mod atDamageGive (Mistress Alison)
