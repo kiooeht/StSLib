@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.6.1 ####
 * Add keyword ID (erasels)
 * Fix purge name for keyword icons (erasels)
 
