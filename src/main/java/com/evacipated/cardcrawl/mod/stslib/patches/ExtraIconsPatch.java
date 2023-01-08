@@ -41,20 +41,25 @@ public class ExtraIconsPatch {
                 for (IconPayload icon : icons) {
                     TextureRegion region = new TextureRegion(icon.getTexture());
                     y -= region.getRegionHeight();
+                    y -= icon.getMargin();
+                    x += icon.getOffsetX();
+                    y += icon.getOffsetY();
                     sb.setColor(icon.getDrawColor());
                     sb.draw(region,
-                            __instance.current_x + ((x + icon.getOffsetX())),
-                            __instance.current_y + ((y + icon.getOffsetY())),
-                            -x, -y, region.getRegionWidth(), region.getRegionHeight(),
+                            __instance.current_x + x,
+                            __instance.current_y + y,
+                            -x, -y, icon.getWidth(), icon.getHeight(),
                             __instance.drawScale * Settings.scale, __instance.drawScale * Settings.scale, __instance.angle);
                     if (icon.shouldRenderText()) {
                         FontHelper.renderRotatedText(sb,
                                 icon.getFont(), icon.getText(),
                                 __instance.current_x, __instance.current_y,
-                                (x + icon.getOffsetX() + icon.getTextOffsetX() + (region.getRegionWidth() / 2f)) * __instance.drawScale * Settings.scale,
-                                (y + icon.getOffsetY() + icon.getTextOffsetY() + (region.getRegionHeight() / 2f)) * __instance.drawScale * Settings.scale,
+                                (x + icon.getTextOffsetX() + (icon.getWidth() / 2f)) * __instance.drawScale * Settings.scale,
+                                (y + icon.getTextOffsetY() + (icon.getHeight() / 2f)) * __instance.drawScale * Settings.scale,
                                 __instance.angle, false, icon.getTextColor());
                     }
+                    x -= icon.getOffsetX();
+                    y -= icon.getMargin();
                 }
                 icons.clear();
             }

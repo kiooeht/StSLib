@@ -21,6 +21,9 @@ public class IconPayload {
     private final float textOffsetX;
     private final float textOffsetY;
     private final Color textColor;
+    private final float width;
+    private final float height;
+    private final float margin;
 
     public IconPayload(Builder builder) {
         texture = builder.texture;
@@ -32,6 +35,9 @@ public class IconPayload {
         textOffsetX = builder.textOffsetX;
         textOffsetY = builder.textOffsetY;
         textColor = builder.textColor;
+        width = builder.width;
+        height = builder.height;
+        margin = builder.margin;
     }
 
     public Texture getTexture() {
@@ -74,6 +80,18 @@ public class IconPayload {
         return textColor;
     }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public float getMargin() {
+        return margin;
+    }
+
     public static class Builder {
         private final Texture texture;
         private Color drawColor = Color.WHITE.cpy();
@@ -84,9 +102,14 @@ public class IconPayload {
         private float textOffsetX;
         private float textOffsetY;
         private Color textColor = Color.WHITE.cpy();
+        private float width;
+        private float height;
+        private float margin = 1f;
 
         public Builder(Texture texture) {
             this.texture = texture;
+            width = texture.getWidth();
+            height = texture.getHeight();
         }
 
         public Builder drawColor(Color color) {
@@ -126,6 +149,21 @@ public class IconPayload {
 
         public Builder textColor(Color color) {
             textColor = color;
+            return this;
+        }
+
+        public Builder width(float width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder height(float height) {
+            this.height = height;
+            return this;
+        }
+
+        public Builder margin(float margin) {
+            this.margin = margin;
             return this;
         }
 
