@@ -30,4 +30,13 @@ public interface SpawnModificationCard {
      * @param rewardCards The arraylist of the cards that would show up in the card reward.
      */
     default void onRewardListCreated(ArrayList<AbstractCard> rewardCards) {}
+
+    /**
+     * @param currentShopCards ArrayList of cards that are currently set to spawn in the shop.
+     * @return If true the card will be added to the list of cards for the shop.
+     *          If false, the card will rerolled.
+     */
+    default boolean canSpawnShop(ArrayList<AbstractCard> currentShopCards) {
+        return true;
+    }
 }
