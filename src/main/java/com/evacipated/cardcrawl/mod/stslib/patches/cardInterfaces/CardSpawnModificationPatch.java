@@ -52,6 +52,7 @@ public class CardSpawnModificationPatch {
     @SpirePatch2(clz = Merchant.class, method = SpirePatch.CONSTRUCTOR, paramtypez = {float.class, float.class, int.class})
     public static class ShopModificationPatches {
         //Colored cards
+        //Patches the first 5 card generations to modify the boolean expression for the while loop
         @SpireInstrumentPatch
         public static ExprEditor checkForCanSpawn() {
             return new ExprEditor() {
@@ -76,6 +77,7 @@ public class CardSpawnModificationPatch {
         }
 
         //Colorless cards
+        //Patches the 2 arraylist.add for the colorless cards by surrounding them with a do-while
         static int counter = 0;
         @SpireInstrumentPatch
         public static ExprEditor checkForColorlessCanSpawn() {
