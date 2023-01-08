@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### 2.7.0 ####
 * Add capability of rendering icons on cards (NellyDevo)
 * `SpawnModificationCard`
   * Add canSpawnShop (erasels)
