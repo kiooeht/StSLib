@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.evacipated.cardcrawl.mod.stslib.patches.ExtraIconsPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.red.Bash;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 
 public class IconPayload {
 
@@ -17,6 +18,7 @@ public class IconPayload {
     private final float offsetX;
     private final float offsetY;
     private final BitmapFont font;
+    private final BitmapFont singleCardViewFont;
     private final String text;
     private final float textOffsetX;
     private final float textOffsetY;
@@ -31,6 +33,7 @@ public class IconPayload {
         offsetX = builder.offsetX;
         offsetY = builder.offsetY;
         font = builder.font;
+        singleCardViewFont = builder.singleCardViewFont;
         text = builder.text;
         textOffsetX = builder.textOffsetX;
         textOffsetY = builder.textOffsetY;
@@ -68,6 +71,10 @@ public class IconPayload {
         return font;
     }
 
+    public BitmapFont getSingleCardViewFont() {
+        return singleCardViewFont;
+    }
+
     public float getTextOffsetX() {
         return textOffsetX;
     }
@@ -99,6 +106,7 @@ public class IconPayload {
         private float offsetY;
         private String text;
         private BitmapFont font = DEFAULT_FONT;
+        private BitmapFont singleCardViewFont = FontHelper.SCP_cardEnergyFont;
         private float textOffsetX;
         private float textOffsetY;
         private Color textColor = Color.WHITE.cpy();
@@ -134,6 +142,11 @@ public class IconPayload {
 
         public Builder font(BitmapFont font) {
             this.font = font;
+            return this;
+        }
+
+        public Builder singleCardViewFont(BitmapFont font) {
+            singleCardViewFont = font;
             return this;
         }
 
