@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+* Fix rendering icons in library (NellyDevo)
+* Center icons better (NellyDevo)
 
 #### 2.7.0 ####
 * Add capability of rendering icons on cards (NellyDevo)
