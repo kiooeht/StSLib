@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### 2.7.1 ####
 * Fix rendering icons in library (NellyDevo)
 * Center icons better (NellyDevo)
 
