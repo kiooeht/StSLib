@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class CustomIconHelper {
     private static final HashMap<String, AbstractCustomIcon> icons = new HashMap<>();
@@ -22,12 +23,13 @@ public class CustomIconHelper {
     }
 
     public static ArrayList<AbstractCustomIcon> iconsOnCard(AbstractCard card) {
-        ArrayList<AbstractCustomIcon> icons = new ArrayList<>();
+        TreeMap<Integer, AbstractCustomIcon> icons = new TreeMap<>();
         for (AbstractCustomIcon i : getAllIcons()) {
-            if (card.rawDescription.contains(i.cardCode())) {
-                icons.add(i);
+            int indexOf = card.rawDescription.indexOf(i.cardCode());
+            if (indexOf > -1) {
+                icons.put(indexOf, i);
             }
         }
-        return icons;
+        return new ArrayList<>(icons.values());
     }
 }

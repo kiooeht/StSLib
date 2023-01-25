@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Make card text icon tooltips appear in the order they appear in the card text
 
 #### 2.7.1 ####
 * Fix rendering icons in library (NellyDevo)
