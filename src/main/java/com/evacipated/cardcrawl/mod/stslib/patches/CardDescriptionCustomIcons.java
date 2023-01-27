@@ -21,7 +21,7 @@ public class CardDescriptionCustomIcons {
     @SpirePatch(clz=AbstractCard.class, method="renderDescription")
     @SpirePatch(clz=AbstractCard.class, method="renderDescriptionCN")
     public static class RenderSmallIcon {
-        private static final float CARD_ENERGY_IMG_WIDTH = 26.0f * Settings.scale;
+        private static final float CARD_ENERGY_IMG_WIDTH = 24.0f * Settings.scale;
         private static final HashSet<AbstractCard> reinit = new HashSet<>();
 
         @SpireInsertPatch(locator=Locator.class, localvars={"spacing", "i", "start_x", "draw_y", "font", "textColor", "tmp", "gl"})
@@ -99,7 +99,7 @@ public class CardDescriptionCustomIcons {
 
     @SpirePatch(clz=AbstractCard.class, method="initializeDescription")
     public static class AlterIconDescriptionSize {
-        private static final float CARD_ENERGY_IMG_WIDTH = 16.0f * Settings.scale;
+        private static final float CARD_ENERGY_IMG_WIDTH = 24.0f * Settings.scale;
         @SpireInsertPatch(locator=Locator.class, localvars={"gl", "word"})
         public static void Insert(AbstractCard __instance,  @ByRef GlyphLayout[] gl, String word) {
             if (word.length() > 0 && word.charAt(0) == '[') {
