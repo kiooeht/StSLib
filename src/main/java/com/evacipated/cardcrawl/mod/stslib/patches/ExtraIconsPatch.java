@@ -42,32 +42,34 @@ public class ExtraIconsPatch {
         public static void afterRender(AbstractCard __instance, SpriteBatch sb) {
             ArrayList<IconPayload> icons = ExtraIconsPatch.ExtraIconsField.extraIcons.get(__instance);
             if (!icons.isEmpty()) {
-                float x = ENERGY_POSITION_X;
-                float y = ENERGY_POSITION_Y;
-                for (IconPayload icon : icons) {
-                    TextureRegion region = new TextureRegion(icon.getTexture());
-                    y -= region.getRegionHeight();
-                    y -= icon.getMargin();
-                    x += icon.getOffsetX();
-                    y += icon.getOffsetY();
-                    x -= icon.getWidth() / 2.0f;
-                    sb.setColor(icon.getDrawColor());
-                    sb.draw(region,
-                            __instance.current_x + x,
-                            __instance.current_y + y,
-                            -x, -y, icon.getWidth(), icon.getHeight(),
-                            __instance.drawScale * Settings.scale, __instance.drawScale * Settings.scale, __instance.angle);
-                    if (icon.shouldRenderText()) {
-                        FontHelper.renderRotatedText(sb,
-                                icon.getFont(), icon.getText(),
-                                __instance.current_x, __instance.current_y,
-                                (x + icon.getTextOffsetX() + (icon.getWidth() / 2f)) * __instance.drawScale * Settings.scale,
-                                (y + icon.getTextOffsetY() + (icon.getHeight() / 2f)) * __instance.drawScale * Settings.scale,
-                                __instance.angle, false, icon.getTextColor());
+                if (!__instance.isFlipped) {
+                    float x = ENERGY_POSITION_X;
+                    float y = ENERGY_POSITION_Y;
+                    for (IconPayload icon : icons) {
+                        TextureRegion region = new TextureRegion(icon.getTexture());
+                        y -= region.getRegionHeight();
+                        y -= icon.getMargin();
+                        x += icon.getOffsetX();
+                        y += icon.getOffsetY();
+                        x -= icon.getWidth() / 2.0f;
+                        sb.setColor(icon.getDrawColor());
+                        sb.draw(region,
+                                __instance.current_x + x,
+                                __instance.current_y + y,
+                                -x, -y, icon.getWidth(), icon.getHeight(),
+                                __instance.drawScale * Settings.scale, __instance.drawScale * Settings.scale, __instance.angle);
+                        if (icon.shouldRenderText()) {
+                            FontHelper.renderRotatedText(sb,
+                                    icon.getFont(), icon.getText(),
+                                    __instance.current_x, __instance.current_y,
+                                    (x + icon.getTextOffsetX() + (icon.getWidth() / 2f)) * __instance.drawScale * Settings.scale,
+                                    (y + icon.getTextOffsetY() + (icon.getHeight() / 2f)) * __instance.drawScale * Settings.scale,
+                                    __instance.angle, false, icon.getTextColor());
+                        }
+                        x -= icon.getOffsetX();
+                        y -= icon.getMargin();
+                        x += icon.getWidth() / 2.0f;
                     }
-                    x -= icon.getOffsetX();
-                    y -= icon.getMargin();
-                    x += icon.getWidth() / 2.0f;
                 }
                 icons.clear();
             }
@@ -87,36 +89,38 @@ public class ExtraIconsPatch {
             AbstractCard card = ReflectionHacks.getPrivate(__instance, SingleCardViewPopup.class, "card");
             ArrayList<IconPayload> icons = ExtraIconsPatch.ExtraIconsField.extraIcons.get(card);
             if (!icons.isEmpty()) {
-                float x = ENERGY_POSITION_X;
-                float y = ENERGY_POSITION_Y;
-                for (IconPayload icon : icons) {
-                    TextureRegion region = new TextureRegion(icon.getTexture());
-                    y -= region.getRegionHeight();
-                    y -= icon.getMargin();
-                    x += icon.getOffsetX();
-                    y += icon.getOffsetY();
-                    x -= icon.getWidth() / 2.0f;
-                    sb.setColor(icon.getDrawColor());
-                    sb.draw(region,
-                            (Settings.WIDTH / 2.0f) + x,
-                            (Settings.HEIGHT / 2.0f) + y,
-                            -x, -y, icon.getWidth(), icon.getHeight(),
-                            2 * Settings.scale, 2 * Settings.scale, 0);
-                    if (icon.shouldRenderText()) {
-                        String text = icon.getText();
-                        float textWidth = FontHelper.getWidth(icon.getSingleCardViewFont(), text, Settings.scale);
-                        float textHeight = FontHelper.getHeight(icon.getSingleCardViewFont(), text, Settings.scale);
-                        FontHelper.renderFont(
-                                sb,
-                                icon.getSingleCardViewFont(),
-                                icon.getText(),
-                                (Settings.WIDTH / 2.0f) + ((x + icon.getTextOffsetX() + (icon.getWidth() / 2f)) * 2 * Settings.scale) - (textWidth / 2f),
-                                (Settings.HEIGHT / 2.0f) + ((y + icon.getTextOffsetY() + (icon.getHeight() / 2f)) * 2 * Settings.scale) + (textHeight / 2f),
-                                icon.getTextColor());
+                if (!card.isFlipped) {
+                    float x = ENERGY_POSITION_X;
+                    float y = ENERGY_POSITION_Y;
+                    for (IconPayload icon : icons) {
+                        TextureRegion region = new TextureRegion(icon.getTexture());
+                        y -= region.getRegionHeight();
+                        y -= icon.getMargin();
+                        x += icon.getOffsetX();
+                        y += icon.getOffsetY();
+                        x -= icon.getWidth() / 2.0f;
+                        sb.setColor(icon.getDrawColor());
+                        sb.draw(region,
+                                (Settings.WIDTH / 2.0f) + x,
+                                (Settings.HEIGHT / 2.0f) + y,
+                                -x, -y, icon.getWidth(), icon.getHeight(),
+                                2 * Settings.scale, 2 * Settings.scale, 0);
+                        if (icon.shouldRenderText()) {
+                            String text = icon.getText();
+                            float textWidth = FontHelper.getWidth(icon.getSingleCardViewFont(), text, Settings.scale);
+                            float textHeight = FontHelper.getHeight(icon.getSingleCardViewFont(), text, Settings.scale);
+                            FontHelper.renderFont(
+                                    sb,
+                                    icon.getSingleCardViewFont(),
+                                    icon.getText(),
+                                    (Settings.WIDTH / 2.0f) + ((x + icon.getTextOffsetX() + (icon.getWidth() / 2f)) * 2 * Settings.scale) - (textWidth / 2f),
+                                    (Settings.HEIGHT / 2.0f) + ((y + icon.getTextOffsetY() + (icon.getHeight() / 2f)) * 2 * Settings.scale) + (textHeight / 2f),
+                                    icon.getTextColor());
+                        }
+                        x -= icon.getOffsetX();
+                        y -= icon.getMargin();
+                        x += icon.getWidth() / 2.0f;
                     }
-                    x -= icon.getOffsetX();
-                    y -= icon.getMargin();
-                    x += icon.getWidth() / 2.0f;
                 }
                 icons.clear();
             }
