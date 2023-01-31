@@ -5,7 +5,7 @@
       "purge",
       "抹除"
     ],
-    "DESCRIPTION": "战斗结束前从牌堆中暂时移除，并 #r不会 放入消耗堆"
+    "DESCRIPTION": "战斗结束前从牌堆中暂时移除，并 #r不会 进入消耗堆。"
   },
   {
     "ID": "retain",
@@ -13,7 +13,7 @@
       "保留",
       "retain"
     ],
-    "DESCRIPTION": "保留的牌不会在回合结束时被放入弃牌堆"
+    "DESCRIPTION": "保留的牌不会在回合结束时被放入弃牌堆。"
   },
   {
     "ID": "autoplay",
@@ -21,7 +21,7 @@
       "自动打出",
       "autoplay"
     ],
-    "DESCRIPTION": "这张牌会在抽到时被自动打出"
+    "DESCRIPTION": "这张牌会在抽到时被自动打出。"
   },
   {
     "ID": "soulbound",
@@ -29,7 +29,7 @@
       "灵魂绑定",
       "soulbound"
     ],
-    "DESCRIPTION": "不能从牌组中移除"
+    "DESCRIPTION": "无法从牌组中移除。"
   },
   {
     "ID": "snecko",
@@ -37,7 +37,7 @@
       "异蛇",
       "snecko"
     ],
-    "DESCRIPTION": "抽到这张牌时，随机改变耗能"
+    "DESCRIPTION": "抽到这张牌时，随机改变其耗能。"
   },
   {
     "ID": "grave",
@@ -45,7 +45,7 @@
       "墓地",
       "grave"
     ],
-    "DESCRIPTION": "每场战斗开始时，将这张牌放入弃牌堆"
+    "DESCRIPTION": "每场战斗开始时，将这张牌放入弃牌堆。"
   },
   {
     "ID": "fleeting",
@@ -53,27 +53,27 @@
       "即逝",
       "fleeting"
     ],
-    "DESCRIPTION": "这张牌是 #y抹除 并在打出后从牌组中移除"
+    "DESCRIPTION": "这张牌带有 #y抹除 并在打出后从牌组中移除。"
   },
   {
     "ID": "temporary_hp",
     "PROPER_NAME": "临时生命",
     "NAMES": [
-	  "临时生命",
+      "临时生命",
       "temporary hp",
       "temporary_hp",
       "暂时性生命"
     ],
-    "DESCRIPTION": "在战斗结束后，失去临时生命"
+    "DESCRIPTION": "战斗结束后，失去所有 #y临时生命 。"
   },
   {
     "ID": "fetch",
     "NAMES": [
-	  "检索",
-	  "取出",
+      "检索",
+      "取出",
       "fetch"
     ],
-    "DESCRIPTION": "从特定牌堆中抽出特定牌，并将其放到手牌"
+    "DESCRIPTION": "从特定牌堆中抽出特定牌，并将其放入手牌。"
   },
   {
     "ID": "refund",
@@ -82,7 +82,7 @@
       "refund",
       "refunds"
     ],
-    "DESCRIPTION": "打出时返还能量，最多返还至 回馈 的数值"
+    "DESCRIPTION": "打出后返还能量，最多返还至 #y回馈 的数值。"
   },
   {
     "ID": "exhaustive",
@@ -90,7 +90,7 @@
       "消耗性",
       "exhaustive"
     ],
-    "DESCRIPTION": "打出一定次数后才 #y消耗"
+    "DESCRIPTION": "打出一定次数后才 #y消耗 。"
   },
   {
     "ID": "startup",
@@ -98,6 +98,6 @@
       "起动",
       "startup"
     ],
-    "DESCRIPTION": "在每场战斗开始时生效"
+    "DESCRIPTION": "每场战斗开始时生效。"
   }
 ]
