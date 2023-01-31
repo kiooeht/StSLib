@@ -2,6 +2,8 @@
 #### dev ####
 * Make card text icon tooltips appear in the order they appear in the card text
 * Fix card text icons being misaligned
+* Update ZHS translation (Mwalls)
+* Fix card icons rendering on back of cards in Match and Keep event (NellyDevo)
 
 #### 2.7.1 ####
 * Fix rendering icons in library (NellyDevo)
