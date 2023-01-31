@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### 2.7.2 ####
 * Make card text icon tooltips appear in the order they appear in the card text
 * Fix card text icons being misaligned
 * Update ZHS translation (Mwalls)
