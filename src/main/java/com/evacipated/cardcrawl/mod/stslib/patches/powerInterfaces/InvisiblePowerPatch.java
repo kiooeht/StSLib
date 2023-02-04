@@ -4,6 +4,8 @@ import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.InvisiblePower;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -124,6 +126,28 @@ public class InvisiblePowerPatch
                 public void edit(MethodCall m) throws CannotCompileException {
                     if (m.getClassName().equals(AbstractPower.class.getName()) && m.getMethodName().equals("flash")) {
                         m.replace("if (!(powerToApply instanceof " + InvisiblePower.class.getName() + ")) {" +
+                                "$_ = $proceed($$);" +
+                                "}");
+                    }
+                }
+            };
+        }
+    }
+    @SpirePatch(
+            clz=RemoveSpecificPowerAction.class,
+            method="update"
+    )
+    public static class HideExpireText
+    {
+        public static ExprEditor Instrument()
+        {
+            return new ExprEditor()
+            {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException
+                {
+                    if (m.getClassName().equals(ArrayList.class.getName()) && m.getMethodName().equals("add")) {
+                        m.replace("if (!(removeMe instanceof " + InvisiblePower.class.getName()+ ")) {" +
                                 "$_ = $proceed($$);" +
                                 "}");
                     }
