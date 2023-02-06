@@ -11,6 +11,7 @@ import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
+import com.evacipated.cardcrawl.mod.stslib.variables.PersistVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
@@ -69,6 +70,33 @@ public class StSLib implements
 
         Gson gson = new Gson();
         Keyword[] keywords = null;
+        // Register legacy keywords with no modid prefix
+        try {
+            String json = Gdx.files.internal(path + "legacyKeywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
+            keywords = gson.fromJson(json, Keyword[].class);
+        } catch (GdxRuntimeException e) {
+            // Ignore file not found
+            if (!e.getMessage().startsWith("File not found:")) {
+                throw e;
+            }
+        }
+
+        if (keywords != null) {
+            for (Keyword keyword : keywords) {
+                BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
+                BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
+
+                if(keyword.NAMES.length > 0 && keyword.ID.equalsIgnoreCase("purge")) {
+                    if(keyword.NAMES.length > 1) {
+                        CommonKeywordIconsPatches.purgeName = keyword.NAMES[1];
+                    } else {
+                        CommonKeywordIconsPatches.purgeName = keyword.NAMES[0];
+                    }
+                }
+            }
+        }
+
+        // Register keywords with modid prefix
         try {
             String json = Gdx.files.internal(path + "keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
             keywords = gson.fromJson(json, Keyword[].class);
@@ -81,15 +109,7 @@ public class StSLib implements
 
         if (keywords != null) {
             for (Keyword keyword : keywords) {
-                BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
-
-                if(keyword.NAMES.length > 0 && keyword.NAMES[0].equalsIgnoreCase("purge")) {
-                    if(keyword.NAMES.length > 1) {
-                        CommonKeywordIconsPatches.purgeName = keyword.NAMES[1];
-                    } else {
-                        CommonKeywordIconsPatches.purgeName = keyword.NAMES[0];
-                    }
-                }
+                BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
             }
         }
     }
@@ -136,6 +156,7 @@ public class StSLib implements
     {
     	BaseMod.addDynamicVariable(new ExhaustiveVariable());
     	BaseMod.addDynamicVariable(new RefundVariable());
+        BaseMod.addDynamicVariable(new PersistVariable());
     }
 
     public static AbstractCard getMasterDeckEquivalent(AbstractCard playingCard)

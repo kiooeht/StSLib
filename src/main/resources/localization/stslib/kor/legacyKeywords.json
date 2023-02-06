@@ -1,47 +1,55 @@
 [
   {
+    "ID": "purge",
     "NAMES": [
       "파괴"
     ],
     "DESCRIPTION": "전투가 끝날 때 까지 제외됩니다. 소멸된 카드더미에 들어가지 #r않습니다."
   },
   {
+    "ID": "retain",
     "NAMES": [
       "보존"
     ],
     "DESCRIPTION": "턴 종료시 버려지지 않습니다."
   },
   {
+    "ID": "autoplay",
     "NAMES": [
       "자동사용"
     ],
     "DESCRIPTION": "뽑을 때 자동으로 사용됩니다."
   },
   {
+    "ID": "soulbound",
     "NAMES": [
       "귀속"
     ],
     "DESCRIPTION": "덱에서 제거할 수 없습니다."
   },
   {
+    "ID": "snecko",
     "NAMES": [
       "스네코"
     ],
     "DESCRIPTION": "뽑을 때 무작위로 비용이 변화합니다."
   },
   {
+    "ID": "grave",
     "NAMES": [
       "무덤"
     ],
     "DESCRIPTION": "전투 시 이 카드를 버린 카드 더미에 두고 시작합니다."
   },
   {
+    "ID": "fleeting",
     "NAMES": [
       "일회성"
     ],
     "DESCRIPTION": "사용시 파괴되며 덱에서도 제거됩니다."
   },
   {
+    "ID": "temporary_hp",
     "PROPER_NAME": "임시 체력",
     "NAMES": [
       "임시 체력",
@@ -52,12 +60,14 @@
     "DESCRIPTION": "전투 종료시에 사라지는 임시 체력입니다."
   },
   {
+    "ID": "fetch",
     "NAMES": [
       "회수"
     ],
     "DESCRIPTION": "특정 카드 더미에서 특정 카드를 선택해 손에 가져옵니다."
   },
   {
+    "ID": "refund",
     "NAMES": [
       "환급",
       "refund"
@@ -65,12 +75,14 @@
     "DESCRIPTION": "사용시 환급 수치만큼 소모한 에너지를 돌려받습니다."
   },
   {
+    "ID": "exhaustive",
     "NAMES": [
       "소멸성"
     ],
     "DESCRIPTION": "일정 횟수를 사용하면 #y소멸 합니다."
   },
   {
+    "ID": "startup",
     "NAMES": [
       "개전"
     ],

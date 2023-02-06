@@ -1,13 +1,13 @@
 {
   "stslib:SingleCardViewPopup": {
     "TEXT": [
-      "看升变版"
+      "查看其他升级项"
     ]
   },
   "stslib:MoveCardsAction": {
     "TEXT": [
-      "选择一张牌加入你的 %s.",
-      "选择牌加入你的 %s."
+      "选择一张牌加入你的 %s 。",
+      "选择牌加入你的 %s 。"
     ],
     "TEXT_DICT": {
       "HAND": "手牌",

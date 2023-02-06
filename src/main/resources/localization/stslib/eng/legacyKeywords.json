@@ -1,0 +1,89 @@
+[
+  {
+    "ID": "purge",
+    "NAMES": [
+      "purge"
+    ],
+    "DESCRIPTION": "Removed until end of combat. Does #rNOT go to your exhaust pile."
+  },
+  {
+    "ID": "retain",
+    "NAMES": [
+      "retain"
+    ],
+    "DESCRIPTION": "Not discarded at the end of your turn."
+  },
+  {
+    "ID": "autoplay",
+    "NAMES": [
+      "autoplay"
+    ],
+    "DESCRIPTION": "This card automatically plays itself when drawn."
+  },
+  {
+    "ID": "soulbound",
+    "NAMES": [
+      "soulbound"
+    ],
+    "DESCRIPTION": "Cannot be removed from your deck."
+  },
+  {
+    "ID": "snecko",
+    "NAMES": [
+      "snecko"
+    ],
+    "DESCRIPTION": "When drawn, this card randomizes its cost."
+  },
+  {
+    "ID": "grave",
+    "NAMES": [
+      "grave"
+    ],
+    "DESCRIPTION": "Start each combat with this card in your discard pile."
+  },
+  {
+    "ID": "fleeting",
+    "NAMES": [
+      "fleeting"
+    ],
+    "DESCRIPTION": "This card #yPurges and is removed from your deck on use."
+  },
+  {
+    "ID": "temporary_hp",
+    "PROPER_NAME": "Temporary HP",
+    "NAMES": [
+      "temporary hp",
+      "temporary_hp"
+    ],
+    "DESCRIPTION": "Temporary HP disappears at the end of combat."
+  },
+  {
+    "ID": "fetch",
+    "NAMES": [
+      "fetch"
+    ],
+    "DESCRIPTION": "Choose a specified card from a specified pile and place it into your hand."
+  },
+  {
+    "ID": "refund",
+    "NAMES": [
+      "refund",
+      "refunds"
+    ],
+    "DESCRIPTION": "Returns energy spent on playing the card, up to the Refund value."
+  },
+  {
+    "ID": "exhaustive",
+    "NAMES": [
+      "exhaustive"
+    ],
+    "DESCRIPTION": "#yExhausts after a certain number of uses."
+  },
+  {
+    "ID": "startup",
+    "NAMES": [
+      "startup"
+    ],
+    "DESCRIPTION": "Triggers at the start of each combat."
+  }
+]

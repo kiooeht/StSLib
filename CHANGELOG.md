@@ -1,6 +1,38 @@
 ## Changelog ##
 #### dev ####
 
+#### 2.7.2 ####
+* Make card text icon tooltips appear in the order they appear in the card text
+* Fix card text icons being misaligned
+* Update ZHS translation (Mwalls)
+* Fix card icons rendering on back of cards in Match and Keep event (NellyDevo)
+
+#### 2.7.1 ####
+* Fix rendering icons in library (NellyDevo)
+* Center icons better (NellyDevo)
+
+#### 2.7.0 ####
+* Add capability of rendering icons on cards (NellyDevo)
+* `SpawnModificationCard`
+  * Add canSpawnShop (erasels)
+
+#### v2.6.1 ####
+* Add keyword ID (erasels)
+* Fix purge name for keyword icons (erasels)
+
+#### v2.6.0 ####
+* Fix damage mod atDamageGive (Mistress Alison)
+* Add MultiUpgradeCard for tech tree style upgrades (Mistress Alison)
+* Add support for custom tooltips linked to card text icons (Vex)
+* Keywords
+  * Persist
+* Powers
+  * OnPersistPower
+* Relics
+  * OnPersistRelic
+  * CardRewardSkipButtonRelic (Pandemonium)
+
+
 #### v2.5.0 ####
 * Fix `DamageModApplyingRelic` not affecting cards
 * Make `BindObjectToDamageInfo` patch public so it can be patched like it says

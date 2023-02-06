@@ -1,77 +1,9 @@
 [
   {
+    "ID": "persist",
     "NAMES": [
-      "purge"
+      "persist"
     ],
-    "DESCRIPTION": "Removed until end of combat. Does #rNOT go to your exhaust pile."
-  },
-  {
-    "NAMES": [
-      "retain"
-    ],
-    "DESCRIPTION": "Not discarded at the end of your turn."
-  },
-  {
-    "NAMES": [
-      "autoplay"
-    ],
-    "DESCRIPTION": "This card automatically plays itself when drawn."
-  },
-  {
-    "NAMES": [
-      "soulbound"
-    ],
-    "DESCRIPTION": "Cannot be removed from your deck."
-  },
-  {
-    "NAMES": [
-      "snecko"
-    ],
-    "DESCRIPTION": "When drawn, this card randomizes its cost."
-  },
-  {
-    "NAMES": [
-      "grave"
-    ],
-    "DESCRIPTION": "Start each combat with this card in your discard pile."
-  },
-  {
-    "NAMES": [
-      "fleeting"
-    ],
-    "DESCRIPTION": "This card #yPurges and is removed from your deck on use."
-  },
-  {
-    "PROPER_NAME": "Temporary HP",
-    "NAMES": [
-      "temporary hp",
-      "temporary_hp"
-    ],
-    "DESCRIPTION": "Temporary HP disappears at the end of combat."
-  },
-  {
-    "NAMES": [
-      "fetch"
-    ],
-    "DESCRIPTION": "Choose a specified card from a specified pile and place it into your hand."
-  },
-  {
-    "NAMES": [
-      "refund",
-      "refunds"
-    ],
-    "DESCRIPTION": "Returns energy spent on playing the card, up to the Refund value."
-  },
-  {
-    "NAMES": [
-      "exhaustive"
-    ],
-    "DESCRIPTION": "#yExhausts after a certain number of uses."
-  },
-  {
-    "NAMES": [
-      "startup"
-    ],
-    "DESCRIPTION": "Triggers at the start of each combat."
+    "DESCRIPTION": "Only discards after a certain number of uses each turn."
   }
 ]

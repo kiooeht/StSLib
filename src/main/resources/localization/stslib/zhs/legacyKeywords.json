@@ -1,0 +1,103 @@
+﻿[
+  {
+    "ID": "purge",
+    "NAMES": [
+      "purge",
+      "抹除"
+    ],
+    "DESCRIPTION": "战斗结束前从牌堆中暂时移除，并 #r不会 进入消耗堆。"
+  },
+  {
+    "ID": "retain",
+    "NAMES": [
+      "保留",
+      "retain"
+    ],
+    "DESCRIPTION": "保留的牌不会在回合结束时被放入弃牌堆。"
+  },
+  {
+    "ID": "autoplay",
+    "NAMES": [
+      "自动打出",
+      "autoplay"
+    ],
+    "DESCRIPTION": "这张牌会在抽到时被自动打出。"
+  },
+  {
+    "ID": "soulbound",
+    "NAMES": [
+      "灵魂绑定",
+      "soulbound"
+    ],
+    "DESCRIPTION": "无法从牌组中移除。"
+  },
+  {
+    "ID": "snecko",
+    "NAMES": [
+      "异蛇",
+      "snecko"
+    ],
+    "DESCRIPTION": "抽到这张牌时，随机改变其耗能。"
+  },
+  {
+    "ID": "grave",
+    "NAMES": [
+      "墓地",
+      "grave"
+    ],
+    "DESCRIPTION": "每场战斗开始时，将这张牌放入弃牌堆。"
+  },
+  {
+    "ID": "fleeting",
+    "NAMES": [
+      "即逝",
+      "fleeting"
+    ],
+    "DESCRIPTION": "这张牌带有 #y抹除 并在打出后从牌组中移除。"
+  },
+  {
+    "ID": "temporary_hp",
+    "PROPER_NAME": "临时生命",
+    "NAMES": [
+      "临时生命",
+      "temporary hp",
+      "temporary_hp",
+      "暂时性生命"
+    ],
+    "DESCRIPTION": "战斗结束后，失去所有 #y临时生命 。"
+  },
+  {
+    "ID": "fetch",
+    "NAMES": [
+      "检索",
+      "取出",
+      "fetch"
+    ],
+    "DESCRIPTION": "从特定牌堆中抽出特定牌，并将其放入手牌。"
+  },
+  {
+    "ID": "refund",
+    "NAMES": [
+      "回馈",
+      "refund",
+      "refunds"
+    ],
+    "DESCRIPTION": "打出后返还能量，最多返还至 #y回馈 的数值。"
+  },
+  {
+    "ID": "exhaustive",
+    "NAMES": [
+      "消耗性",
+      "exhaustive"
+    ],
+    "DESCRIPTION": "打出一定次数后才 #y消耗 。"
+  },
+  {
+    "ID": "startup",
+    "NAMES": [
+      "起动",
+      "startup"
+    ],
+    "DESCRIPTION": "每场战斗开始时生效。"
+  }
+]
