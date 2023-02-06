@@ -15,7 +15,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.LocalizedStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.sun.istack.internal.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -47,7 +46,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
      * @param p the player.
      * @param m the target, if any.
      */
-    public abstract void doExtraEffects(AbstractCard card, AbstractPlayer p, @Nullable AbstractCreature m);
+    public abstract void doExtraEffects(AbstractCard card, AbstractPlayer p, AbstractCreature m);
 
     /**
      * will be formatted with this object's dynamic variable key, then added to the start of the card's text if {@link AbstractCardModifier#priority priority} is less than 0, else it is added to the end. If the effect is {@link ExtraEffectModifier#isMultiInstanced(AbstractCard) multi instanced} and {@link ExtraEffectModifier#amount amount} is greater than 1, the text will automatically be modified with the number of times the effect will take place.
