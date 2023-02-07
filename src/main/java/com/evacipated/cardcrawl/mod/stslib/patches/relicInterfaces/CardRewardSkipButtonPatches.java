@@ -19,22 +19,13 @@ import java.util.ArrayList;
 
 public class CardRewardSkipButtonPatches {
 
-    private static boolean showButtons(CardRewardScreen screen) {
-        boolean draft = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "draft");
-        boolean codex = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "codex");
-        boolean discovery = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "discovery");
-        boolean chooseOne = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "chooseOne");
-
-        return !draft && !codex && !discovery && !chooseOne;
-    }
-
 
     private static void positionButtons(ArrayList<CardRewardSkipButton> buttons) {
         ArrayList<Float> Xs = new ArrayList<>();
-        float trueWidth = ImageMaster.REWARD_SCREEN_TAKE_BUTTON.getWidth()* 0.6f;
-        float diffX = ImageMaster.REWARD_SCREEN_TAKE_BUTTON.getWidth() * 0.2f;
+        float trueWidth = ImageMaster.REWARD_SCREEN_TAKE_BUTTON.getWidth()* 0.6f * Settings.scale;
+        float diffX = ImageMaster.REWARD_SCREEN_TAKE_BUTTON.getWidth() * 0.2f * Settings.scale;
         float Y = (float) Settings.HEIGHT / 2.0F - 340.0F * Settings.scale;
-        Y -= ImageMaster.REWARD_SCREEN_TAKE_BUTTON.getHeight() * 0.85f;
+        Y -= ImageMaster.REWARD_SCREEN_TAKE_BUTTON.getHeight() * 0.85f * Settings.scale;
         float pointerX = Settings.WIDTH/2f - diffX;
         float totalWidth = 0;
         for (CardRewardSkipButton button : buttons) {
@@ -60,16 +51,15 @@ public class CardRewardSkipButtonPatches {
         @SpirePostfixPatch
         public static void addButtons(CardRewardScreen __instance) {
             ButtonsField.buttons.get(__instance).clear();
-            if (showButtons(__instance)) {
-                for (AbstractRelic r : AbstractDungeon.player.relics) {
-                    if (r instanceof CardRewardSkipButtonRelic) {
-                        CardRewardSkipButtonRelic bR = (CardRewardSkipButtonRelic)r;
-                        CardRewardSkipButton button = new CardRewardSkipButton(bR);
-                        ButtonsField.buttons.get(__instance).add(button);
-                    }
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r instanceof CardRewardSkipButtonRelic && (((CardRewardSkipButtonRelic) r).shouldShowButton(__instance))) {
+                    CardRewardSkipButtonRelic bR = (CardRewardSkipButtonRelic)r;
+                    CardRewardSkipButton button = new CardRewardSkipButton(bR);
+                    ButtonsField.buttons.get(__instance).add(button);
                 }
-                positionButtons(ButtonsField.buttons.get(__instance));
             }
+            positionButtons(ButtonsField.buttons.get(__instance));
+
         }
     }
 
@@ -80,11 +70,10 @@ public class CardRewardSkipButtonPatches {
 
         @SpirePostfixPatch
         public static void updateButtons(CardRewardScreen __instance) {
-            if (showButtons(__instance)) {
-                for (CardRewardSkipButton button : ButtonsField.buttons.get(__instance)) {
-                    button.update();
-                }
+            for (CardRewardSkipButton button : ButtonsField.buttons.get(__instance)) {
+                button.update();
             }
+
         }
     }
 
@@ -93,10 +82,8 @@ public class CardRewardSkipButtonPatches {
 
         @SpirePostfixPatch
         public static void renderButtons(CardRewardScreen __instance, SpriteBatch sb) {
-            if (showButtons(__instance)) {
-                for (CardRewardSkipButton button : ButtonsField.buttons.get(__instance)) {
-                    button.render(sb);
-                }
+            for (CardRewardSkipButton button : ButtonsField.buttons.get(__instance)) {
+                button.render(sb);
             }
         }
     }
