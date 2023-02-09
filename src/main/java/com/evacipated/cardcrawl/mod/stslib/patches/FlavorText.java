@@ -28,6 +28,7 @@ import javassist.CtBehavior;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.TitleFontSize.fontFile;
 
@@ -142,7 +143,7 @@ public class FlavorText {
     public static class FlavorIntoCardStrings {
         @SpirePostfixPatch
         public static void postfix(AbstractCard __instance) {
-            CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(__instance.cardID);
+            CardStrings cardStrings = ((Map<String, CardStrings>)ReflectionHacks.getPrivateStatic(LocalizedStrings.class, "cards")).get(__instance.cardID);
             if (cardStrings == null || CardStringsFlavorField.flavor.get(cardStrings) == null)
                 return;
 
