@@ -1,6 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
 import basemod.ReflectionHacks;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.evacipated.cardcrawl.mod.stslib.util.extraicons.IconPayload;
@@ -52,7 +53,11 @@ public class ExtraIconsPatch {
                         x += icon.getOffsetX();
                         y += icon.getOffsetY();
                         x -= icon.getWidth() / 2.0f;
-                        sb.setColor(icon.getDrawColor());
+                        Color color = icon.getDrawColor().cpy();
+                        if (color.a == 1.0f) {
+                            color.a = __instance.transparency;
+                        }
+                        sb.setColor(color);
                         sb.draw(region,
                                 __instance.current_x + x,
                                 __instance.current_y + y,
@@ -99,7 +104,11 @@ public class ExtraIconsPatch {
                         x += icon.getOffsetX();
                         y += icon.getOffsetY();
                         x -= icon.getWidth() / 2.0f;
-                        sb.setColor(icon.getDrawColor());
+                        Color color = icon.getDrawColor().cpy();
+                        if (color.a == 1.0f) {
+                            color.a = card.transparency;
+                        }
+                        sb.setColor(color);
                         sb.draw(region,
                                 (Settings.WIDTH / 2.0f) + x,
                                 (Settings.HEIGHT / 2.0f) + y,
