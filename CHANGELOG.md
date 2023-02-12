@@ -1,5 +1,10 @@
 ## Changelog ##
 #### dev ####
+* Fix FlavorText spamming logs with dynamic cards (erasels)
+* Fix InvisiblePower showing "Wears Off" text (Nafen)
+* Fix scaling issue on CardRewardSkipButtonRelic (Pandemonium)
+* Add shouldShowButton to CardRewardSkipButtonRelic (Pandemonium)
+* Make extra card icons default to card's transparency (NellyDevo)
 
 #### 2.7.2 ####
 * Make card text icon tooltips appear in the order they appear in the card text
