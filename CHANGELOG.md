@@ -1,6 +1,9 @@
 ## Changelog ##
 #### dev ####
 * Fix icons in tooltips for ZHS
+* Guarantee order of patches between ExtraIcons system and MultiUpgrades system (NellyDevo)
+* Add PurgeField (NellyDevo)
+  * Basically "purgeOnUse" except it triggers effects like echo form
 
 #### v2.8.0 ####
 * Fix FlavorText spamming logs with dynamic cards (erasels)
