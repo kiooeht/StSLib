@@ -83,13 +83,9 @@ public class ExtraIconsPatch {
     }
 
 
-    @SpirePatch2(
-            clz = SingleCardViewPopup.class,
-            method = "render"
-    )
+    //this used to be a patch, but is now called in SingleCardViewRenderPatch.postfixFix to guarantee order.
     public static class SingleCardViewRenderPatch {
 
-        @SpirePostfixPatch
         public static void afterRender(SingleCardViewPopup __instance, SpriteBatch sb) {
             AbstractCard card = ReflectionHacks.getPrivate(__instance, SingleCardViewPopup.class, "card");
             ArrayList<IconPayload> icons = ExtraIconsPatch.ExtraIconsField.extraIcons.get(card);
