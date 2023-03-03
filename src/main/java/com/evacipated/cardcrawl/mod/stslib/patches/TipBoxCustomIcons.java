@@ -110,4 +110,38 @@ public class TipBoxCustomIcons {
             }
         }
     }
+
+    @SpirePatch(clz= FontHelper.class, method="exampleNonWordWrappedText", paramtypez = {SpriteBatch.class, BitmapFont.class, String.class, float.class, float.class, Color.class, float.class, float.class})
+    public static class FontHelpFixesZHS {
+        @SpireInsertPatch(locator = Locator.class, localvars = {"word"})
+        public static void DrawIconsPls(SpriteBatch sb, BitmapFont font, String msg, float x, float y, Color baseColor, float lineWidth, float lineSpacing, @ByRef float[] ___curWidth, @ByRef int[] ___currentLine, @ByRef String[] word) {
+            if (word[0].length() > 0 && word[0].charAt(0) == '[') {
+                String key = word[0].trim();
+                if (key.endsWith(AbstractCustomIcon.CODE_ENDING)) {
+                    key = key.replace("*d", "D").replace("*b", "B").replace("*m", "M");
+                }
+                AbstractCustomIcon icon = CustomIconHelper.getIcon(key);
+                if (icon != null) {
+                    if (___curWidth[0] + CARD_ENERGY_IMG_WIDTH > lineWidth) {
+                        ___currentLine[0] -= 1;
+                        icon.render(sb, x, y - ___currentLine[0] * lineSpacing, icon.region.getRegionWidth()/2F, -icon.region.getRegionHeight()/4F, Settings.scale, 0);
+                        ___curWidth[0] = CARD_ENERGY_IMG_WIDTH;
+                    } else {
+                        icon.render(sb, x+___curWidth[0], y - ___currentLine[0] * lineSpacing, icon.region.getRegionWidth()/2F, -icon.region.getRegionHeight()/4F, Settings.scale, 0);
+                        ___curWidth[0] += CARD_ENERGY_IMG_WIDTH;
+                    }
+                    word[0] = "";
+                }
+            }
+        }
+
+        private static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctBehavior) throws Exception
+            {
+                Matcher matcher = new Matcher.MethodCallMatcher(FontHelper.class, "identifyOrb");
+                return LineFinder.findInOrder(ctBehavior, matcher);
+            }
+        }
+    }
 }

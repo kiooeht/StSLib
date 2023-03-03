@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Fix icons in tooltips for ZHS
 
 #### v2.8.0 ####
 * Fix FlavorText spamming logs with dynamic cards (erasels)
