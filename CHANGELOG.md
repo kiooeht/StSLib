@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.9.0 ####
 * Fix icons in tooltips for ZHS
 * Guarantee order of patches between ExtraIcons system and MultiUpgrades system (NellyDevo)
 * Add PurgeField (NellyDevo)
