@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.evacipated.cardcrawl.mod.stslib.StSLib;
 import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.CommonKeywordIconsField;
+import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.PurgeField;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
@@ -129,7 +130,7 @@ public class CommonKeywordIconsPatches {
         {
             kws.add(GameDictionary.RETAIN.NAMES[0]);
         }
-        if (c.purgeOnUse)
+        if (c.purgeOnUse || PurgeField.purge.get(c)) //keep the old one for backwards compatibility
         {
             kws.add(purgeName);
         }
@@ -203,7 +204,7 @@ public class CommonKeywordIconsPatches {
                     drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_RETAIN, offset_y);
                     offset_y++;
                 }
-                if (___card.purgeOnUse) {
+                if (___card.purgeOnUse || PurgeField.purge.get(___card)) {  //keep the old one for backwards compatibility
                     drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_PURGE, offset_y);
                     offset_y++;
                 }
@@ -336,7 +337,7 @@ public class CommonKeywordIconsPatches {
         {
             offset_y -= RenderBadge(sb, card,  StSLib.BADGE_RETAIN, offset_y, alpha);
         }
-        if (card.purgeOnUse)
+        if (card.purgeOnUse || PurgeField.purge.get(card)) //keep the old one for backwards compatibility
         {
             offset_y -= RenderBadge(sb, card,  StSLib.BADGE_PURGE, offset_y, alpha);
         }
