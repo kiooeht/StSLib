@@ -1,5 +1,8 @@
 ## Changelog ##
 #### dev ####
+* Fix CardRewardSkipButtonRelic button appearing where it shouldn't (Pandemonium)
+* Add controller support to ClickableRelic (herbix)
+* Fix using wrong line on MultiUpgradeTree (Mistress Alison)
 
 #### v2.9.0 ####
 * Fix icons in tooltips for ZHS
