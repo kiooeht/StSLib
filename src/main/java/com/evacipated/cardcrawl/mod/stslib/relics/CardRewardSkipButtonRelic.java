@@ -20,7 +20,8 @@ public interface CardRewardSkipButtonRelic {
         boolean codex = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "codex");
         boolean discovery = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "discovery");
         boolean chooseOne = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "chooseOne");
-        return !draft && !codex && !discovery && !chooseOne;
+        boolean skippable = ReflectionHacks.getPrivate(screen, CardRewardScreen.class, "skippable");
+        return !draft && !codex && !discovery && !chooseOne && skippable;
     }
 
     default Texture getTexture() {
