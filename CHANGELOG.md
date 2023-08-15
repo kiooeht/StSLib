@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.10.1 ####
 * Fix unsafe DamageMod processing (Mistress Alison)
 
 #### v2.10.0 ####
