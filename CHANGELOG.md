@@ -1,6 +1,9 @@
 ## Changelog ##
 #### dev ####
 
+#### v2.10.1 ####
+* Fix unsafe DamageMod processing (Mistress Alison)
+
 #### v2.10.0 ####
 * Fix CardRewardSkipButtonRelic button appearing where it shouldn't (Pandemonium)
 * Add controller support to ClickableRelic (herbix)
