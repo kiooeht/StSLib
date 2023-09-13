@@ -4,6 +4,7 @@ import basemod.BaseMod;
 import basemod.abstracts.DynamicVariable;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import java.util.HashMap;
 
@@ -60,26 +61,31 @@ public class DynamicDynamicVariable extends DynamicVariable {
     }
 
     //variable management helpers
-    public static HashMap<String, DynamicDynamicVariable> variableDatabase = new HashMap<>();
+    public static HashMap<String, DynamicDynamicVariable> inherentVariableDatabase = new HashMap<>(); //will contain variables found in the card library
+    public static HashMap<String, DynamicDynamicVariable> mainDeckVariableDatabase = new HashMap<>();
+    public static HashMap<String, DynamicDynamicVariable> temporaryVariableDatabase = new HashMap<>();
 
-    public static void clearVariables() {
-        for (String id : variableDatabase.keySet()) {
+    public static void clearTemporaryVariables() {
+        for (String id : temporaryVariableDatabase.keySet()) {
             BaseMod.cardDynamicVariableMap.remove(id);
         }
-        variableDatabase.clear();
+        temporaryVariableDatabase.clear();
+    }
+
+    public static void clearMasterDeckVariables() {
+        for (String id : mainDeckVariableDatabase.keySet()) {
+            BaseMod.cardDynamicVariableMap.remove(id);
+        }
+        mainDeckVariableDatabase.clear();
     }
 
     public static void registerVariable(AbstractCard card, DynamicProvider mod) {
-        if (!variableDatabase.containsKey(mod.getKey())) {
-            DynamicDynamicVariable variable = new DynamicDynamicVariable(mod.getKey(), mod);
-            variableDatabase.put(mod.getKey(), variable);
-            BaseMod.cardDynamicVariableMap.put(mod.getKey(), variable);
+        HashMap<String, DynamicDynamicVariable> variableMap = AbstractDungeon.player == null ? inherentVariableDatabase : AbstractDungeon.player.masterDeck.contains(card) ? mainDeckVariableDatabase : temporaryVariableDatabase;
+        String key = DynamicProvider.generateKey(card, mod);
+        if (!variableMap.containsKey(key)) {
+            DynamicDynamicVariable variable = new DynamicDynamicVariable(key, mod);
+            variableMap.put(key, variable);
+            BaseMod.cardDynamicVariableMap.put(key, variable);
         }
-    }
-
-    public static String generateKey(AbstractCard card, DynamicProvider mod) {
-        String key = "stslib:" + card.uuid + ":" + mod.getDynamicUUID();
-        mod.setKey(key);
-        return key;
     }
 }

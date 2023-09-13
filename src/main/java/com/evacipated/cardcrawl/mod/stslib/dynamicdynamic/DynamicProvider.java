@@ -9,17 +9,10 @@ import java.util.UUID;
 public interface DynamicProvider {
 
     /**
-     * this will be used in {@link DynamicDynamicVariable#generateKey(AbstractCard, DynamicProvider) generateKey} to make pairing unique to both the card applied and the effect.
+     * this will be used in {@link DynamicProvider#generateKey(AbstractCard, DynamicProvider) generateKey} to make pairing unique to both the card applied and the effect.
      * @return an uuid unique to the instance of the effect providing the dynamic variable.
      */
     UUID getDynamicUUID();
-
-    /**
-     * an internal string variable should be implemented that will be used with this getter and setter. Of note, since {@link DynamicVariable#key} does not expect the "!!" surrounding it, this must not have them included.
-     */
-    String getKey();
-
-    void setKey(String key);
 
     /**
      * all following values and methods are used the same as any equivalent methods in {@link DynamicVariable}
@@ -40,6 +33,22 @@ public interface DynamicProvider {
 
     default Color getDecreasedValueColor() {
         return null;
+    }
+
+
+    /**
+     * use these helper methods to get the key that would be used to retrieve the dynamic variable.
+     */
+    static String generateKey(AbstractCard card, DynamicProvider mod) {
+        return generateKey(card, mod, false);
+    }
+
+    static String generateKey(AbstractCard card, DynamicProvider mod, boolean forText) {
+        String retVal = "stslib:" + card.uuid + ":" + mod.getDynamicUUID();
+        if (forText) {
+            retVal = "!" + retVal + "!";
+        }
+        return retVal;
     }
 
 }

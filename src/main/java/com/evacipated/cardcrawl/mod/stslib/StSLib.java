@@ -40,7 +40,8 @@ public class StSLib implements
         EditStringsSubscriber,
         EditCardsSubscriber,
         OnStartBattleSubscriber,
-        PostBattleSubscriber
+        PostBattleSubscriber,
+        PostDungeonInitializeSubscriber
 {
     public static Texture TEMP_HP_ICON;
     public static Texture BADGE_EXHAUST;
@@ -213,6 +214,11 @@ public class StSLib implements
 
     @Override
     public void receivePostBattle(AbstractRoom abstractRoom) {
-        DynamicDynamicVariable.clearVariables();
+        DynamicDynamicVariable.clearTemporaryVariables();
+    }
+
+    @Override
+    public void receivePostDungeonInitialize() {
+        DynamicDynamicVariable.clearMasterDeckVariables();
     }
 }

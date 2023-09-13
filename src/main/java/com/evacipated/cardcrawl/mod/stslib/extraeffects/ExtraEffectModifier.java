@@ -23,7 +23,6 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
     protected static final String STRING_ID = "stslib:ExtraEffectModifier";
     protected static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(STRING_ID);
     private final UUID uuid;
-    protected String key;
     private final VariableType type;
     private Proxy proxy;
     protected int amount;
@@ -56,7 +55,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
     public abstract String getExtraText(AbstractCard card);
 
     /**
-     * same as AbstractCardModifier's {@link AbstractCardModifier#identifier(AbstractCard) identifier} method. A unique identifier is required for some functions of ExtraEffectModifier.
+     * same as AbstractCardModifier's {@link AbstractCardModifier#identifier(AbstractCard) identifier} method, made abstract to require implementation. A unique identifier is required for some functions of ExtraEffectModifier.
      * @param card the attached card.
      * @return a unique string representing this effect.
      */
@@ -80,14 +79,35 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
         return true;
     }
 
+    /**
+     * To make it so that no AbstractCard is ever stored directly on one of these modifiers to make it so these modifiers can be serialized,
+     * a proxy iron wave is used to calculate the damage and block of the modifier. Override this method to add additional properties changes
+     * (something similar to retain, for example) that your damage calculation might depend on. Note that the base damage and block values of the
+     * proxy are already set to this effect's assigned values.
+     * @param card the card to set values from
+     * @param proxy the card to set values to
+     */
+    protected void inheritValues(AbstractCard card, IronWave proxy) {
+        proxy.isEthereal = card.isEthereal;
+        proxy.exhaust = card.exhaust;
+        proxy.color = card.color;
+        proxy.type = card.type;
+        proxy.target = card.target;
+        proxy.rarity = card.rarity;
+        proxy.timesUpgraded = card.timesUpgraded;
+        proxy.upgraded = card.upgraded;
+        proxy.cardID = card.cardID;
+        proxy.cardsToPreview = card.cardsToPreview;
+    }
+
     @Override
     public void onApplyPowers(AbstractCard card) {
-        proxy = Proxy.of(card).setValueFor(type, baseValue).calculate(null);
+        proxy = Proxy.of(card).setValueFor(type, baseValue).calculate(null, this);
     }
 
     @Override
     public void onCalculateCardDamage(AbstractCard card, AbstractMonster mo) {
-        proxy = Proxy.of(card).setValueFor(type, baseValue).calculate(mo);
+        proxy = Proxy.of(card).setValueFor(type, baseValue).calculate(mo, this);
     }
 
     @Override
@@ -103,7 +123,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
 
     @Override
     public String modifyDescription(String rawDescription, AbstractCard card) {
-        String addition = String.format(getExtraText(card), "!" + key + "!");
+        String addition = String.format(getExtraText(card), "!" + DynamicProvider.generateKey(card, this) + "!");
         if (isMultiInstanced(card)) {
             addition = applyTimes(addition);
         }
@@ -117,7 +137,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
     @Override
     public boolean shouldApply(AbstractCard card) {
         if (canStack(card)) {
-            ArrayList<AbstractCardModifier> list = CardModifierManager.getModifiers(card, identifier(card));
+            ArrayList<AbstractCardModifier> list = CardModifierManager.getModifiers(card, getEffectId(card));
             if (!list.isEmpty()) {
                 boolean changed = false;
                 for (AbstractCardModifier mod : list) {
@@ -137,7 +157,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
                 if (changed) {
                     card.applyPowers();
                     card.initializeDescription();
-                    return true;
+                    return false;
                 }
             }
         }
@@ -170,20 +190,9 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
     }
 
     @Override
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    @Override
-    public String getKey() {
-        return key;
-    }
-
-    @Override
     public void onInitialApplication(AbstractCard card) {
-        key = DynamicDynamicVariable.generateKey(card, this);
         DynamicDynamicVariable.registerVariable(card, this);
-        proxy = Proxy.of(card).setValueFor(type, baseValue).calculate(null);
+        proxy = Proxy.of(card).setValueFor(type, baseValue).calculate(null, this);
     }
 
     protected String applyTimes(String s) {
@@ -194,14 +203,6 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
             s += " " + amount + cardStrings.DESCRIPTION;
         }
         return s;
-    }
-
-    protected void addToTop(AbstractGameAction action) {
-        AbstractDungeon.actionManager.addToTop(action);
-    }
-
-    protected void addToBot(AbstractGameAction action) {
-        AbstractDungeon.actionManager.addToBottom(action);
     }
 
     protected enum VariableType {
@@ -246,6 +247,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
         }
 
         private static class Builder {
+            private static final IronWave DUMMY = new IronWave();
             private final AbstractCard card;
             private int baseDamage;
             private int baseBlock;
@@ -281,11 +283,12 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
                 }
             }
 
-            protected Proxy calculate(AbstractMonster m) {
-                AbstractCard proxy = new IronWave();
+            protected Proxy calculate(AbstractMonster m, ExtraEffectModifier effect) {
+                IronWave proxy = DUMMY;
                 proxy.baseDamage = proxy.damage = baseDamage;
                 proxy.baseBlock = proxy.block = baseBlock;
                 proxy.baseMagicNumber = proxy.magicNumber = baseMagicNumber;
+                effect.inheritValues(card, proxy);
                 CardModifierManager.removeAllModifiers(proxy, true);
                 for (AbstractCardModifier mod : CardModifierManager.modifiers(card)) {
                     if (!(mod instanceof ExtraEffectModifier)) {
