@@ -200,7 +200,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
             if (s.endsWith(LocalizedStrings.PERIOD)) {
                 s = s.substring(0, s.length() - 1);
             }
-            s += " " + amount + cardStrings.DESCRIPTION;
+            s = String.format(cardStrings.DESCRIPTION, s, amount);
         }
         return s;
     }
