@@ -4,7 +4,6 @@ import basemod.abstracts.AbstractCardModifier;
 import basemod.helpers.CardModifierManager;
 import com.evacipated.cardcrawl.mod.stslib.dynamicdynamic.DynamicDynamicVariable;
 import com.evacipated.cardcrawl.mod.stslib.dynamicdynamic.DynamicProvider;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.red.IronWave;
@@ -62,16 +61,48 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
     public abstract String getEffectId(AbstractCard card);
 
     /**
-     * controls whether this will be combined with another effect with the same {@link AbstractCardModifier#identifier(AbstractCard) identifier} when being applied to a card.
+     * controls whether this can be combined with another effect with the same {@link AbstractCardModifier#identifier(AbstractCard) identifier} when being applied to a card.
      * @param card the card to be attached to.
-     * @return true if the effects can stack.
+     * @return true if this effect is considered stackable.
      */
     protected boolean canStack(AbstractCard card) {
         return true;
     }
 
     /**
-     * when this effect {@link ExtraEffectModifier#canStack(AbstractCard) can stack}, this method controls whether its {@link ExtraEffectModifier#amount amount} or {@link ExtraEffectModifier#baseValue value} will increase when stacking.
+     * controls whether this will be combined with another effect with the same {@link AbstractCardModifier#identifier(AbstractCard) identifier} when being applied to a card.
+     * @param card the card to be attached to.
+     * @param other the modifier that is being compared.
+     * @return true if the effects can stack.
+     */
+    protected boolean canStackWith(AbstractCard card, AbstractCardModifier other) {
+        return true;
+    }
+
+    /**
+     * handles the actual stacking logic of modifiers that are determined to be stackable by {@link ExtraEffectModifier#canStackWith(AbstractCard, AbstractCardModifier) canStack}.
+     * @param card the card to be attached to.
+     * @param other the stackable modifier to be changed.
+     * @return true if stacking was successful to prevent this modifier from being applied.
+     */
+    protected boolean stackEffects(AbstractCard card, AbstractCardModifier other) {
+        if (other instanceof ExtraEffectModifier) {
+            ExtraEffectModifier effect = (ExtraEffectModifier) other;
+            if (isMultiInstanced(card)) {
+                if (effect.baseValue == baseValue) {
+                    effect.amount += amount;
+                    return true;
+                }
+            } else {
+                effect.baseValue += baseValue;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * when this effect {@link ExtraEffectModifier#canStackWith(AbstractCard, AbstractCardModifier) can stack}, this method controls whether its {@link ExtraEffectModifier#amount amount} or {@link ExtraEffectModifier#baseValue value} will increase when stacking.
      * @param card the card attached or to be attached to.
      * @return true to increment {@link ExtraEffectModifier#amount amount} or false to add {@link ExtraEffectModifier#baseValue value}
      */
@@ -136,24 +167,11 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
 
     @Override
     public boolean shouldApply(AbstractCard card) {
-        if (canStack(card)) {
-            ArrayList<AbstractCardModifier> list = CardModifierManager.getModifiers(card, getEffectId(card));
-            if (!list.isEmpty()) {
-                boolean changed = false;
-                for (AbstractCardModifier mod : list) {
-                    ExtraEffectModifier effect = (ExtraEffectModifier) mod;
-                    if (isMultiInstanced(card)) {
-                        if (effect.baseValue == baseValue) {
-                            effect.amount += amount;
-                            changed = true;
-                            break;
-                        }
-                    } else {
-                        effect.baseValue += baseValue;
-                        changed = true;
-                        break;
-                    }
-                }
+        if (!canStack(card)) return true;
+        ArrayList<AbstractCardModifier> list = CardModifierManager.getModifiers(card, getEffectId(card));
+        for (AbstractCardModifier other : list) {
+            if (canStackWith(card, other)) {
+                boolean changed = stackEffects(card, other);
                 if (changed) {
                     card.applyPowers();
                     card.initializeDescription();
