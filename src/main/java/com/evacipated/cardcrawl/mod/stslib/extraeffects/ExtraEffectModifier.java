@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public abstract class ExtraEffectModifier extends AbstractCardModifier implements DynamicProvider {
-    protected static final String STRING_ID = "stslib:ExtraEffectModifier";
-    protected static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(STRING_ID);
-    private final UUID uuid;
-    private final VariableType type;
-    private Proxy proxy;
-    protected int amount;
+    private static final String STRING_ID = "stslib:ExtraEffectModifier";
+    private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(STRING_ID);
+    public final UUID uuid;
+    public final VariableType type;
+    public Proxy proxy;
+    public int amount;
     public int baseValue;
 
     public ExtraEffectModifier(VariableType type, int value) {
@@ -44,7 +44,7 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
      * @param p the player.
      * @param m the target, if any.
      */
-    public abstract void doExtraEffects(AbstractCard card, AbstractPlayer p, AbstractCreature m);
+    public abstract void doExtraEffects(AbstractCard card, AbstractPlayer p, AbstractCreature m, UseCardAction useAction);
 
     /**
      * will be formatted with this object's dynamic variable key, then added to the start of the card's text if {@link AbstractCardModifier#priority priority} is less than 0, else it is added to the end. If the effect is {@link ExtraEffectModifier#isMultiInstanced(AbstractCard) multi instanced} and {@link ExtraEffectModifier#amount amount} is greater than 1, the text will automatically be modified with the number of times the effect will take place.
@@ -145,10 +145,10 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
     public void onUse(AbstractCard card, AbstractCreature target, UseCardAction action) {
         if (isMultiInstanced(card)) {
             for (int i = 0; i < amount; ++i) {
-                doExtraEffects(card, AbstractDungeon.player, target);
+                doExtraEffects(card, AbstractDungeon.player, target, action);
             }
         } else {
-            doExtraEffects(card, AbstractDungeon.player, target);
+            doExtraEffects(card, AbstractDungeon.player, target, action);
         }
     }
 
@@ -173,7 +173,9 @@ public abstract class ExtraEffectModifier extends AbstractCardModifier implement
             if (canStackWith(card, other)) {
                 boolean changed = stackEffects(card, other);
                 if (changed) {
-                    card.applyPowers();
+                    if (CardCrawlGame.isInARun() && AbstractDungeon.player != null) {
+                        card.applyPowers();
+                    }
                     card.initializeDescription();
                     return false;
                 }
