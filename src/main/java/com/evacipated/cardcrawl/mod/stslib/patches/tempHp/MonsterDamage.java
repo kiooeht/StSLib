@@ -18,6 +18,7 @@ public class MonsterDamage
     public static void Insert(AbstractMonster __instance, DamageInfo info, @ByRef int[] damageAmount, @ByRef boolean[] hadBlock)
     {
         PlayerDamage.Insert(__instance, info, damageAmount, hadBlock);
+        PlayerDamage.Insert2(__instance, info, damageAmount, hadBlock);
     }
 
     private static class Locator extends SpireInsertLocator
