@@ -41,10 +41,10 @@ public class TempHP extends ConsoleCommand {
 
     @Override
     public ArrayList<String> extraOptions(String[] tokens, int depth) {
-        if (tokens.length == 1 || (tokens.length == 2 && tokens[1].trim().isEmpty())) {
-            ArrayList<String> options = new ArrayList<>();
-            options.add("player");
-            options.add("enemies");
+        ArrayList<String> options = new ArrayList<>();
+        options.add("player");
+        options.add("enemies");
+        if (tokens.length == 1 || (tokens.length == 2 && !options.contains(tokens[1].trim()))) {
             return options;
         } else if (tokens.length == 2 || (tokens.length == 3 && tokens[2].trim().isEmpty())) {
             return smallNumbers();
