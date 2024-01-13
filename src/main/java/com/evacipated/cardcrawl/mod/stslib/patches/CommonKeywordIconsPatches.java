@@ -1,6 +1,5 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
-import basemod.BaseMod;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
