@@ -1,0 +1,12 @@
+{
+  "stslib:ExtraEffectModifier": {
+    "EXTENDED_DESCRIPTION": [
+      "Note for translators: the below DESCRIPTION string will be formatted with other effects automatically.",
+      "The symbols must remain the same, but can be placed in whatever order.",
+      "the symbol %1$s will be replaced with whatever text represents the effect. For example it might be 'Deal 6 damage'.",
+      "the symbol %2$d will be replaced with however many times the effect will be preformed.",
+      "The english text here, for example, will end up saying 'Deal 6 damage 4 times.' or similar."
+    ],
+    "DESCRIPTION": "%1$s %2$d times."
+  }
+}

@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.SelfOrEnemyTargeting;
+import com.evacipated.cardcrawl.mod.stslib.dynamicdynamic.DynamicDynamicVariable;
 import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
+import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnCreateCardInterface;
+import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnCreateThisCardInterface;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.PersistVariable;
@@ -20,6 +23,7 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -37,7 +41,9 @@ public class StSLib implements
         EditKeywordsSubscriber,
         EditStringsSubscriber,
         EditCardsSubscriber,
-        OnStartBattleSubscriber
+        OnStartBattleSubscriber,
+        PostBattleSubscriber,
+        PostDungeonInitializeSubscriber
 {
     public static Texture TEMP_HP_ICON;
     public static Texture BADGE_EXHAUST;
@@ -126,6 +132,7 @@ public class StSLib implements
     {
         String path = "localization/stslib/" + language + "/";
 
+        tryLoadStringsFile(CardStrings.class, path + "cards.json");
         tryLoadStringsFile(PowerStrings.class, path + "powers.json");
         tryLoadStringsFile(RelicStrings.class, path + "relics.json");
         tryLoadStringsFile(UIStrings.class, path + "ui.json");
@@ -205,5 +212,28 @@ public class StSLib implements
                 clicky.firstBattleFlash();
             }
         }
+    }
+
+    @Override
+    public void receivePostBattle(AbstractRoom abstractRoom) {
+        DynamicDynamicVariable.clearTemporaryVariables();
+    }
+
+    @Override
+    public void receivePostDungeonInitialize() {
+        DynamicDynamicVariable.clearMasterDeckVariables();
+    }
+
+    public static void onCreateCard(AbstractCard c) {
+        AbstractDungeon.player.relics.stream().filter(r -> r instanceof OnCreateCardInterface).forEach(r -> ((OnCreateCardInterface) r).onCreateCard(c));
+        AbstractDungeon.player.powers.stream().filter(r -> r instanceof OnCreateCardInterface).forEach(r -> ((OnCreateCardInterface) r).onCreateCard(c));
+        AbstractDungeon.player.hand.group.stream().filter(card -> card instanceof OnCreateCardInterface).forEach(card -> ((OnCreateCardInterface) card).onCreateCard(c));
+        AbstractDungeon.player.discardPile.group.stream().filter(card -> card instanceof OnCreateCardInterface).forEach(card -> ((OnCreateCardInterface) card).onCreateCard(c));
+        AbstractDungeon.player.drawPile.group.stream().filter(card -> card instanceof OnCreateCardInterface).forEach(card -> ((OnCreateCardInterface) card).onCreateCard(c));
+        AbstractDungeon.getMonsters().monsters.stream().filter(mon -> !mon.isDeadOrEscaped()).forEach(m -> m.powers.stream().filter(pow -> pow instanceof OnCreateCardInterface).forEach(pow -> ((OnCreateCardInterface) pow).onCreateCard(c)));
+        if (c instanceof OnCreateThisCardInterface) {
+            ((OnCreateThisCardInterface) c).onCreateThisCard();
+        }
+        // Postfix here for custom hooks, I guess?
     }
 }
