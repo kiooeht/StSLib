@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.evacipated.cardcrawl.mod.stslib.StSLib;
 import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.CommonKeywordIconsField;
+import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.ExhaustiveField;
 import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.PurgeField;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -208,7 +209,7 @@ public class CommonKeywordIconsPatches {
                     drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_PURGE, offset_y);
                     offset_y++;
                 }
-                if (___card.exhaust || ___card.exhaustOnUseOnce) {
+                if (___card.exhaust || ___card.exhaustOnUseOnce || ExhaustiveField.ExhaustiveFields.exhaustive.get(___card) == 1) {
                     drawBadge(sb, ___card, ___cardHb, StSLib.BADGE_EXHAUST, offset_y);
                     offset_y++;
                 }
@@ -341,7 +342,7 @@ public class CommonKeywordIconsPatches {
         {
             offset_y -= RenderBadge(sb, card,  StSLib.BADGE_PURGE, offset_y, alpha);
         }
-        if (card.exhaust || card.exhaustOnUseOnce)
+        if (card.exhaust || card.exhaustOnUseOnce || ExhaustiveField.ExhaustiveFields.exhaustive.get(card) == 1)
         {
             offset_y -= RenderBadge(sb, card,  StSLib.BADGE_EXHAUST, offset_y, alpha);
         }
