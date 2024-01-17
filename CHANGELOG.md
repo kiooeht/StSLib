@@ -130,7 +130,7 @@
 
 #### v1.22.0 ####
 * Localization
-  * Korean (Tsurumaki Maki + Celicath)
+  * Korean (Saki_1128 + Celicath)
 * Actions
   * `SelectCardsCenteredAction` (vex)
   * `DamageCallbackAction` (vex)
