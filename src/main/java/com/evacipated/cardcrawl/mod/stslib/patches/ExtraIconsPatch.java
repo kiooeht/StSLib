@@ -64,6 +64,9 @@ public class ExtraIconsPatch {
                                 -x, -y, icon.getWidth(), icon.getHeight(),
                                 __instance.drawScale * Settings.scale, __instance.drawScale * Settings.scale, __instance.angle);
                         if (icon.shouldRenderText()) {
+                            if (__instance.cost == -2 && icon.getFont() == IconPayload.DEFAULT_FONT) {
+                                FontHelper.cardEnergyFont_L.getData().setScale(__instance.drawScale);
+                            }
                             FontHelper.renderRotatedText(sb,
                                     icon.getFont(), icon.getText(),
                                     __instance.current_x, __instance.current_y,
