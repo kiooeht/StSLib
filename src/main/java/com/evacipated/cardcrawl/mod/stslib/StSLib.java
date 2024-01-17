@@ -9,6 +9,8 @@ import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.SelfOrEnemyTargeting;
 import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
+import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnCreateCardInterface;
+import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnCreateThisCardInterface;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.PersistVariable;
@@ -205,5 +207,18 @@ public class StSLib implements
                 clicky.firstBattleFlash();
             }
         }
+    }
+
+    public static void onCreateCard(AbstractCard c) {
+        AbstractDungeon.player.relics.stream().filter(r -> r instanceof OnCreateCardInterface).forEach(r -> ((OnCreateCardInterface) r).onCreateCard(c));
+        AbstractDungeon.player.powers.stream().filter(r -> r instanceof OnCreateCardInterface).forEach(r -> ((OnCreateCardInterface) r).onCreateCard(c));
+        AbstractDungeon.player.hand.group.stream().filter(card -> card instanceof OnCreateCardInterface).forEach(card -> ((OnCreateCardInterface) card).onCreateCard(c));
+        AbstractDungeon.player.discardPile.group.stream().filter(card -> card instanceof OnCreateCardInterface).forEach(card -> ((OnCreateCardInterface) card).onCreateCard(c));
+        AbstractDungeon.player.drawPile.group.stream().filter(card -> card instanceof OnCreateCardInterface).forEach(card -> ((OnCreateCardInterface) card).onCreateCard(c));
+        AbstractDungeon.getMonsters().monsters.stream().filter(mon -> !mon.isDeadOrEscaped()).forEach(m -> m.powers.stream().filter(pow -> pow instanceof OnCreateCardInterface).forEach(pow -> ((OnCreateCardInterface) pow).onCreateCard(c)));
+        if (c instanceof OnCreateThisCardInterface) {
+            ((OnCreateThisCardInterface) c).onCreateThisCard();
+        }
+        // Postfix here for custom hooks, I guess?
     }
 }
