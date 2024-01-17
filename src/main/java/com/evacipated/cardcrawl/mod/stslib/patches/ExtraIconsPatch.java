@@ -1,6 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib.patches;
 
 import basemod.ReflectionHacks;
+import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.CardModifierPatches;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -86,10 +87,15 @@ public class ExtraIconsPatch {
     }
 
 
-    //this used to be a patch, but is now called in SingleCardViewRenderPatch.postfixFix to guarantee order.
+    @SpirePatch2(
+            clz = CardModifierPatches.CardModifierSingleCardViewRender.class,
+            method = "Insert"
+    )
     public static class SingleCardViewRenderPatch {
-
-        public static void afterRender(SingleCardViewPopup __instance, SpriteBatch sb) {
+        @SpirePostfixPatch
+        public static void afterRender(Object[] __args) {
+            SingleCardViewPopup __instance = (SingleCardViewPopup) __args[0];
+            SpriteBatch sb = (SpriteBatch) __args[1];
             AbstractCard card = ReflectionHacks.getPrivate(__instance, SingleCardViewPopup.class, "card");
             ArrayList<IconPayload> icons = ExtraIconsPatch.ExtraIconsField.extraIcons.get(card);
             if (!icons.isEmpty()) {
@@ -133,7 +139,6 @@ public class ExtraIconsPatch {
                 icons.clear();
             }
         }
-
     }
 
 }
