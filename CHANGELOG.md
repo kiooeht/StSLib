@@ -1,5 +1,20 @@
 ## Changelog ##
 #### dev ####
+* Russian localization update (Jedi)
+  * Persist
+  * Vigor
+* Add `AllEnemyApplyPowerAction` (Jedi)
+* Add `OnCreateCardInterface` (Jedi)
+* Fix unsafe DamageMod processing (Mistress Alison)
+* Fix a couple issues with `SelectCardsInHandAction` (NellyDevo)
+* Add Dynamic dynamic variable (NellyDevo)
+* Add `ExtraEffectModifier` (NellyDevo)
+* Trigger Surrounded for custom targeting (Alchyr)
+* Fix SkewerAction not working with DamageMods (Mistress Alison)
+* ExtraIcons fixes (Mistress Alison)
+  * Fix default font not working on unplayable cards
+  * Make ExtraIcon patch come after BaseMod CardMod patch
+* Display Exhaust icon on Exhaustive 1 cards (JamesTripleQ)
 
 #### v2.10.1 ####
 * Fix unsafe DamageMod processing (Mistress Alison)
