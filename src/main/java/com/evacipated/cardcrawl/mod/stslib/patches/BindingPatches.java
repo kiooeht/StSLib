@@ -151,13 +151,15 @@ public class BindingPatches {
     @SpirePatch2(clz = AbstractCard.class, method = "calculateCardDamage")
     public static class AddTempModifiers {
 
-        private static final ArrayList<AbstractDamageModifier> pushedMods = new ArrayList<>();
-        private static final ArrayList<AbstractDamageModifier> inherentMods = new ArrayList<>();
+        @SpirePatch(clz = AbstractCard.class, method = SpirePatch.CLASS)
+        public static class TempModFields {
+            public static SpireField<ArrayList<AbstractDamageModifier>> pushedMods = new SpireField<>(ArrayList::new);
+        }
 
         @SpirePrefixPatch()
         public static void addMods(AbstractCard __instance) {
-            inherentMods.addAll(DamageModifierManager.modifiers(__instance));
-            pushedMods.addAll(inherentMods);
+            ArrayList<AbstractDamageModifier> pushedMods = TempModFields.pushedMods.get(__instance);
+            pushedMods.addAll(DamageModifierManager.modifiers(__instance));
             for (AbstractPower p : AbstractDungeon.player.powers) {
                 if (p instanceof DamageModApplyingPower && ((DamageModApplyingPower) p).shouldPushMods(null, __instance, pushedMods)) {
                     pushedMods.addAll(((DamageModApplyingPower) p).modsToPush(null, __instance, pushedMods));
@@ -168,15 +170,14 @@ public class BindingPatches {
                     pushedMods.addAll(((DamageModApplyingRelic) r).modsToPush(null, __instance, pushedMods));
                 }
             }
-            pushedMods.removeAll(inherentMods);
-            inherentMods.clear();
+            pushedMods.removeAll(DamageModifierManager.modifiers(__instance));
             DamageModifierManager.addModifiers(__instance, pushedMods);
         }
 
         @SpirePostfixPatch()
         public static void removeMods(AbstractCard __instance) {
-            DamageModifierManager.removeModifiers(__instance, pushedMods);
-            pushedMods.clear();
+            DamageModifierManager.removeModifiers(__instance, TempModFields.pushedMods.get(__instance));
+            TempModFields.pushedMods.get(__instance).clear();
         }
     }
 

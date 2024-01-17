@@ -11,16 +11,13 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class SelectCardsInHandAction
-    extends AbstractGameAction
-{
-
+public class SelectCardsInHandAction extends AbstractGameAction {
     private Predicate<AbstractCard> predicate;
     private Consumer<List<AbstractCard>> callback;
     private String text;
     private boolean anyNumber, canPickZero;
     private ArrayList<AbstractCard> hand;
-    private ArrayList<AbstractCard> tempHand;
+    private ArrayList<AbstractCard> tempHand = new ArrayList<>();
 
     /**
     * @param amount - max number of cards player can select
@@ -38,12 +35,10 @@ public class SelectCardsInHandAction
     * new LoseHPAction(player, player, list.size());
     * list.forEach(c -> c.upgrade());
     * )}
-    *
     * if there's no callback the action will not trigger simply because you told player to "select cards to do nothing with them"
-    * */
+    **/
 
-    public SelectCardsInHandAction(int amount, String textForSelect, boolean anyNumber, boolean canPickZero, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
-    {
+    public SelectCardsInHandAction(int amount, String textForSelect, boolean anyNumber, boolean canPickZero, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
         this.amount = amount;
         this.duration = this.startDuration = Settings.ACTION_DUR_XFAST;
         text = textForSelect;
@@ -52,69 +47,69 @@ public class SelectCardsInHandAction
         this.predicate = cardFilter;
         this.callback = callback;
         this.hand = AbstractDungeon.player.hand.group;
-        tempHand = new ArrayList<>();
-        tempHand.addAll(hand);
     }
 
-    public SelectCardsInHandAction(int amount, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
-    {
+    public SelectCardsInHandAction(int amount, String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
         this(amount, textForSelect, false, false, cardFilter, callback);
     }
 
-    public SelectCardsInHandAction(int amount, String textForSelect, Consumer<List<AbstractCard>> callback)
-    {
+    public SelectCardsInHandAction(int amount, String textForSelect, Consumer<List<AbstractCard>> callback) {
         this(amount, textForSelect, false, false, (c -> true), callback);
     }
 
-    public SelectCardsInHandAction(String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback)
-    {
+    public SelectCardsInHandAction(String textForSelect, Predicate<AbstractCard> cardFilter, Consumer<List<AbstractCard>> callback) {
         this(1, textForSelect, false, false, cardFilter, callback);
     }
 
-    public SelectCardsInHandAction(String textForSelect, Consumer<List<AbstractCard>> callback)
-    {
+    public SelectCardsInHandAction(String textForSelect, Consumer<List<AbstractCard>> callback) {
         this(1, textForSelect, false, false, (c -> true), callback);
     }
 
     @Override
     public void update() {
-        if (this.duration == this.startDuration)
-        {
-            if ((hand.size() == 0) || (hand.stream().noneMatch(predicate)) || callback == null)
-            {
+        if (this.duration == this.startDuration) {
+
+            if (callback == null) {
                 isDone = true;
                 return;
             }
 
-            if (hand.stream().filter(predicate).count() <= amount && !anyNumber && !canPickZero)
-            {
-                callback.accept(hand.stream().filter(predicate).collect(Collectors.toList()));
-                AbstractDungeon.player.hand.refreshHandLayout();
-                AbstractDungeon.player.hand.applyPowers();
-                isDone = true;
+            hand.removeIf(c -> !predicate.test(c) && tempHand.add(c));
+
+            if ((hand.size() == 0)) {
+                finish();
                 return;
             }
 
-            tempHand.removeIf(predicate);
-            if (tempHand.size() > 0) hand.removeIf(c -> tempHand.contains(c));
+            if (hand.size() <= amount && !anyNumber && !canPickZero) {
+                ArrayList<AbstractCard> spoof = new ArrayList<>(hand); //basically recreating the process that the screen does to make sure results are the same.
+                hand.clear();
+                callback.accept(spoof);
+                hand.addAll(spoof);
+                finish();
+                return;
+            }
 
             AbstractDungeon.handCardSelectScreen.open(text, amount, anyNumber, canPickZero);
             tickDuration();
             return;
         }
 
-        if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved)
-        {
+        if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved) {
             callback.accept(AbstractDungeon.handCardSelectScreen.selectedCards.group);
             hand.addAll(AbstractDungeon.handCardSelectScreen.selectedCards.group);
             AbstractDungeon.handCardSelectScreen.wereCardsRetrieved = true;
             AbstractDungeon.handCardSelectScreen.selectedCards.group.clear();
-            if (tempHand.size() > 0) hand.addAll(tempHand);
-            AbstractDungeon.player.hand.refreshHandLayout();
-            AbstractDungeon.player.hand.applyPowers();
-            isDone = true;
+            finish();
             return;
         }
         tickDuration();
+    }
+
+    private void finish() {
+        hand.addAll(tempHand);
+        AbstractDungeon.player.hand.refreshHandLayout();
+        AbstractDungeon.player.hand.applyPowers();
+        isDone = true;
     }
 }

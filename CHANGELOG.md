@@ -1,17 +1,38 @@
 ## Changelog ##
 #### dev ####
 
-#### 2.7.2 ####
+#### v2.10.1 ####
+* Fix unsafe DamageMod processing (Mistress Alison)
+
+#### v2.10.0 ####
+* Fix CardRewardSkipButtonRelic button appearing where it shouldn't (Pandemonium)
+* Add controller support to ClickableRelic (herbix)
+* Fix using wrong line on MultiUpgradeTree (Mistress Alison)
+
+#### v2.9.0 ####
+* Fix icons in tooltips for ZHS
+* Guarantee order of patches between ExtraIcons system and MultiUpgrades system (NellyDevo)
+* Add PurgeField (NellyDevo)
+  * Basically "purgeOnUse" except it triggers effects like echo form
+
+#### v2.8.0 ####
+* Fix FlavorText spamming logs with dynamic cards (erasels)
+* Fix InvisiblePower showing "Wears Off" text (Nafen)
+* Fix scaling issue on CardRewardSkipButtonRelic (Pandemonium)
+* Add shouldShowButton to CardRewardSkipButtonRelic (Pandemonium)
+* Make extra card icons default to card's transparency (NellyDevo)
+
+#### v2.7.2 ####
 * Make card text icon tooltips appear in the order they appear in the card text
 * Fix card text icons being misaligned
 * Update ZHS translation (Mwalls)
 * Fix card icons rendering on back of cards in Match and Keep event (NellyDevo)
 
-#### 2.7.1 ####
+#### v2.7.1 ####
 * Fix rendering icons in library (NellyDevo)
 * Center icons better (NellyDevo)
 
-#### 2.7.0 ####
+#### v2.7.0 ####
 * Add capability of rendering icons on cards (NellyDevo)
 * `SpawnModificationCard`
   * Add canSpawnShop (erasels)

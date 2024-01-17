@@ -2,6 +2,8 @@ package com.evacipated.cardcrawl.mod.stslib.relics;
 
 import com.evacipated.cardcrawl.mod.stslib.patches.HitboxRightClick;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -30,7 +32,9 @@ public interface ClickableRelic
     {
         if (this instanceof AbstractRelic) {
             AbstractRelic relic = (AbstractRelic) this;
-            if (HitboxRightClick.rightClicked.get(relic.hb)) {
+            if (HitboxRightClick.rightClicked.get(relic.hb) ||
+                    (Settings.isControllerMode && relic.hb.hovered && CInputActionSet.topPanel.isJustPressed())) {
+                CInputActionSet.topPanel.unpress();
                 onRightClick();
             }
         } else {

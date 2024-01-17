@@ -39,7 +39,7 @@ public class MultiUpgradeTree {
     private static final float Y_PAD = 220F * Settings.scale;
     private static final float LINE_SPACING = 20F * Settings.scale;
     public static Texture upgradeAndLine = ImageMaster.loadImage("images/stslib/ui/andLine.png");
-    public static Texture exclusionLine = ImageMaster.loadImage("images/stslib/ui/andLine.png");
+    public static Texture exclusionLine = ImageMaster.loadImage("images/stslib/ui/exLine.png");
 
     public static void open(AbstractCard c) throws Exception {
         open(c, false);

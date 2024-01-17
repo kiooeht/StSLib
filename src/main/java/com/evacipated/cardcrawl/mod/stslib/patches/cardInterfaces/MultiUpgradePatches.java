@@ -342,9 +342,8 @@ public class MultiUpgradePatches {
         }
     }
 
-    @SpirePatch(clz = SingleCardViewPopup.class, method = "render")
+    //this used to be a patch, but is now called in SingleCardViewRenderPatch.postfixFix to guarantee order.
     public static class RenderTreeSCV {
-        @SpirePostfixPatch
         public static void renderTree(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card) {
             if (___card instanceof MultiUpgradeCard && SingleCardViewPopup.isViewingUpgrade) {
                 sb.setColor(new Color(0.0F, 0.0F, 0.0F, 0.8F));// 809
