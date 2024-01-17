@@ -1,6 +1,7 @@
 package com.evacipated.cardcrawl.mod.stslib;
 
 import basemod.BaseMod;
+import basemod.devcommands.ConsoleCommand;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +13,7 @@ import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnCreateCardInterface;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
+import com.evacipated.cardcrawl.mod.stslib.util.console.TempHP;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.PersistVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.RefundVariable;
@@ -67,6 +69,8 @@ public class StSLib implements
         BADGE_RETAIN = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Retain.png");
 
         CustomTargeting.registerCustomTargeting(SelfOrEnemyTargeting.SELF_OR_ENEMY, new SelfOrEnemyTargeting());
+
+        ConsoleCommand.addCommand("temphp", TempHP.class);
     }
 
     private void loadLangKeywords(String language)
