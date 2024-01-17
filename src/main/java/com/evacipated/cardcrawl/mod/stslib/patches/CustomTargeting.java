@@ -15,6 +15,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.SurroundedPower;
 import com.megacrit.cardcrawl.vfx.ThoughtBubble;
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.TargetingHandler;
 import javassist.CannotCompileException;
@@ -299,9 +301,14 @@ public class CustomTargeting {
         )
         public static void setFinalTarget(AbstractPlayer __instance)
         {
-            if (targetingMap.containsKey(__instance.hoveredCard.target))
+            TargetingHandler<?> targeting = targetingMap.get(__instance.hoveredCard.target);
+            if (targeting != null)
             {
-                targetingMap.get(__instance.hoveredCard.target).lockTarget(__instance.hoveredCard);
+                targeting.lockTarget(__instance.hoveredCard);
+                Object o = getCardTarget(__instance.hoveredCard);
+                if (o instanceof AbstractMonster && __instance.hasPower(SurroundedPower.POWER_ID)) {
+                    __instance.flipHorizontal = ((AbstractMonster) o).drawX < __instance.drawX;
+                }
             }
         }
 
