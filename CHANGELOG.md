@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.11.0 ####
 * Russian localization update (Jedi)
   * Persist
   * Vigor
