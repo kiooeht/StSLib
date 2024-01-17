@@ -11,7 +11,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 
 public class IconPayload {
 
-    private static final BitmapFont DEFAULT_FONT = ReflectionHacks.privateMethod(AbstractCard.class, "getEnergyFont").invoke(new Bash());
+    public static final BitmapFont DEFAULT_FONT = ReflectionHacks.privateMethod(AbstractCard.class, "getEnergyFont").invoke(new Bash());
 
     private final Texture texture;
     private final Color drawColor;

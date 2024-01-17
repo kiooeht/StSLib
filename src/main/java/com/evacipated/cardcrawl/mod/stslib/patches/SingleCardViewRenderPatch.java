@@ -15,7 +15,6 @@ public class SingleCardViewRenderPatch {
 
     @SpirePostfixPatch
     public static void postfixFix(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard ___card) {
-        ExtraIconsPatch.SingleCardViewRenderPatch.afterRender(__instance, sb);
         MultiUpgradePatches.RenderTreeSCV.renderTree(__instance, sb, ___card);
     }
 

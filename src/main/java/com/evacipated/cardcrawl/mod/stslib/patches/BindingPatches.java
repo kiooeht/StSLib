@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.AttackDamageRandomEnemyAction;
+import com.megacrit.cardcrawl.actions.unique.SkewerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -283,4 +284,13 @@ public class BindingPatches {
         }
     }
 
+    @SpirePatch(clz = SkewerAction.class, method = SpirePatch.CONSTRUCTOR)
+    public static class SetActionSourceForDamageMods {
+        @SpirePostfixPatch
+        public static void setSource(AbstractGameAction __instance) {
+            if (cardInUse != null) {
+                __instance.source = AbstractDungeon.player;
+            }
+        }
+    }
 }
