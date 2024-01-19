@@ -39,7 +39,7 @@ public class MultiGroupMoveAction extends MultiGroupSelectAction {
 
     public MultiGroupMoveAction(CardGroup.CardGroupType destination, int amount, boolean anyNumber, Predicate<AbstractCard> canSelect, CardGroup.CardGroupType... sources) {
         super(makeText(amount, destination), (cards, sourceMap)->{
-            for (AbstractCard c : AbstractDungeon.gridSelectScreen.selectedCards) {
+            for (AbstractCard c : cards) {
                 moveToDestination(sourceMap.getOrDefault(c, AbstractDungeon.player.limbo), destination, c);
             }
         }, amount, anyNumber, canSelect, sources);
