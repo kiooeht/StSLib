@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Cap Block instances to 999
 
 #### v2.11.0 ####
 * Russian localization update (Jedi)

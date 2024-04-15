@@ -23,7 +23,7 @@ public class BlockInstance implements Comparable<BlockInstance> {
 
     public BlockInstance(AbstractCreature owner, int blockAmount, ArrayList<AbstractBlockModifier> blockTypes) {
         this.owner = owner;
-        this.blockAmount = blockAmount;
+        setBlockAmount(blockAmount);
         this.containedBlockTypes = blockTypes;
         for (AbstractBlockModifier m : containedBlockTypes) {
             m.setOwner(owner);
@@ -50,6 +50,9 @@ public class BlockInstance implements Comparable<BlockInstance> {
 
     public void setBlockAmount(int blockAmount) {
         this.blockAmount = blockAmount;
+        if (this.blockAmount > 999) {
+            this.blockAmount = 999;
+        }
     }
 
     public ArrayList<AbstractBlockModifier> getBlockTypes() {
