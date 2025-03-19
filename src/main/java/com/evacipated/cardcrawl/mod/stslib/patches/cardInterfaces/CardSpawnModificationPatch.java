@@ -98,7 +98,7 @@ public class CardSpawnModificationPatch {
 
         public static boolean checkCanSpawnAndRemoveIfNecessary(ArrayList<AbstractCard> cards2) {
             AbstractCard c = cards2.get(cards2.size()-1);
-            if(c instanceof SpawnModificationCard && !((SpawnModificationCard) c).canSpawn(cards2)) {
+            if(c instanceof SpawnModificationCard && !((SpawnModificationCard) c).canSpawnShop(cards2)) {
                 //Removes the added card and returns true to the do-while loop so it generates a new card
                 cards2.remove(c);
                 return true;
