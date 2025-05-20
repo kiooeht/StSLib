@@ -336,6 +336,29 @@ public class CustomTargeting {
         }
     }
 
+
+    @SpirePatch(
+            clz = AbstractPlayer.class,
+            method = "renderHand"
+    )
+    public static class CalculateDamageWhenHovering {
+        @SpirePrefixPatch
+        public static void calcWhenHovering(AbstractPlayer __instance, SpriteBatch sb) {
+            if (__instance.hoveredCard != null) {
+                TargetingHandler<?> targeting = targetingMap.get(__instance.hoveredCard.target);
+                if (targeting != null) {
+                    Object target = targeting.getHovered();
+                    if (target != null) {
+                        AbstractMonster m = target instanceof AbstractMonster ? (AbstractMonster) target : null;
+                        CustomTargeting.setCardTarget(__instance.hoveredCard, target);
+                        __instance.hoveredCard.calculateCardDamage(m);
+                        CustomTargeting.setCardTarget(__instance.hoveredCard, null);
+                    }
+                }
+            }
+        }
+    }
+
     
     private static void customTargeting(AbstractPlayer p, TargetingHandler<?> targeting)
     {
