@@ -1,8 +1,10 @@
 package com.evacipated.cardcrawl.mod.stslib;
 
 import basemod.BaseMod;
+import basemod.helpers.CardBorderGlowManager;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.StartupCard;
@@ -11,6 +13,7 @@ import com.evacipated.cardcrawl.mod.stslib.dynamicdynamic.DynamicDynamicVariable
 import com.evacipated.cardcrawl.mod.stslib.patches.CommonKeywordIconsPatches;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.evacipated.cardcrawl.mod.stslib.patches.bothInterfaces.OnCreateCardInterface;
+import com.evacipated.cardcrawl.mod.stslib.patches.cardInterfaces.MultiUpgradePatches;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableForRelic;
 import com.evacipated.cardcrawl.mod.stslib.variables.ExhaustiveVariable;
 import com.evacipated.cardcrawl.mod.stslib.variables.PersistVariable;
@@ -67,6 +70,25 @@ public class StSLib implements
         BADGE_RETAIN = ImageMaster.loadImage("images/stslib/ui/keywordIcons/Retain.png");
 
         CustomTargeting.registerCustomTargeting(SelfOrEnemyTargeting.SELF_OR_ENEMY, new SelfOrEnemyTargeting());
+
+        CardBorderGlowManager.addGlowInfo(new CardBorderGlowManager.GlowInfo() {
+            private final Color c = Color.RED.cpy();
+
+            @Override
+            public boolean test(AbstractCard abstractCard) {
+                return MultiUpgradePatches.MultiUpgradeFields.glowRed.get(abstractCard);
+            }
+
+            @Override
+            public Color getColor(AbstractCard abstractCard) {
+                return c;
+            }
+
+            @Override
+            public String glowID() {
+                return "stslib:ExclusionGlow";
+            }
+        });
     }
 
     private void loadLangKeywords(String language)
