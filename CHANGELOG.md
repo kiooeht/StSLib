@@ -1,6 +1,10 @@
 ## Changelog ##
 #### dev ####
 * Cap Block instances to 999
+* Fix `MultiGroupMoveAction` if not using screen (Alchyr)
+* Fix missing color logic for MultiUpgrade exclusions (Mistress Alison)
+* Fix colorless cards using `canSpawn` instead of `canSpawnShop` in the shop (erasels)
+* Fix  `calculateCardDamage` not being called by custom targeting (Alchyr)
 
 #### v2.11.0 ####
 * Russian localization update (Jedi)
