@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.11.1 ####
 * Cap Block instances to 999
 * Fix `MultiGroupMoveAction` if not using screen (Alchyr)
 * Fix missing color logic for MultiUpgrade exclusions (Mistress Alison)
