@@ -1,5 +1,6 @@
 ## Changelog ##
 #### dev ####
+* Add colored keyword json support
 
 #### v2.11.1 ####
 * Cap Block instances to 999

@@ -110,8 +110,8 @@ public class StSLib implements
 
         if (keywords != null) {
             for (Keyword keyword : keywords) {
-                BaseMod.addKeyword(keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
-                BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
+                BaseMod.addKeyword(null, keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION, keyword.COLOR);
+                BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION, keyword.COLOR);
 
                 if(keyword.NAMES.length > 0 && keyword.ID.equalsIgnoreCase("purge")) {
                     if(keyword.NAMES.length > 1) {
@@ -136,7 +136,7 @@ public class StSLib implements
 
         if (keywords != null) {
             for (Keyword keyword : keywords) {
-                BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION);
+                BaseMod.addKeyword("stslib", keyword.PROPER_NAME, keyword.NAMES, keyword.DESCRIPTION, keyword.COLOR);
             }
         }
     }
