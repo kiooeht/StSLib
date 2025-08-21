@@ -1,5 +1,7 @@
 ## Changelog ##
 #### dev ####
+
+#### v2.12.0 ####
 * Add colored keyword json support
 
 #### v2.11.1 ####
